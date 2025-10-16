@@ -24,3 +24,27 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes clients-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* because we duplicated the list */
+}
+
+.animate-clients-marquee {
+  animation: clients-marquee 30s linear infinite;
+}
+.pause-animation {
+  animation-play-state: paused !important;
+}
+
+@keyframes clients-marquee-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.animate-clients-marquee-reverse {
+  animation: clients-marquee-reverse 30s linear infinite;
+}

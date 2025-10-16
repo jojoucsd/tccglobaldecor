@@ -1,0 +1,24 @@
+[
+  {
+    "id": "slide-1",
+    "image": "/img/placeholder1.jpg",
+    "headline": "Crafting Bespoke Carpets for World-Class Interiors",
+    "subhead": "Artistry and precision for hospitality spaces",
+    "cta": { "label": "View Projects", "href": "/projects" }
+  },
+  {
+    "id": "slide-2",
+    "image": "/img/placeholder2.jpg",
+    "headline": "Where Artistry Meets Precision"
+  },
+  {
+    "id": "slide-3",
+    "image": "/img/placeholder3.jpg",
+    "headline": "Innovating for Design Excellence"
+  },
+  {
+    "id": "slide-4",
+    "image": "/img/placeholder4.jpg",
+    "headline": "From Macau to the World"
+  }
+]
