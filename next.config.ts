@@ -6,10 +6,8 @@ const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
   trailingSlash: true,
-  // 👇 project site hosted at /tccglobaldecor
   basePath: isGithubPages ? "/tccglobaldecor" : undefined,
   assetPrefix: isGithubPages ? "/tccglobaldecor/" : undefined,
 };
 
 export default nextConfig;
-
