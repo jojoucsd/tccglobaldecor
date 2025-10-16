@@ -2,12 +2,12 @@
   "name": "tcc-site",
   "version": "0.1.0",
   "private": true,
-"scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "predeploy": "npm run build",
-  "deploy": "gh-pages -d out -b gh-pages"
-},
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "predeploy": "GITHUB_PAGES=true npm run build && touch out/.nojekyll",
+    "deploy": "gh-pages -d out -b gh-pages"
+  },
   "dependencies": {
     "next": "15.5.5",
     "react": "19.1.0",
