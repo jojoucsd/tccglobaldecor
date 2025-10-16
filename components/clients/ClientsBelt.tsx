@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import Section from "@/components/Section";
+import Image from "next/image";
+import Link from "next/link";
+
 
 type Logo = {
   src: string;   // e.g. "/img/clients/hyatt.svg"
@@ -55,29 +58,43 @@ export default function ClientsBelt({
           onMouseEnter={(e) => !reduceMotion && e.currentTarget.classList.add("pause-animation")}
           onMouseLeave={(e) => e.currentTarget.classList.remove("pause-animation")}
         >
-          {loop.map((logo, i) => {
-            const content = (
-              <img
-                src={logo.src}
-                alt={logo.alt}
-                className="h-8 md:h-10 opacity-80 hover:opacity-100 transition
-                           grayscale hover:grayscale-0"
-                loading="lazy"
-                decoding="async"
-              />
-            );
-            return (
-              <div key={i} className="shrink-0">
-                {logo.href ? (
-                  <a href={logo.href} target="_blank" rel="noreferrer noopener" aria-label={logo.alt}>
-                    {content}
-                  </a>
-                ) : (
-                  content
-                )}
-              </div>
-            );
-          })}
+{loop.map((logo, i) => {
+  const content = (
+    <Image
+      src={logo.src}
+      alt={logo.alt}
+      width={160}        // or whatever fits your layout
+      height={40}
+      className="h-8 md:h-10 opacity-80 hover:opacity-100 transition
+                 grayscale hover:grayscale-0 w-auto"
+      loading="lazy"
+      unoptimized        // ✅ because GitHub Pages doesn’t run the image optimizer
+    />
+  );
+
+  return (
+    <div key={i} className="shrink-0">
+      {logo.href ? (
+        logo.href.startsWith("/") ? (
+          <Link href={logo.href} aria-label={logo.alt}>
+            {content}
+          </Link>
+        ) : (
+          <a
+            href={logo.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label={logo.alt}
+          >
+            {content}
+          </a>
+        )
+      ) : (
+        content
+      )}
+    </div>
+  );
+})}
         </div>
       </div>
     </Section>

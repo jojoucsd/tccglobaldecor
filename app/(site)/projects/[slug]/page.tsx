@@ -1,4 +1,5 @@
 // app/(site)/projects/[slug]/page.tsx
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 // Whatever you had—kept from earlier:
@@ -28,7 +29,7 @@ export default async function ProjectDetail({
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-24">
-      <a href="/projects" className="text-amber-600 hover:underline">← Back to Projects</a>
+      <Link href="/projects" className="text-amber-600 hover:underline">← Back to Projects</Link>
       <h1 className="mt-4 text-4xl font-bold text-amber-600">{data.title}</h1>
       <p className="mt-4 text-lg text-gray-700">{data.blurb}</p>
 
