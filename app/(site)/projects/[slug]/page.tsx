@@ -1,5 +1,7 @@
+// app/(site)/projects/[slug]/page.tsx
 import { notFound } from "next/navigation";
 
+// Whatever you had—kept from earlier:
 const DETAILS: Record<string, { title: string; blurb: string }> = {
   "the-londoner-hotel": {
     title: "The Londoner Hotel",
@@ -11,10 +13,17 @@ const DETAILS: Record<string, { title: string; blurb: string }> = {
     blurb:
       "Refined palettes and textures designed for alpine luxury and performance.",
   },
+  // add more as you publish more detail pages…
 };
 
-export default function ProjectDetail({ params }: { params: { slug: string } }) {
-  const data = DETAILS[params.slug];
+// ✅ Next 15: params is a Promise
+export default async function ProjectDetail({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const data = DETAILS[slug];
   if (!data) return notFound();
 
   return (
@@ -32,3 +41,9 @@ export default function ProjectDetail({ params }: { params: { slug: string } }) 
     </div>
   );
 }
+
+// ✅ Needed for static export (build-time paths)
+export function generateStaticParams() {
+  return Object.keys(DETAILS).map((slug) => ({ slug }));
+}
+
