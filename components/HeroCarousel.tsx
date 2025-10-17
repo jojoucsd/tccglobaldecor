@@ -112,7 +112,7 @@ const handleMouseLeave = () => {
   className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 hover:bg-amber-500 px-3 py-1.5 text-xs font-semibold text-black shadow mb-3 md:mb-4"
 >
   <span className="inline-block h-2 w-2 rounded-full bg-black/70"></span>
-  BDNY • Nov 9–10 • Booth 878 <span aria-hidden="true">→</span>
+  BDNY • Nov 9–10 • Booth #878 <span aria-hidden="true">→</span>
 </Link>
 
       <h1

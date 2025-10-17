@@ -10,54 +10,22 @@ import ClientsBelt from "@/components/clients/ClientsBelt";
 import CollabTeaser from "@/components/collab/CollabTeaser";
 import Link from "next/link";
 
-
-const CLIENTS_1 = [
-  { src: "/img/clients/hyatt.svg", alt: "Hyatt" },
-  { src: "/img/clients/mgm.svg", alt: "MGM" },
-  { src: "/img/clients/wynn.svg", alt: "Wynn" },
-  { src: "/img/clients/galaxy.svg", alt: "Galaxy Macau" },
-  { src: "/img/clients/marina-bay-sands.svg", alt: "Marina Bay Sands" },
-  { src: "/img/clients/venetian.svg", alt: "Venetian" },
-];
-
-const CLIENTS_2 = [
-  { src: "/img/clients/rosewood.svg", alt: "Rosewood" },
-  { src: "/img/clients/langham.svg", alt: "Langham" },
-  { src: "/img/clients/parkhyatt.svg", alt: "Park Hyatt" },
-  { src: "/img/clients/okura.svg", alt: "Hotel Okura" },
-  { src: "/img/clients/four-seasons.svg", alt: "Four Seasons" },
-  { src: "/img/clients/ritz-carlton.svg", alt: "Ritz-Carlton" },
-];
-
-const CLIENTS_3 = [
-  { src: "/img/clients/mandarin.svg", alt: "Mandarin Oriental" },
-  { src: "/img/clients/sheraton.svg", alt: "Sheraton" },
-  { src: "/img/clients/intercontinental.svg", alt: "InterContinental" },
-  { src: "/img/clients/hilton.svg", alt: "Hilton" },
-  { src: "/img/clients/conrad.svg", alt: "Conrad" },
-  { src: "/img/clients/waldorf.svg", alt: "Waldorf Astoria" },
-];
-
 export default function HomePage() {
   return (
     <>
       <HeroCarousel />
       <AboutA />
       <AboutB />
-      <ClientsBelt logos={CLIENTS_1} />
+      <ClientsBelt seed={1} />
       <AboutC />
 
       <ProjectsSectors />
-      <ClientsBelt logos={CLIENTS_2} className="bg-gray-50" />
+      <ClientsBelt seed={2} className="bg-gray-50" />
 
       <CapabilitySection />
 
       {/* Client belt #3 — after library teaser */}
-      <ClientsBelt
-        logos={CLIENTS_3}
-        title="Our Global Partners"
-        className="bg-white"
-      />
+      <ClientsBelt seed={3} title="Our Global Partners" />
       <LibraryTeaser />
       <CollabTeaser />
 

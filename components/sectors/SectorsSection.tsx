@@ -1,19 +1,58 @@
 import Section from "@/components/Section";
 import Link from "next/link";
+import Image from "next/image";
 
+const prefix =
+  process.env.NEXT_PUBLIC_BASE_PATH && process.env.NEXT_PUBLIC_BASE_PATH !== ""
+    ? process.env.NEXT_PUBLIC_BASE_PATH
+    : "";
+
+// ---- Types ----
 type Sector = {
   title: string;
   blurb: string;
-  href?: string;       // presence => clickable
+  href?: string; // presence => clickable
+  image: string;
 };
 
+// ---- Data ----
 const sectors: Sector[] = [
-  { title: "Hotel",  blurb: "Custom carpets that bring elegance and comfort...", href: "/projects" },
-  { title: "Casino", blurb: "Vibrant and durable flooring...",                   href: "/projects" },
-  { title: "Cruise", blurb: "Marine-grade carpets combining beauty, safety, and performance." },
-  { title: "Aviation", blurb: "Lightweight and refined designs crafted for private and business jets." },
-  { title: "Yacht",   blurb: "Bespoke hand-tufted carpets that express luxury and craftsmanship onboard." },
-  { title: "Retail",  blurb: "Distinctive flooring solutions enhancing the identity of global destinations." },
+  {
+    title: "Hotel",
+    blurb: "Custom carpets that bring elegance and comfort...",
+    href: "/projects",
+    image: `${prefix}/images/sectors/hotel.avif`,
+  },
+  {
+    title: "Casino",
+    blurb: "Vibrant and durable flooring...",
+    href: "/projects",
+    image: `${prefix}/images/sectors/casino.avif`,
+  },
+  {
+    title: "Cruise",
+    blurb:
+      "Marine-grade carpets combining beauty, safety, and performance.",
+    image: `${prefix}/images/sectors/cruise.avif`,
+  },
+  {
+    title: "Aviation",
+    blurb:
+      "Lightweight and refined designs crafted for private and business jets.",
+    image: `${prefix}/images/sectors/aviation.avif`,
+  },
+  {
+    title: "Yacht",
+    blurb:
+      "Bespoke hand-tufted carpets that express luxury and craftsmanship onboard.",
+    image: `${prefix}/images/sectors/yacht.avif`,
+  },
+  {
+    title: "Retail",
+    blurb:
+      "Distinctive flooring solutions enhancing the identity of global destinations.",
+    image: `${prefix}/images/sectors/retail.avif`,
+  },
 ];
 
 export default function ProjectsSectors() {
@@ -25,16 +64,26 @@ export default function ProjectsSectors() {
           {sectors.map((s) => {
             const CardInner = (
               <article
-                className={`group ${s.href ? "cursor-pointer hover:scale-[1.02] hover:shadow-md transition" : "opacity-60 cursor-not-allowed"}`}
+                className={`group ${s.href ? "cursor-pointer hover:scale-[1.02] hover:shadow-md transition" : "opacity-60"} `}
                 aria-disabled={s.href ? undefined : true}
               >
-                <div className="aspect-[4/3] w-full rounded-xl bg-gray-200 mb-3" />
-                <h4 className="text-lg font-semibold text-amber-600">
-                  {s.title}
-                </h4>
-                <p className="mt-1 text-sm text-gray-700 leading-relaxed">
-                  {s.blurb}
-                </p>
+                {/* image */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl mb-3 bg-gray-200">
+                  <Image
+                    src={s.image}              // absolute path string (GH Pages-safe)
+                    alt={s.title}
+                    fill
+                    sizes="(min-width:1024px) 20vw, (min-width:640px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    unoptimized
+                    priority={false}
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 to-transparent" />
+                </div>
+
+                {/* text */}
+                <h4 className="text-lg font-semibold text-amber-600">{s.title}</h4>
+                <p className="mt-1 text-sm text-gray-700 leading-relaxed">{s.blurb}</p>
               </article>
             );
 
@@ -43,7 +92,9 @@ export default function ProjectsSectors() {
                 {CardInner}
               </Link>
             ) : (
-              <div key={s.title}>{CardInner}</div>
+              <div key={s.title} role="article" aria-disabled className="select-none">
+                {CardInner}
+              </div>
             );
           })}
         </div>

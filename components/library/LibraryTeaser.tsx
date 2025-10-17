@@ -1,14 +1,14 @@
+// app/(site)/components/LibraryTeaser.tsx
 import Link from "next/link";
+import Image from "next/image";
 import Section from "@/components/Section";
+import { getRandomLibraryImages } from "@/app/(site)/data/library";
 
-const TEASERS = [
-  { title: "Geometric", slug: "geom-01" },
-  { title: "Organic", slug: "org-01" },
-  { title: "Textural", slug: "tex-01" },
-  { title: "Monochrome", slug: "mono-01" },
-];
+const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function LibraryTeaser() {
+  const images = getRandomLibraryImages(4);
+
   return (
     <Section id="library" className="bg-white">
       <div className="flex items-end justify-between">
@@ -19,16 +19,21 @@ export default function LibraryTeaser() {
       </div>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {TEASERS.map((t) => (
+        {images.map((img) => (
           <Link
-            key={t.slug}
-            href={`/library`}
-            className="group block rounded-2xl border border-gray-200 p-4 hover:shadow-md transition"
+            key={img.filename}
+            href="/library"
+            className="group block rounded-2xl border border-gray-200 overflow-hidden hover:shadow-md transition"
           >
-            <div className="aspect-[4/3] w-full rounded-xl bg-gray-200 mb-3" />
-            <div className="flex items-center justify-between">
-              <h3 className="font-medium">{t.title}</h3>
-              <span className="text-amber-600 opacity-0 group-hover:opacity-100 transition">Open</span>
+            <div className="relative aspect-[4/3] w-full">
+              <Image
+                src={`${bp}/images/library/${img.filename}`}
+                alt="Library sample"
+                fill
+                sizes="(min-width:1024px)25vw,(min-width:640px)50vw,100vw"
+                className="object-cover"
+                priority
+              />
             </div>
           </Link>
         ))}
@@ -36,3 +41,4 @@ export default function LibraryTeaser() {
     </Section>
   );
 }
+

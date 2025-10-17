@@ -11,7 +11,7 @@ export default function Header() {
         <Link href="/projects" className="hover:text-amber-600 transition-colors">Projects</Link>
         <Link href="/#capability" className="hover:text-amber-600 transition-colors">Capability</Link>
         <Link href="/library" className="hover:text-amber-600 transition-colors">Library</Link>
-        <Link href="/collaborations" className="hover:text-amber-600 transition-colors">Collaborations</Link>
+        {/* <Link href="/collaborations" className="hover:text-amber-600 transition-colors">Collaborations</Link> */}
         <Link href="/connect" className="hover:text-amber-600 transition-colors">Connect</Link>
       </nav>
     </header>

@@ -1,27 +1,45 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Section from "@/components/Section";
 import Image from "next/image";
 import Link from "next/link";
+import { ALL_CLIENT_LOGOS } from "@/app/(site)/data/clients"; // ✅ central logo data
 
-
-type Logo = {
-  src: string;   // e.g. "/img/clients/hyatt.svg"
-  alt: string;   // e.g. "Hyatt"
-  href?: string; // optional link
-};
+// --- Random picker utility ---
+function getRandomSubset<T>(arr: T[], count: number): T[] {
+  const copy = arr.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, count);
+}
 
 export default function ClientsBelt({
   id,
   title = "Trusted by leading hospitality brands",
-  logos,
+  seed = 1,               // optional: different number for different belts
+  count = 6,              // how many logos to show per belt
   className = "",
 }: {
   id?: string;
   title?: string;
-  logos: Logo[];
+  seed?: number;
+  count?: number;
   className?: string;
 }) {
+  // random but stable per seed
+  const logos = useMemo(() => {
+    const r = Math.random;
+    Math.random = () => {
+      const x = Math.sin(seed++) * 10000;
+      return x - Math.floor(x);
+    };
+    const subset = getRandomSubset(ALL_CLIENT_LOGOS, count);
+    Math.random = r;
+    return subset;
+  }, [seed, count]);
+
   // Respect prefers-reduced-motion
   const [reduceMotion, setReduceMotion] = useState(false);
   useEffect(() => {
@@ -32,7 +50,7 @@ export default function ClientsBelt({
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  // Duplicate logos to make the loop seamless
+  // Duplicate logos for seamless loop
   const loop = [...logos, ...logos];
 
   return (
@@ -55,48 +73,52 @@ export default function ClientsBelt({
           className={`flex gap-10 md:gap-14 items-center will-change-transform ${
             reduceMotion ? "" : "animate-clients-marquee"
           }`}
-          onMouseEnter={(e) => !reduceMotion && e.currentTarget.classList.add("pause-animation")}
-          onMouseLeave={(e) => e.currentTarget.classList.remove("pause-animation")}
+          onMouseEnter={(e) =>
+            !reduceMotion && e.currentTarget.classList.add("pause-animation")
+          }
+          onMouseLeave={(e) =>
+            e.currentTarget.classList.remove("pause-animation")
+          }
         >
-{loop.map((logo, i) => {
-  const content = (
-    <Image
-      src={logo.src}
-      alt={logo.alt}
-      width={160}        // or whatever fits your layout
-      height={40}
-      className="h-8 md:h-10 opacity-80 hover:opacity-100 transition
-                 grayscale hover:grayscale-0 w-auto"
-      loading="lazy"
-      unoptimized        // ✅ because GitHub Pages doesn’t run the image optimizer
-    />
-  );
+          {loop.map((logo, i) => (
+          <div key={i} className="shrink-0">
+<Image
+  src={logo.src}
+  alt={logo.alt}
+  width={480}    // 3× intrinsic width
+  height={120}   // proportional height
+  className="
+    h-16 md:h-20 lg:h-24   /* ~3× original visual size */
+    opacity-90 hover:opacity-100 transition
+    grayscale hover:grayscale-0
+    w-auto mx-3 md:mx-6
+  "
+  loading="lazy"
+  unoptimized
+/>
+          </div>
+          ))}
 
-  return (
-    <div key={i} className="shrink-0">
-      {logo.href ? (
-        logo.href.startsWith("/") ? (
-          <Link href={logo.href} aria-label={logo.alt}>
-            {content}
-          </Link>
-        ) : (
-          <a
-            href={logo.href}
-            target="_blank"
-            rel="noreferrer noopener"
-            aria-label={logo.alt}
-          >
-            {content}
-          </a>
-        )
-      ) : (
-        content
-      )}
-    </div>
-  );
-})}
         </div>
       </div>
+
+      {/* keyframes + pause */}
+      <style jsx global>{`
+        @keyframes clients-marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-clients-marquee {
+          animation: clients-marquee 30s linear infinite;
+        }
+        .pause-animation {
+          animation-play-state: paused !important;
+        }
+      `}</style>
     </Section>
   );
 }
