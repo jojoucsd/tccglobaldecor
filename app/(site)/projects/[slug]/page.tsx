@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllProjects, getProjectBySlug } from "../../lib/getProjects";
 
+export const dynamic = "force-static"; // ensure static in case of env drift
+
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export async function generateStaticParams() {
@@ -12,19 +14,15 @@ export async function generateStaticParams() {
 
 export default async function ProjectDetail({
   params,
-  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { slug } = await params;
-  const sp = await searchParams;
   const project = getProjectBySlug(slug);
   if (!project) return notFound();
 
-  // ?style=left | right (default left)
-  const style = (Array.isArray(sp.style) ? sp.style[0] : sp.style) || "left";
-  const startRight = style === "right";
+  // Static-safe: default to left-first alternating
+  const startRight = false;
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-24">
@@ -33,7 +31,7 @@ export default async function ProjectDetail({
 
       <div className="mt-10 space-y-14">
         {project.images.map((file, i) => {
-          const flip = startRight ? i % 2 === 0 : i % 2 === 1; // alternate
+          const flip = startRight ? i % 2 === 0 : i % 2 === 1; // defaults to text-left first
           const variant: "lg" | "sm" = i % 2 === 0 ? "lg" : "sm";
           const src = `${bp}/images/projects/${project.slug}/${file}`;
           return <Section key={file} flip={flip} variant={variant} src={src} alt={project.title} />;
