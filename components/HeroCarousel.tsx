@@ -21,11 +21,14 @@ const HERO_BDNY = {
 };
 
 // --- SLIDES: no captions now ---
+// remove: import hero01 from "@/public/images/hero/hero-01.avif"; etc.
+
+// Use plain public paths so basePath is applied on export
 const slides = [
-  { src: hero01, alt: "Custom Hand-Ax carpet detail" },
-  { src: hero02, alt: "Casino floor Axminster carpet" },
-  { src: hero03, alt: "Hotel suite rug design" },
-  { src: hero04, alt: "Resort lobby carpet installation" },
+  { src: "/images/hero/hero-01.avif", alt: "Custom Hand-Ax carpet detail" },
+  { src: "/images/hero/hero-02.avif", alt: "Casino floor Axminster carpet" },
+  { src: "/images/hero/hero-03.avif", alt: "Hotel suite rug design" },
+  { src: "/images/hero/hero-04.avif", alt: "Resort lobby carpet installation" },
 ];
 
 const AUTOPLAY_MS = 5000;
@@ -93,15 +96,15 @@ const handleMouseLeave = () => {
           i === index ? "opacity-100" : "opacity-0"
         }`}
       >
-        <Image
-          src={s.src}
-          alt={s.alt}
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority={i === 0}
-          unoptimized
-        />
+<Image
+  src={s.src}
+  alt={s.alt}
+  fill
+  sizes="100vw"
+  className="object-cover"
+  priority={i === 0}
+  unoptimized
+/>
       </div>
     ))}
 
