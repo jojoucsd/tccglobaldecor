@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",                        
-    "postbuild": "touch out/.nojekyll",            
+    "postbuild": "mkdir -p out && touch out/.nojekyll",          
     "predeploy": "rm -rf out && npm run build",     
     "deploy": "gh-pages -d out -b gh-pages --dotfiles"
   },
