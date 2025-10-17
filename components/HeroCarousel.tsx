@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect, useMemo, useRef } from "react";
 
 // --- STATIC IMAGE IMPORTS (keep yours) ---
@@ -42,19 +43,39 @@ export default function HeroCarousel() {
   const next = () => setIndex((prev) => (prev + 1) % slides.length);
   const prev = () => setIndex((prev) => (prev - 1 + slides.length) % slides.length);
 
-  // autoplay
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = window.setTimeout(next, AUTOPLAY_MS);
-    return () => timer.current && clearTimeout(timer.current);
-  }, [index, prefersReducedMotion]);
 
-  // pause on hover
-  const handleMouseEnter = () => timer.current && clearTimeout(timer.current);
-  const handleMouseLeave = () => {
-    if (!prefersReducedMotion) timer.current = window.setTimeout(next, AUTOPLAY_MS);
+// autoplay
+useEffect(() => {
+  if (prefersReducedMotion) return;
+
+  if (timer.current !== null) {
+    clearTimeout(timer.current);
+    timer.current = null;
+  }
+
+  timer.current = window.setTimeout(next, AUTOPLAY_MS);
+
+  return () => {
+    if (timer.current !== null) {
+      clearTimeout(timer.current);
+      timer.current = null;
+    }
   };
+}, [index, prefersReducedMotion]);
+
+// pause on hover
+const handleMouseEnter = () => {
+  if (timer.current !== null) {
+    clearTimeout(timer.current);
+    timer.current = null;
+  }
+};
+
+const handleMouseLeave = () => {
+  if (!prefersReducedMotion) {
+    timer.current = window.setTimeout(next, AUTOPLAY_MS);
+  }
+};
 
   return (
 <section
@@ -91,13 +112,13 @@ export default function HeroCarousel() {
     <div className="absolute inset-0 z-10 flex items-end justify-start px-6 md:px-10 lg:px-14 pb-8 md:pb-10">
       <div className="w-fit max-w-full text-left translate-y-[-25px] md:max-w-[80vw]">
         {/* BDNY badge */}
-        <a
+        <Link
           href={HERO_BDNY.href}
           className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 hover:bg-amber-500 px-3 py-1.5 text-xs font-semibold text-black shadow mb-3 md:mb-4"
         >
           <span className="inline-block h-2 w-2 rounded-full bg-black/70"></span>
           {HERO_BDNY.label} <span aria-hidden="true">→</span>
-        </a>
+        </Link>
 
       <h1
         className="
