@@ -147,12 +147,12 @@ const handleMouseLeave = () => {
 
         {/* Soft CTA (optional) */}
         <div className="mt-5 flex justify-start">
-          <a
+          <Link
             href="/projects"
             className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur hover:bg-white/20"
           >
             Explore projects <span aria-hidden="true">→</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
