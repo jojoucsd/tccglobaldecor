@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",                        
+    "build": "next build",
+    "build:pages": "cross-env GITHUB_PAGES=true next build && next export",                        
     "postbuild": "mkdir -p out && touch out/.nojekyll",          
     "predeploy": "rm -rf out && npm run build",     
-    "deploy": "gh-pages -d out -b gh-pages --dotfiles"
+    "deploy": "npm run build:pages && npx gh-pages -d out -b gh-pages -t true -m \"Deploy $(date -u +'%Y-%m-%dT%H:%M:%SZ')\""
   },
   "dependencies": {
     "next": "15.5.5",
