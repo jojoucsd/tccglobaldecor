@@ -4,32 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useMemo, useRef } from "react";
 
-// --- STATIC IMAGE IMPORTS (keep yours) ---
-import hero01 from "@/public/images/hero/hero-01.avif";
-import hero02 from "@/public/images/hero/hero-02.avif";
-import hero03 from "@/public/images/hero/hero-03.avif";
-import hero04 from "@/public/images/hero/hero-04.avif";
-
 // --- HERO COPY (shorten anytime) ---
 const HERO_TITLE =
   "CRAFTING BESPOKE CARPETS FOR WORLD-CLASS INTERIORS";
 const HERO_SUB =
   "Design excellence • Reliable craftsmanship • Global service";
-const HERO_BDNY = {
-  label: "BDNY • Nov 9–10 • Booth 878",
-  href: "/contact", // change to external BDNY page if you prefer
-};
 
 // --- SLIDES: no captions now ---
 // remove: import hero01 from "@/public/images/hero/hero-01.avif"; etc.
 
-// Use plain public paths so basePath is applied on export
+
+// DO NOT start with "/" on GitHub Pages; use relative paths
 const slides = [
-  { src: "/images/hero/hero-01.avif", alt: "Custom Hand-Ax carpet detail" },
-  { src: "/images/hero/hero-02.avif", alt: "Casino floor Axminster carpet" },
-  { src: "/images/hero/hero-03.avif", alt: "Hotel suite rug design" },
-  { src: "/images/hero/hero-04.avif", alt: "Resort lobby carpet installation" },
+  { src: "images/hero/hero-01.avif", alt: "Custom Hand-Ax carpet detail" },
+  { src: "images/hero/hero-02.avif", alt: "Casino floor Axminster carpet" },
+  { src: "images/hero/hero-03.avif", alt: "Hotel suite rug design" },
+  { src: "images/hero/hero-04.avif", alt: "Resort lobby carpet installation" },
 ];
+
 
 const AUTOPLAY_MS = 5000;
 
@@ -115,13 +107,13 @@ const handleMouseLeave = () => {
     <div className="absolute inset-0 z-10 flex items-end justify-start px-6 md:px-10 lg:px-14 pb-8 md:pb-10">
       <div className="w-fit max-w-full text-left translate-y-[-25px] md:max-w-[80vw]">
         {/* BDNY badge */}
-        <Link
-          href={HERO_BDNY.href}
-          className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 hover:bg-amber-500 px-3 py-1.5 text-xs font-semibold text-black shadow mb-3 md:mb-4"
-        >
-          <span className="inline-block h-2 w-2 rounded-full bg-black/70"></span>
-          {HERO_BDNY.label} <span aria-hidden="true">→</span>
-        </Link>
+<Link
+  href="/contact"
+  className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 hover:bg-amber-500 px-3 py-1.5 text-xs font-semibold text-black shadow mb-3 md:mb-4"
+>
+  <span className="inline-block h-2 w-2 rounded-full bg-black/70"></span>
+  BDNY • Nov 9–10 • Booth 878 <span aria-hidden="true">→</span>
+</Link>
 
       <h1
         className="
@@ -147,16 +139,15 @@ const handleMouseLeave = () => {
         >
           {HERO_SUB}
         </p>
-
-        {/* Soft CTA (optional) */}
-        <div className="mt-5 flex justify-start">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur hover:bg-white/20"
-          >
-            Explore projects <span aria-hidden="true">→</span>
-          </Link>
-        </div>
+{/* Soft CTA */}
+<div className="mt-5 flex justify-start">
+  <Link
+    href="/projects"
+    className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur hover:bg-white/20"
+  >
+    Explore projects <span aria-hidden="true">→</span>
+  </Link>
+</div>
       </div>
     </div>
 
