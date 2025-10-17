@@ -23,7 +23,7 @@ export default function CollabTeaser() {
         {TEASERS.map((c) => (
           <Link
             key={c.slug}
-            href={`/collaborations`}
+            href={`/collaborations#${c.slug}`}
             className="group block rounded-2xl border border-gray-200 p-4 hover:shadow-md transition"
           >
             <div className="aspect-[4/3] w-full rounded-xl bg-gray-200 mb-3" />
