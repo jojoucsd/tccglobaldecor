@@ -3,13 +3,28 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --header-h: 72px;     /* your sticky header height */
+  --banner-h: 0px;      /* default: no banner */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.has-banner {
+  --banner-h: 44px;     /* adjust to your badge height */
+}
+
+/* Load Tailwind */
+@import "tailwindcss";
+
+/* Tailwind v4 theme tokens → becomes text-brand-gold, bg-brand-gold, etc. */
+@theme {
+  --color-brand-gold: #D6A354;
+  --color-brand-gold-deep: #B88630;
+  --color-brand-ink: #161616;
+}
+
+/* Optional base styles */
+html, body {
+  color: var(--color-brand-ink);
+  background: #fff;
 }
 
 @media (prefers-color-scheme: dark) {

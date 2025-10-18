@@ -1,9 +1,7 @@
 // app/(site)/page.tsx
 import HeroCarousel from "@/components/HeroCarousel";
-import AboutA from "@/components/about/AboutA";
-import AboutB from "@/components/about/AboutB";
-import AboutC from "@/components/about/AboutC";
-import ProjectsSectors from "@/components/sectors/SectorsSection";
+import About from "@/components/about/About";
+// import ProjectsSectors from "@/components/sectors/SectorsSection";
 import CapabilitySection from "@/components/capability/CapabilitySection";
 import LibraryTeaser from "@/components/library/LibraryTeaser";
 import ClientsBelt from "@/components/clients/ClientsBelt";
@@ -14,13 +12,10 @@ export default function HomePage() {
   return (
     <>
       <HeroCarousel />
-      <AboutA />
-      <AboutB />
+      <About />
       <ClientsBelt seed={1} />
-      <AboutC />
-
-      <ProjectsSectors />
-      <ClientsBelt seed={2} className="bg-gray-50" />
+      {/* <ProjectsSectors /> */}
+      {/* <ClientsBelt seed={2} className="bg-gray-50" /> */}
 
       <CapabilitySection />
 

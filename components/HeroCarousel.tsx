@@ -106,14 +106,6 @@ const handleMouseLeave = () => {
     {/* ---- Bottom-left lockup ---- */}
     <div className="absolute inset-0 z-10 flex items-end justify-start px-6 md:px-10 lg:px-14 pb-8 md:pb-10">
       <div className="w-fit max-w-full text-left translate-y-[-25px] md:max-w-[80vw]">
-        {/* BDNY badge */}
-<Link
-  href="/contact"
-  className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 hover:bg-amber-500 px-3 py-1.5 text-xs font-semibold text-black shadow mb-3 md:mb-4"
->
-  <span className="inline-block h-2 w-2 rounded-full bg-black/70"></span>
-  BDNY • Nov 9–10 • Booth #878 <span aria-hidden="true">→</span>
-</Link>
 
       <h1
         className="
