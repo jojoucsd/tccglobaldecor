@@ -2,7 +2,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Section from "@/components/Section";
 import Image from "next/image";
-import Link from "next/link";
 import { ALL_CLIENT_LOGOS } from "@/app/(site)/data/clients"; // ✅ central logo data
 
 // --- Random picker utility ---

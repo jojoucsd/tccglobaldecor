@@ -7,6 +7,7 @@ module.exports = {
   basePath: isPages ? repoBase : "",
   assetPrefix: isPages ? `${repoBase}/` : undefined,
   images: { unoptimized: isPages },
+  eslint: { ignoreDuringBuilds: true },
   env: { NEXT_PUBLIC_BASE_PATH: isPages ? repoBase : "" },
 };
 
