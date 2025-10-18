@@ -11,22 +11,22 @@ const items = [
   {
     title: "Hand Tufted Carpets",
     subtitle: "Fully customizable — relief, sculpt, and detail.",
-    imageSrc: "/images/specializations/hand-tufted.avif",
+    imageSrc: "images/specializations/hand-tufted.avif",
   },
   {
     title: "Axminster Carpet Tiles",
     subtitle: "Modular practicality with a woven Axminster face.",
-    imageSrc: "/images/specializations/axminster-tiles.avif",
+    imageSrc: "images/specializations/axminster-tiles.avif",
   },
   {
     title: "Axminster Carpets",
     subtitle: "Durable, precise weaving with rich color clarity.",
-    imageSrc: "/images/specializations/axminster-roll.avif",
+    imageSrc: "images/specializations/axminster-roll.avif",
   },
   {
     title: "Hand Ax Production",
     subtitle: "Artisanal technique blended with Axminster structure.",
-    imageSrc: "/images/specializations/hand-ax.avif",
+    imageSrc: "images/specializations/hand-ax.avif",
   },
 ];
 // tiny helpers
@@ -142,7 +142,7 @@ export default function CapabilitySection() {
       {/* Image second */}
       <div className="md:col-span-7">
         <Image
-          src="/images/capability/capability-01.avif"
+          src="images/capability/capability-01.avif"
           alt="TCC craftsmanship in carpet design"
           width={1600}
           height={1066}
@@ -160,22 +160,22 @@ export default function CapabilitySection() {
     {
       title: "Hand Tufted Carpets",
       copy: "Fully customizable — relief, sculpt, and detail.",
-      imageSrc: "/images/capability/hand-tufted.avif",
+      imageSrc: "images/capability/hand-tufted.avif",
     },
     {
       title: "Axminster Carpet Tiles",
       copy: "Modular practicality with a woven Axminster face.",
-      imageSrc: "/images/capability/ax-tile.avif",
+      imageSrc: "images/capability/ax-tile.avif",
     },
     {
       title: "Axminster Carpets",
       copy: "Durable, precise weaving with rich color clarity.",
-      imageSrc: "/images/capability/ax-roll.avif",
+      imageSrc: "images/capability/ax-roll.avif",
     },
     {
       title: "Hand Ax Production",
       copy: "Artisanal technique blended with Axminster structure.",
-      imageSrc: "/images/capability/hand-ax.avif",
+      imageSrc: "images/capability/hand-ax.avif",
     },
   ].map((it, i) => (
     <AlternatingCard
@@ -204,22 +204,22 @@ export default function CapabilitySection() {
       {
         title: "Hand Tufted",
         subtitle: "Refined textures and sculpted relief",
-        imageSrc: "/images/capability/hand-tufted-tech.avif",
+        imageSrc: "images/capability/hand-tufted-tech.avif",
       },
       {
         title: "Hand Woven",
         subtitle: "Tactile depth and quiet irregularity",
-        imageSrc: "/images/capability/hand-woven-tech.avif",
+        imageSrc: "images/capability/hand-woven-tech.avif",
       },
       {
         title: "Machine Woven",
         subtitle: "Precision, durability, color clarity",
-        imageSrc: "/images/capability/machine-woven-tech.avif",
+        imageSrc: "images/capability/machine-woven-tech.avif",
       },
       {
         title: "Digital Printing",
         subtitle: "Complex gradients with lasting vibrancy",
-        imageSrc: "/images/capability/digital-print-tech.avif",
+        imageSrc: "images/capability/digital-print-tech.avif",
       },
     ].map((item, i) => (
       <AlternatingCard
@@ -265,22 +265,22 @@ export default function CapabilitySection() {
       {
         title: "Wool",
         subtitle: "Soft, resilient, timeless warmth",
-        imageSrc: "/images/capability/wool.avif",
+        imageSrc: "images/capability/wool.avif",
       },
       {
         title: "Viscose (Rayon)",
         subtitle: "Silky sheen and subtle elegance",
-        imageSrc: "/images/capability/viscose.avif",
+        imageSrc: "images/capability/viscose.avif",
       },
       {
         title: "Silk",
         subtitle: "Lustrous refinement for elevated spaces",
-        imageSrc: "/images/capability/silk.avif", // ← your silk.avif
+        imageSrc: "images/capability/silk.avif", // ← your silk.avif
       },
       {
         title: "Blend",
         subtitle: "Balanced performance and luxury",
-        imageSrc: "/images/capability/blend.avif",
+        imageSrc: "images/capability/blend.avif",
       },
     ].map((item, i) => (
       <AlternatingCard

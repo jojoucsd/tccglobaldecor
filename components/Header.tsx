@@ -37,7 +37,7 @@ export default function Header() {
   <div className="flex items-center gap-4 sm:gap-5">
     <Link href="/" className="flex items-center">
       <img
-        src="/images/TCC_Logo.svg"
+        src="images/TCC_Logo.svg"
         alt="TCC Global Decor"
         className="h-16 w-auto object-contain object-left"
       />

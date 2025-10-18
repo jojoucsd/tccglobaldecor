@@ -95,7 +95,7 @@ export default function About() {
             {[1, 2, 3, 4, 5, 6].map((n) => (
               <div key={n} className="relative overflow-hidden rounded-xl">
                 <Image
-                  src={`/images/about/about${n}.avif`}
+                  src={`images/about/about${n}.avif`}
                   alt={`About TCC image ${n}`}
                   fill
                   className="object-cover"
