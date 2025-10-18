@@ -6,29 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Section from "@/components/Section";
 import AlternatingCard from "@/components/AlternatingCard";
+const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-const items = [
-  {
-    title: "Hand Tufted Carpets",
-    subtitle: "Fully customizable — relief, sculpt, and detail.",
-    imageSrc: "images/specializations/hand-tufted.avif",
-  },
-  {
-    title: "Axminster Carpet Tiles",
-    subtitle: "Modular practicality with a woven Axminster face.",
-    imageSrc: "images/specializations/axminster-tiles.avif",
-  },
-  {
-    title: "Axminster Carpets",
-    subtitle: "Durable, precise weaving with rich color clarity.",
-    imageSrc: "images/specializations/axminster-roll.avif",
-  },
-  {
-    title: "Hand Ax Production",
-    subtitle: "Artisanal technique blended with Axminster structure.",
-    imageSrc: "images/specializations/hand-ax.avif",
-  },
-];
 // tiny helpers
 function slugify(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -92,6 +71,103 @@ function MarketPill({
   );
 }
 
+const MARKET_CONFIG = {
+  hotel: {
+    title: "Hotels & Resorts",
+    description: "Guestrooms, suites, corridors, ballrooms.",
+    featured: "Featured: The Londoner",
+    note: "British heritage reimagined in Macau.",
+    media: (
+      <Image
+        src={`${bp}/images/capability/hotel.avif`}
+        alt="Hotels & Resorts"
+        width={800}
+        height={600}
+        className="aspect-[4/3] rounded-md object-cover mb-3"
+        unoptimized
+      />
+    ),
+    ctaLabel: "View Hotel Case Studies",
+    ctaHref: "#",
+  },
+  casino: {
+    title: "Casinos & Gaming",
+    description: "Durable Axminster, vibrant custom patterns.",
+    featured: "Featured: Cotai Strip",
+    note: "High-traffic precision and clarity.",
+    media: (
+      <Image
+        src={`${bp}/images/capability/casino.avif`}
+        alt="Casinos & Gaming"
+        width={800}
+        height={600}
+        className="aspect-[4/3] rounded-md object-cover mb-3"
+        unoptimized
+      />
+    ),
+    ctaLabel: "View Casino Case Studies",
+    ctaHref: "#",
+  },
+  cruise: {
+    title: "Cruise",
+    description: "Marine-rated performance with crafted comfort.",
+    media: (
+      <Image
+        src={`${bp}/images/capability/cruise.avif`}
+        alt="Cruise"
+        width={800}
+        height={600}
+        className="aspect-[4/3] rounded-md object-cover mb-3"
+        unoptimized
+      />
+    ),
+  },
+  aviation: {
+    title: "Aviation",
+    description: "Lightweight, precise fit, and premium feel.",
+    media: (
+      <Image
+        src={`${bp}/images/capability/aviation.avif`}
+        alt="Aviation"
+        width={800}
+        height={600}
+        className="aspect-[4/3] rounded-md object-cover mb-3"
+        unoptimized
+      />
+    ),
+  },
+  yacht: {
+    title: "Yacht",
+    description: "Seaborne luxury with custom detailing.",
+    media: (
+      <Image
+        src={`${bp}/images/capability/yacht.avif`}
+        alt="Yacht"
+        width={800}
+        height={600}
+        className="aspect-[4/3] rounded-md object-cover mb-3"
+        unoptimized
+      />
+    ),
+  },
+  retail: {
+    title: "Retail",
+    description: "Brand-forward patterns built for footfall.",
+    media: (
+      <Image
+        src={`${bp}/images/capability/retail.avif`}
+        alt="Retail"
+        width={800}
+        height={600}
+        className="aspect-[4/3] rounded-md object-cover mb-3"
+        unoptimized
+      />
+    ),
+  },
+} as const;
+
+type MarketKey = keyof typeof MARKET_CONFIG;
+
 // main section (this is the scroll target for the hero “Our Process” button)
 export default function CapabilitySection() {
   const [activeMarket, setActiveMarket] = useState<
@@ -142,7 +218,7 @@ export default function CapabilitySection() {
       {/* Image second */}
       <div className="md:col-span-7">
         <Image
-          src="images/capability/capability-01.avif"
+          src={`${bp}/images/capability/capability-01.avif`}
           alt="TCC craftsmanship in carpet design"
           width={1600}
           height={1066}
@@ -160,22 +236,22 @@ export default function CapabilitySection() {
     {
       title: "Hand Tufted Carpets",
       copy: "Fully customizable — relief, sculpt, and detail.",
-      imageSrc: "images/capability/hand-tufted.avif",
+      imageSrc: `${bp}/images/capability/hand-tufted.avif`,
     },
     {
       title: "Axminster Carpet Tiles",
       copy: "Modular practicality with a woven Axminster face.",
-      imageSrc: "images/capability/ax-tile.avif",
+      imageSrc: `${bp}/images/capability/ax-tile.avif`,
     },
     {
       title: "Axminster Carpets",
       copy: "Durable, precise weaving with rich color clarity.",
-      imageSrc: "images/capability/ax-roll.avif",
+      imageSrc: `${bp}/images/capability/ax-roll.avif`,
     },
     {
       title: "Hand Ax Production",
       copy: "Artisanal technique blended with Axminster structure.",
-      imageSrc: "images/capability/hand-ax.avif",
+      imageSrc: `${bp}/images/capability/hand-ax.avif`,
     },
   ].map((it, i) => (
     <AlternatingCard
@@ -204,22 +280,22 @@ export default function CapabilitySection() {
       {
         title: "Hand Tufted",
         subtitle: "Refined textures and sculpted relief",
-        imageSrc: "images/capability/hand-tufted-tech.avif",
+        imageSrc: `${bp}/images/capability/hand-tufted-tech.avif`,
       },
       {
         title: "Hand Woven",
         subtitle: "Tactile depth and quiet irregularity",
-        imageSrc: "images/capability/hand-woven-tech.avif",
+        imageSrc: `${bp}/images/capability/hand-woven-tech.avif`,
       },
       {
         title: "Machine Woven",
         subtitle: "Precision, durability, color clarity",
-        imageSrc: "images/capability/machine-woven-tech.avif",
+        imageSrc: `${bp}/images/capability/machine-woven-tech.avif`,
       },
       {
         title: "Digital Printing",
         subtitle: "Complex gradients with lasting vibrancy",
-        imageSrc: "images/capability/digital-print-tech.avif",
+        imageSrc: `${bp}/images/capability/digital-print-tech.avif`,
       },
     ].map((item, i) => (
       <AlternatingCard
@@ -265,22 +341,22 @@ export default function CapabilitySection() {
       {
         title: "Wool",
         subtitle: "Soft, resilient, timeless warmth",
-        imageSrc: "images/capability/wool.avif",
+        imageSrc: `${bp}/images/capability/wool.avif`,
       },
       {
         title: "Viscose (Rayon)",
         subtitle: "Silky sheen and subtle elegance",
-        imageSrc: "images/capability/viscose.avif",
+        imageSrc: `${bp}/images/capability/viscose.avif`,
       },
       {
         title: "Silk",
         subtitle: "Lustrous refinement for elevated spaces",
-        imageSrc: "images/capability/silk.avif", // ← your silk.avif
+        imageSrc: `${bp}/images/capability/silk.avif`,
       },
       {
         title: "Blend",
         subtitle: "Balanced performance and luxury",
-        imageSrc: "images/capability/blend.avif",
+        imageSrc: `${bp}/images/capability/blend.avif`,
       },
     ].map((item, i) => (
       <AlternatingCard
@@ -312,96 +388,78 @@ export default function CapabilitySection() {
             </ul>
           </div>
 
-          {/* 5) Markets We Serve (Hotel preselected) */}
-          <div className="md:col-span-7">
-            <h4 className="text-lg font-semibold">Markets We Serve</h4>
+{/* 5) Markets We Serve */}
+<div className="md:col-span-7">
+  <h4 className="text-lg font-semibold">Markets We Serve</h4>
 
-            {/* pills */}
-            <div className="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="Markets">
-              {[
-                { key: "hotel", label: "Hotel", clickable: true },
-                { key: "casino", label: "Casino", clickable: true },
-                { key: "cruise", label: "Cruise", clickable: false },
-                { key: "aviation", label: "Aviation", clickable: false },
-                { key: "yacht", label: "Yacht", clickable: false },
-                { key: "retail", label: "Retail", clickable: false },
-              ].map((m) => (
-                <MarketPill
-                  key={m.key as string}
-                  active={activeMarket === (m.key as any)}
-                  disabled={!m.clickable}
-                  onClick={() => setActiveMarket(m.key as any)}
-                >
-                  {m.label}
-                </MarketPill>
-              ))}
+  {/* Pills */}
+  <div className="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="Markets">
+    {(
+      [
+        { key: "hotel", label: "Hotel" },
+        { key: "casino", label: "Casino" },
+        { key: "cruise", label: "Cruise" },
+        { key: "aviation", label: "Aviation" },
+        { key: "yacht", label: "Yacht" },
+        { key: "retail", label: "Retail" },
+      ] as { key: MarketKey; label: string }[]
+    ).map((m) => (
+      <MarketPill
+        key={m.key}
+        active={activeMarket === m.key}
+        disabled={false}
+        onClick={() => setActiveMarket(m.key)}
+      >
+        {m.label}
+      </MarketPill>
+    ))}
+  </div>
+
+  {/* Panel */}
+<div
+  className="mt-6 rounded-xl p-4 transition-all duration-300"
+  role="tabpanel"
+  aria-label={`${activeMarket} panel`}
+>
+    {(() => {
+      const cfg = MARKET_CONFIG[activeMarket as MarketKey] ?? MARKET_CONFIG.hotel;
+
+      return (
+        <>
+          {/* Single Card */}
+          <Card
+            title={cfg.title}
+            description={cfg.note ?? cfg.description}
+            href={cfg.ctaHref ?? "#"}
+            media={cfg.media}
+            className="p-0 border-none shadow-none bg-transparent"
+          >
+            <div className="p-4">
+              {/* Optional title/description layout here */}
             </div>
+          </Card>
 
-            {/* panel */}
-            <div className="mt-6 rounded-xl border border-gray-200 p-4" role="tabpanel" aria-label={`${activeMarket} panel`}>
-              {activeMarket === "hotel" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Card
-                    title="Hotels & Resorts"
-                    description="Guestrooms, suites, corridors, ballrooms."
-                    href="#"
-                    media={<div className="aspect-[4/3] rounded-md bg-gray-200 mb-3" aria-hidden="true" />}
-                    className="p-4"
-                  />
-                  <Card
-                    title="Featured: The Londoner"
-                    description="British heritage reimagined in Macau."
-                    href="#"
-                    media={<div className="aspect-[4/3] rounded-md bg-gray-200 mb-3" aria-hidden="true" />}
-                    className="p-4"
-                  />
-                </div>
-              )}
-
-              {activeMarket === "casino" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Card
-                    title="Casinos & Gaming"
-                    description="Durable Axminster, vibrant custom patterns."
-                    href="#"
-                    media={<div className="aspect-[4/3] rounded-md bg-gray-200 mb-3" aria-hidden="true" />}
-                    className="p-4"
-                  />
-                  <Card
-                    title="Featured: Cotai Strip"
-                    description="High-traffic precision and clarity."
-                    href="#"
-                    media={<div className="aspect-[4/3] rounded-md bg-gray-200 mb-3" aria-hidden="true" />}
-                    className="p-4"
-                  />
-                </div>
-              )}
-
-              {["cruise", "aviation", "yacht", "retail"].includes(activeMarket) && (
-                <div className="text-sm text-gray-600">
-                  Details coming soon. In the meantime, <Link href="#" className="underline">contact us</Link> for specs.
-                </div>
-              )}
-
-              <div className="mt-6">
-                {activeMarket === "hotel" && (
-                  <Link href="#" className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold bg-black text-white">
-                    View Hotel Case Studies
-                  </Link>
-                )}
-                {activeMarket === "casino" && (
-                  <Link href="#" className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold bg-black text-white">
-                    View Casino Case Studies
-                  </Link>
-                )}
-              </div>
+          {/* CTA only for Hotel & Casino */}
+          {cfg.ctaLabel && cfg.ctaHref ? (
+            <div className="mt-6">
+              <Link
+                href={cfg.ctaHref}
+                className="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold bg-black text-white"
+              >
+                {cfg.ctaLabel}
+              </Link>
             </div>
-          </div>
+          ) : null}
+        </>
+      );
+    })()}
+  </div>
+</div>
         </div>
       </Section>
 
       {/* 6) Final CTA */}
-      <Section>
+      {/* <Section>
         <div className="mt-2">
           <Link
             href="#"
@@ -410,7 +468,7 @@ export default function CapabilitySection() {
             Start a Project
           </Link>
         </div>
-      </Section>
+      </Section> */}
     </section>
   );
 }

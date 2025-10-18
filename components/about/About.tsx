@@ -2,14 +2,15 @@
 import TccTriangle from "@/components/TccTriangle";
 import Link from "next/link";
 import Image from "next/image";
+import Section from "@/components/Section";
+const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function About() {
   return (
-    <section
-      id="about"
-      className="mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 py-16"
-      style={{ scrollMarginTop: "calc(var(--header-h))" }}
-    >
+<Section
+  id="about"
+  style={{ scrollMarginTop: "calc(var(--header-h))" }}
+>
       {/* 60% / 40% split on lg+ */}
       <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 xl:gap-8 items-start">
         {/* LEFT — main content */}
@@ -95,7 +96,7 @@ export default function About() {
             {[1, 2, 3, 4, 5, 6].map((n) => (
               <div key={n} className="relative overflow-hidden rounded-xl">
                 <Image
-                  src={`images/about/about${n}.avif`}
+                  src={`${bp}/images/about/about${n}.avif`}
                   alt={`About TCC image ${n}`}
                   fill
                   className="object-cover"
@@ -106,6 +107,6 @@ export default function About() {
           </div>
         </aside>
       </div>
-    </section>
+    </Section>
   );
 }

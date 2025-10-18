@@ -5,15 +5,17 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:pages": "cross-env GITHUB_PAGES=true next build && next export",                        
-    "postbuild": "mkdir -p out && touch out/.nojekyll",          
-    "predeploy": "rm -rf out && npm run build",     
+    "build:pages": "cross-env GITHUB_PAGES=true next build && next export",
+    "postbuild": "mkdir -p out && touch out/.nojekyll",
+    "predeploy": "rm -rf out && npm run build",
     "deploy": "npm run build:pages && npx gh-pages -d out -b gh-pages -t true -m \"Deploy $(date -u +'%Y-%m-%dT%H:%M:%SZ')\""
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "next": "15.5.5",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
