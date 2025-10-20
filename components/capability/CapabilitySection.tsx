@@ -15,6 +15,18 @@ function slugify(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+type MarketEntry = {
+  title: string;
+  description?: string;
+  note?: string;              // ← optional
+  featured?: string;
+  media: React.ReactElement;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+type MarketKey = "hotel" | "casino" | "cruise" | "aviation" | "yacht" | "retail";
+
 function MarketPill({
   active,
   disabled,
@@ -45,7 +57,7 @@ function MarketPill({
   );
 }
 
-const MARKET_CONFIG = {
+const MARKET_CONFIG: Record<MarketKey, MarketEntry> = {
   hotel: {
     title: "Hotels & Resorts",
     description: "Guestrooms, suites, corridors, ballrooms.",
@@ -138,9 +150,7 @@ const MARKET_CONFIG = {
       />
     ),
   },
-} as const;
-
-type MarketKey = keyof typeof MARKET_CONFIG;
+};
 
 export default function CapabilitySection() {
   const [activeMarket, setActiveMarket] = useState<MarketKey>("hotel");
