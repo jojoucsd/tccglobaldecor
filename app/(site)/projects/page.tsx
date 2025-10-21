@@ -1,14 +1,25 @@
 // app/(site)/projects/page.tsx
 import Link from "next/link";
 import Image from "next/image";
-import { getAllProjects } from "../lib/getProjects";
+// ✅ fix import path (one more ../)
+import { getAllProjects } from "../../../lib/getProjects";
 
 export const dynamic = "force-static";
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
+// ✅ allow optional subtitle locally without touching your data types
+type ProjectItem = {
+  slug: string;
+  title: string;
+  cover: string;
+  images: string[];
+  subtitle?: string;
+};
+
 export default function ProjectsIndex() {
-  const projects = getAllProjects();
+  // cast to local type so TS is happy about p.subtitle
+  const projects = getAllProjects() as ProjectItem[];
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-24 text-brand-ink">

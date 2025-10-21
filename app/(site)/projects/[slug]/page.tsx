@@ -1,7 +1,7 @@
 // app/(site)/projects/[slug]/page.tsx
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getAllProjects, getProjectBySlug } from "../../lib/getProjects";
+import { getAllProjects, getProjectBySlug } from "@/lib/getProjects";
 import Section from "@/components/Section";
 
 export const dynamic = "force-static";
@@ -14,10 +14,11 @@ export default async function ProjectDetail({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params; // ✅ Next 15 requires await
+
   const project = getProjectBySlug(slug);
   if (!project) return notFound();
 
-  // Local overlays
+  // Inject copy ONLY for these two slugs (no change to getProjects.ts)
   const OVERLAYS: Record<
     string,
     Partial<{ address: string; summary: string; description: string; notes: string }>
@@ -42,27 +43,30 @@ export default async function ProjectDetail({
     },
   };
 
-  const merged = { ...project, ...(OVERLAYS[slug] ?? {}) };
+  const overlay = OVERLAYS[slug] ?? {};
 
   const images =
-    (merged.images ?? []).map((file: string) => ({
-      src: `${bp}/images/projects/${merged.slug}/${file}`,
-      alt: merged.title,
+    (project.images ?? []).map((file: string) => ({
+      src: `${bp}/images/projects/${project.slug}/${file}`,
+      alt: project.title,
     })) ?? [];
 
+  // Address + text with overlay fallback (safe casts avoid TS errors)
   const address =
-    (merged as any).address ??
-    (merged as any).location ??
-    merged.subtitle ??
+    (overlay as any).address ??
+    (project as any).address ??
+    (project as any).location ??
+    (project as any).subtitle ??
     undefined;
 
-  const overview = (merged as any).summary ?? "";
-  const details = (merged as any).description ?? "";
-  const details2 = (merged as any).notes ?? "";
+  const overview = (overlay as any).summary ?? (project as any).summary ?? "";
+  const details =
+    (overlay as any).description ?? (project as any).description ?? "";
+  const details2 = (overlay as any).notes ?? (project as any).notes ?? "";
 
   return (
     <CaseStudyLayout
-      title={merged.title}
+      title={project.title}
       address={address}
       overview={overview}
       details={details}
@@ -77,7 +81,7 @@ export async function generateStaticParams() {
   return getAllProjects().map((p) => ({ slug: p.slug }));
 }
 
-/** ---------- Case Study Layout ---------- */
+/** ---------- Case Study Layout (unchanged visuals, text areas borderless) ---------- */
 function CaseStudyLayout({
   title,
   address,
@@ -126,19 +130,21 @@ function CaseStudyLayout({
         <div className="mt-4 h-[3px] w-full bg-brand-gold/50 rounded-full" />
       </Section>
 
-      {/* A — 40%/60% */}
+      {/* A — 40%/60% stacked left */}
       <Section className="py-10 md:py-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+          {/* Left 40%: text + small image */}
           <div className="lg:col-span-5">
             <div className="grid gap-6 h-full lg:grid-rows-[2fr_3fr]">
               {/* Text area — borderless */}
-              <div className="p-5 md:p-6 bg-white">
+              <div className="rounded-2xl p-5 md:p-6 bg-white">
                 <p className="text-base md:text-lg leading-relaxed text-neutral-800">
                   {overview || "[WRITE OVERVIEW TEXT HERE]"}
                 </p>
               </div>
 
-              <div className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl">
+              {/* Small image (kept as-is) */}
+              <div className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-neutral-200">
                 <Image
                   src={smallA?.src ?? img50.src}
                   alt={smallA?.alt ?? title}
@@ -150,8 +156,9 @@ function CaseStudyLayout({
             </div>
           </div>
 
+          {/* Right 60% image (kept as-is) */}
           <div className="lg:col-span-7">
-            <div className="relative w-full aspect-[3/2] overflow-hidden rounded-2xl">
+            <div className="relative w-full aspect-[3/2] overflow-hidden rounded-2xl ring-1 ring-neutral-200">
               <Image
                 src={img50.src}
                 alt={img50.alt ?? title}
@@ -164,15 +171,17 @@ function CaseStudyLayout({
         </div>
       </Section>
 
+      {/* Divider */}
       <Section>
         <div className="mt-10 md:mt-12 h-[3px] w-full bg-brand-gold/40 rounded-full" />
       </Section>
 
-      {/* B — 65%/35% */}
+      {/* B — 65% left image, right column (square img + text) */}
       <Section className="py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+          {/* LEFT 65% (kept as-is) */}
           <div className="lg:col-span-8">
-            <div className="relative w-full aspect-[3/2] overflow-hidden rounded-2xl">
+            <div className="relative w-full aspect-[3/2] overflow-hidden rounded-2xl ring-1 ring-neutral-200">
               <Image
                 src={img60L.src}
                 alt={img60L.alt ?? title}
@@ -183,8 +192,10 @@ function CaseStudyLayout({
             </div>
           </div>
 
+          {/* RIGHT 35%: stacked */}
           <div className="lg:col-span-4 grid gap-6 lg:grid-rows-[1fr_1fr]">
-            <div className="relative w-full aspect-square overflow-hidden rounded-2xl">
+            {/* Top square image (kept as-is) */}
+            <div className="relative w-full aspect-square overflow-hidden rounded-2xl ring-1 ring-neutral-200">
               <Image
                 src={smallB?.src ?? img60L.src}
                 alt={smallB?.alt ?? title}
@@ -194,8 +205,8 @@ function CaseStudyLayout({
               />
             </div>
 
-            {/* Text area — borderless */}
-            <div className="p-5 md:p-6 bg-white">
+            {/* Bottom text area — borderless */}
+            <div className="rounded-2xl p-5 md:p-6 bg-white">
               <h3 className="text-lg font-semibold flex items-center gap-3">
                 <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
                 Project Notes
@@ -208,24 +219,28 @@ function CaseStudyLayout({
         </div>
       </Section>
 
+      {/* Divider */}
       <Section>
         <div className="h-[3px] w-full bg-brand-gold/40 rounded-full" />
       </Section>
       <div className="h-16 md:h-20" />
 
-      {/* C — 30%/70% */}
+      {/* C — 30% text (bottom) + 70% image */}
       <Section className="pb-20 md:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+          {/* LEFT 30% */}
           <div className="lg:col-span-4 flex flex-col justify-end">
-            <div className="p-5 md:p-6 bg-white">
+            {/* Final text area — borderless */}
+            <div className="rounded-2xl p-5 md:p-6 bg-white">
               <p className="text-base md:text-lg leading-relaxed text-neutral-800">
                 {details2 || "[WRITE FINAL SECTION TEXT HERE]"}
               </p>
             </div>
           </div>
 
+          {/* RIGHT 70% image (kept as-is) */}
           <div className="lg:col-span-8">
-            <div className="relative w-full aspect-[3/2] overflow-hidden rounded-2xl">
+            <div className="relative w-full aspect-[3/2] overflow-hidden rounded-2xl ring-1 ring-neutral-200">
               <Image
                 src={img60R.src}
                 alt={img60R.alt ?? title}
