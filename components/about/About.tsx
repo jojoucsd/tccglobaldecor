@@ -1,111 +1,102 @@
 // About.tsx
-import TccTriangle from "@/components/TccTriangle";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import Section from "@/components/Section";
+
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+const HERO = {
+  title: "About TCC Carpets — Art You Can Walk On",
+  image: `${bp}/images/about/artineveryfootstep.avif`,
+  alt: "Hospitality lounge featuring custom carpet by TCC",
+};
+
+const COPY = {
+  intro:
+    "Professional carpet manufacturing focused on quality, efficiency, and flexible design—with human-centered service—delivered to international standards.",
+  pillars: [
+    { h: "Talent and Service", p: "Carpets are our product, but people and service are our core materials." },
+    { h: "Communicate", p: "Clear communication turns your ideas into buildable designs and finished carpets." },
+    { h: "Commitment", p: "It’s not only about making carpets right—it’s about doing what’s right." },
+  ],
+  highlights: [
+    "20+ years in carpet manufacturing with owned factories",
+    "Quality tufted and woven carpets and rugs",
+    "Custom projects: hospitality, casinos, cruise liners, residences, private jets, yachts",
+    "Approximately 550 employees",
+  ],
+};
 
 export default function About() {
   return (
-<Section
-  id="about"
-  style={{ scrollMarginTop: "calc(var(--header-h))" }}
->
-      {/* 60% / 40% split on lg+ */}
-      <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 xl:gap-8 items-start">
-        {/* LEFT — main content */}
-        <div className="flex flex-col">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-            From design to delivery — <span className="whitespace-nowrap">fast, precise, human.</span>
-          </h2>
+    <Section id="about" style={{ scrollMarginTop: "calc(var(--header-h))" }}>
+      {/* Centered heading with brand accents */}
+      <header className="text-center text-brand-ink">
+        <p className="inline-flex items-center gap-2 text-[11px] tracking-[0.18em] uppercase text-neutral-500">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-gold" />
+          Our Story
+        </p>
+        <h1 className="mt-2 text-3xl md:text-4xl font-extrabold tracking-tight">
+          {HERO.title}
+        </h1>
+        <div className="mx-auto mt-3 h-[3px] w-24 rounded-full bg-brand-gold" />
+      </header>
 
-          <p className="mt-5 text-lg text-neutral-700">
-            TCC crafts bespoke carpets for luxury hospitality, casinos, and residences — where design and
-            performance meet. With in-house production, agile timelines, and people who care, we turn creative
-            vision into carpets that define the space.
+      {/* 45/55 split */}
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-[45%_55%] gap-10 items-start text-brand-ink">
+        {/* Left: image */}
+        <div className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl bg-neutral-100 ring-1 ring-neutral-200">
+          <Image
+            src={HERO.image}
+            alt={HERO.alt}
+            fill
+            className="object-cover"
+            unoptimized
+            priority
+          />
+        </div>
+
+        {/* Right: copy */}
+        <div>
+          <p className="text-[15px] md:text-lg leading-relaxed text-neutral-800">
+            {COPY.intro}
           </p>
 
-          {/* 3 Pillars */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {[
-              { title: "Speed", body: "Agile production built for tight hospitality timelines." },
-              { title: "Craft", body: "Tufted & woven carpets crafted with precision and care." },
-              { title: "Service", body: "Communication and partnership at every step." },
-            ].map((f) => (
-              <div key={f.title} className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
-                <div className="font-semibold">{f.title}</div>
-                <p className="mt-2 text-sm text-neutral-600">{f.body}</p>
-              </div>
+          <div className="mt-8 space-y-6">
+            {COPY.pillars.map((it) => (
+              <section key={it.h}>
+                <h3 className="text-lg md:text-xl font-semibold">
+                  <span className="inline-block border-l-4 border-brand-gold pl-3">
+                    {it.h}
+                  </span>
+                </h3>
+                <p className="mt-2 text-neutral-700">{it.p}</p>
+              </section>
             ))}
           </div>
 
-          {/* TRIANGLE + floating notes */}
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-[1fr_minmax(320px,560px)_1fr] gap-6 md:gap-8 items-center">
-            <ul className="hidden md:flex flex-col justify-between gap-6 text-sm text-neutral-700">
-              <li>• 20+ years of global hospitality experience</li>
-              <li>• Owned factories with 500+ skilled artisans</li>
-            </ul>
-
-            <figure className="relative">
-              <TccTriangle
-                top="Speed / Efficiency"
-                left="Human Service / Partnership"
-                right="Craftsmanship / Quality"
-                center="TCC Promise"
-                className="w-full h-[260px] md:h-[320px] lg:h-[360px]"
-              />
-              <figcaption className="mt-2 text-center text-xs text-neutral-500">
-                Speed • Craft • Human Service → <span className="font-medium">Precision Delivered</span>
-              </figcaption>
-            </figure>
-
-            <ul className="hidden md:flex flex-col justify-between gap-6 text-sm text-neutral-700">
-              <li>• Projects spanning Macau, Las Vegas, and beyond</li>
-              <li>• Sustain: responsible materials and long-life performance</li>
-            </ul>
-          </div>
-
-          {/* Mobile notes */}
-          <ul className="md:hidden mt-6 space-y-2 text-neutral-700 text-sm">
-            <li>• 20+ years of global hospitality experience</li>
-            <li>• Owned factories with 500+ skilled artisans</li>
-            <li>• Projects spanning Macau, Las Vegas, and beyond</li>
-            <li>• Sustain: responsible materials and long-life performance</li>
+          <ul className="mt-8 ml-5 list-disc space-y-2 marker:text-brand-gold text-neutral-900">
+            {COPY.highlights.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
           </ul>
 
-          {/* CTAs */}
-          <div className="mt-6 flex gap-3">
+          {/* CTA buttons */}
+          <div className="mt-10 flex flex-wrap gap-3">
             <Link
-              className="inline-flex items-center rounded-full bg-black text-white px-5 py-2.5 text-sm font-semibold hover:bg-black/90"
               href="/projects"
+              className="inline-flex items-center rounded-full bg-brand-gold text-brand-ink px-5 py-2.5 text-sm font-semibold shadow-sm hover:bg-brand-gold-deep transition-colors"
             >
               View Projects
             </Link>
             <Link
-              href="/#about-b"
-              className="inline-flex items-center rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-semibold hover:bg-neutral-50"
+              href="/process"
+              className="inline-flex items-center rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-semibold text-brand-ink hover:bg-neutral-50 transition-colors"
             >
               Our Process
             </Link>
           </div>
         </div>
-
-        {/* RIGHT — compact, full-height collage with tight spacing */}
-        <aside className="hidden lg:flex md:sticky md:top-24 justify-end">
-          <div className="w-full h-[calc(100vh-6rem)] grid grid-cols-2 grid-rows-3 gap-[6px]">
-            {[1, 2, 3, 4, 5, 6].map((n) => (
-              <div key={n} className="relative overflow-hidden rounded-xl">
-                <Image
-                  src={`${bp}/images/about/about${n}.avif`}
-                  alt={`About TCC image ${n}`}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width:1280px) 40vw, (min-width:1024px) 40vw, 100vw"
-                />
-              </div>
-            ))}
-          </div>
-        </aside>
       </div>
     </Section>
   );

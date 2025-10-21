@@ -1,5 +1,6 @@
-import Image from "next/image";
+// app/(site)/components/CollabTeaser.tsx
 import Link from "next/link";
+import Image from "next/image";
 import Section from "@/components/Section";
 
 export const COLLABORATIONS = [
@@ -21,14 +22,22 @@ export default function CollabTeaser() {
   const items = (COLLABORATIONS as CollabItem[]).slice(0, 4);
 
   return (
-    <Section id="collaborations" className="bg-white">
-      <div className="flex items-center justify-between mb-6 md:mb-8">
-        <h2 className="text-2xl md:text-3xl font-semibold">Collaborations</h2>
-        <Link href="/collaborations" className="text-sm font-medium text-amber-600 hover:underline">
+    <Section id="collaborations" className="bg-white text-brand-ink">
+      {/* Header with TCC accent */}
+      <div className="flex items-end justify-between mb-6 md:mb-8">
+        <h2 className="text-2xl md:text-3xl font-semibold flex items-center gap-3">
+          <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
+          Collaborations
+        </h2>
+        {/* <Link
+          href="/collaborations"
+          className="text-sm font-medium text-brand-gold hover:text-brand-gold-deep transition-colors"
+        >
           View all collaborations →
-        </Link>
+        </Link> */}
       </div>
 
+      {/* Banner-style logo cards (no crop, logos fully visible) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {items.map((c, i) => (
           <Link
@@ -36,17 +45,17 @@ export default function CollabTeaser() {
             href={c.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group"
+            className="group block rounded-none border border-neutral-200 bg-white hover:ring-2 hover:ring-brand-gold transition"
             aria-label={`${c.title} — ${c.role ?? "Collaboration"}`}
           >
-            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
+            {/* Banner canvas: wide, logo fits inside */}
+            <div className="relative w-full aspect-[3/1] md:aspect-[5/2] bg-white">
               <Image
                 src={`${bp}/images/collaborations/${c.img}`}
                 alt={c.title}
-                width={800}
-                height={600}
-                className="aspect-[16/9] md:aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                fill
                 sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw"
+                className="object-contain p-6 md:p-8"
                 unoptimized
                 placeholder="blur"
                 blurDataURL={BLUR}
@@ -54,9 +63,10 @@ export default function CollabTeaser() {
               />
             </div>
 
-            <div className="mt-3">
-              <h3 className="text-base font-semibold text-gray-900">{c.title}</h3>
-              {c.role && <p className="text-sm text-gray-500">{c.role}</p>}
+            {/* Meta */}
+            <div className="px-4 py-3">
+              <h3 className="text-base font-semibold">{c.title}</h3>
+              {c.role && <p className="text-sm text-neutral-600">{c.role}</p>}
             </div>
           </Link>
         ))}

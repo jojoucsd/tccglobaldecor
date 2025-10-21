@@ -8,7 +8,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 const HERO_TITLE =
   "CRAFTING BESPOKE CARPETS FOR WORLD-CLASS INTERIORS";
 const HERO_SUB =
-  "Design excellence • Reliable craftsmanship • Global service";
+  "TCC Carpets unites a professional design team and skilled craftsmen with over a decade of experience, transforming complex ideas into exclusive creations through close collaboration and precision.";
 
 // --- SLIDES: no captions now ---
 // remove: import hero01 from "@/public/images/hero/hero-01.avif"; etc.
@@ -119,18 +119,28 @@ const handleMouseLeave = () => {
       </h1>
 
         {/* Smaller supporting text (≈ 3 visible lines) */}
-        <p
-          className="
-            mt-12
-            text-white/85
-            text-sm sm:text-base md:text-lg
-            leading-relaxed md:leading-[1.6]
-            max-w-[32ch] md:max-w-[38ch]
-            whitespace-normal
-          "
-        >
-          {HERO_SUB}
-        </p>
+<p
+  className="
+    mt-12
+    text-white/90
+    text-sm sm:text-base md:text-lg
+    leading-relaxed md:leading-[1.6]
+    max-w-[32ch] md:max-w-[38ch]
+    whitespace-normal
+
+    /* light overlay */
+    relative z-10
+    px-4 md:px-5 py-3 md:py-4
+    rounded-xl
+    bg-gradient-to-r from-black/40 via-black/30 to-transparent
+    supports-[backdrop-filter]:backdrop-blur-[1.5px]
+    ring-1 ring-white/10
+    transition-all duration-700 ease-in-out
+    animate-fadeIn
+  "
+>
+  {HERO_SUB}
+</p>
 {/* Soft CTA */}
 <div className="mt-5 flex justify-start">
   <Link
