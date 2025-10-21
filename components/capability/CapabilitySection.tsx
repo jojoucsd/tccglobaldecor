@@ -187,7 +187,7 @@ export default function CapabilitySection() {
   const [activeMarket, setActiveMarket] = useState<MarketKey>("hotel");
 
   return (
-    <section id="capability" aria-label="Capabilities, Specialization, Techniques, Materials" className="text-brand-ink">
+    <section id="capability" aria-label="Capabilities, Specialization, Techniques, Materials" className="text-brand-ink scroll-mt-24">
       {/* 0) Slide-16 style Craftsmanship hero (50/50, viewport image) */}
       <Section className="bg-white !px-0 text-brand-ink">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center">

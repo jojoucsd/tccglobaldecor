@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
-import { useRouter } from "next/navigation";
 
 type NavItem = { href: string; label: string; sectionId?: string };
 
@@ -16,7 +15,6 @@ const NAV: NavItem[] = [
 ];
 
 export default function Header() {
-  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const activeId = useScrollSpy(
     NAV.map((n) => n.sectionId).filter(Boolean) as string[],
@@ -30,20 +28,19 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Ensure basePath + anchor scroll works after navigation
-  const handleSectionClick = (
-    e: React.MouseEvent,
-    sectionId: string | undefined,
-    href: string
-  ) => {
-    if (!sectionId) return; // normal nav item (e.g., /projects, /connect)
-    e.preventDefault();
-    const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    // App Router push expects a string
-    router.push(`${bp}/#${sectionId}`);
-  };
-
   const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+  // Force basePath-aware hash navigation (works in production export)
+  const handleSectionClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    sectionId?: string
+  ) => {
+    if (!sectionId) return; // normal route like /projects, /connect
+    e.preventDefault();
+    const target = `${bp}/#${sectionId}`;
+    // Hard-navigate so the hash is applied in all cases (GH Pages/basePath safe)
+    window.location.assign(target);
+  };
 
   return (
     <header
@@ -80,7 +77,7 @@ export default function Header() {
               key={n.label}
               href={n.href}
               prefetch={false}
-              onClick={(e) => handleSectionClick(e, n.sectionId, n.href)}
+              onClick={(e) => handleSectionClick(e, n.sectionId)}
               className={`transition-colors ${
                 n.sectionId && activeId === n.sectionId
                   ? "text-brand-gold border-b-2 border-brand-gold"

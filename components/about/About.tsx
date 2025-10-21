@@ -29,7 +29,7 @@ const COPY = {
 
 export default function About() {
   return (
-    <Section id="about" style={{ scrollMarginTop: "calc(var(--header-h))" }}>
+    <Section id="about" style={{ scrollMarginTop: "calc(var(--header-h))" }} className ="scroll-mt-24">
       {/* Centered heading with brand accents */}
       <header className="text-center text-brand-ink">
         <p className="inline-flex items-center gap-2 text-[11px] tracking-[0.18em] uppercase text-neutral-500">
