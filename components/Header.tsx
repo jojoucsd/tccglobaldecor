@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
+import { useRouter } from "next/navigation";
 
 type NavItem = { href: string; label: string; sectionId?: string };
 
@@ -15,9 +16,10 @@ const NAV: NavItem[] = [
 ];
 
 export default function Header() {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const activeId = useScrollSpy(
-    NAV.map(n => n.sectionId).filter(Boolean) as string[],
+    NAV.map((n) => n.sectionId).filter(Boolean) as string[],
     120
   );
 
@@ -28,10 +30,27 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Ensure basePath + anchor scroll works after navigation
+  const handleSectionClick = (
+    e: React.MouseEvent,
+    sectionId: string | undefined,
+    href: string
+  ) => {
+    if (!sectionId) return; // normal nav item (e.g., /projects, /connect)
+    e.preventDefault();
+    const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
+    // App Router push expects a string
+    router.push(`${bp}/#${sectionId}`);
+  };
+
+  const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
   return (
     <header
       className={`sticky top-0 z-50 w-full border-b transition-colors duration-300 ${
-        scrolled ? "bg-white/90 backdrop-blur border-brand-gold/30 shadow-sm" : "bg-white border-transparent"
+        scrolled
+          ? "bg-white/90 backdrop-blur border-brand-gold/30 shadow-sm"
+          : "bg-white border-transparent"
       }`}
     >
       <div className="flex h-20 w-full items-center justify-between px-3 sm:px-4 lg:px-6">
@@ -39,7 +58,7 @@ export default function Header() {
         <div className="flex items-center gap-4 sm:gap-5">
           <Link href="/" className="flex items-center">
             <img
-              src="images/TCC_Logo.svg"
+              src={`${bp}/images/TCC_Logo.svg`}
               alt="TCC Global Decor"
               className="h-16 w-auto object-contain object-left"
             />
@@ -60,8 +79,10 @@ export default function Header() {
             <Link
               key={n.label}
               href={n.href}
+              prefetch={false}
+              onClick={(e) => handleSectionClick(e, n.sectionId, n.href)}
               className={`transition-colors ${
-                activeId === n.sectionId
+                n.sectionId && activeId === n.sectionId
                   ? "text-brand-gold border-b-2 border-brand-gold"
                   : "text-brand-ink hover:text-brand-gold"
               }`}
