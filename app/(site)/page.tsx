@@ -3,7 +3,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import About from "@/components/about/About";
 // import ProjectsSectors from "@/components/sectors/SectorsSection";
 import CapabilitySection from "@/components/capability/CapabilitySection";
-import LibraryTeaser from "@/components/library/LibraryTeaser";
+import AwardsTeaser from "@/components/awards/AwardsTeaser";
 import ClientsBelt from "@/components/clients/ClientsBelt";
 import CollabTeaser from "@/components/collab/CollabTeaser";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default function HomePage() {
 
       {/* Client belt #3 — after library teaser */}
       <ClientsBelt seed={3} title="Our Global Partners" />
-      <LibraryTeaser />
+      <AwardsTeaser />
       <CollabTeaser />
 
 <section

@@ -1,4 +1,3 @@
-// components/AlternatingCard.tsx
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,11 +5,10 @@ type AlternatingCardProps = {
   title: string;
   imageSrc: string;
   href?: string;
-  /** Optional: keep your existing variant API */
   variant?: "imageTop" | "textTop";
-  /** New: simple boolean to flip layout (true => textTop) */
   flip?: boolean;
-  subtitle?: string; // optional small caption if needed
+  subtitle?: string;
+  className?: string;
 };
 
 export default function AlternatingCard({
@@ -20,12 +18,12 @@ export default function AlternatingCard({
   variant = "imageTop",
   flip = false,
   subtitle,
+  className = "",
 }: AlternatingCardProps) {
-  // Determine layout: flip wins, otherwise use variant
   const isTextTop = flip ? true : variant === "textTop";
 
   const TitleBlock = (
-    <div className="px-2 pt-3">
+    <div className={`px-2 pt-3 ${isTextTop ? "pb-2" : ""}`}> {/* ✅ adds bottom padding only for textTop */}
       <h3 className="text-base font-semibold tracking-tight">{title}</h3>
       {subtitle ? <p className="text-sm text-gray-500 mt-1">{subtitle}</p> : null}
     </div>
@@ -33,7 +31,6 @@ export default function AlternatingCard({
 
   const ImageBlock = (
     <div className="relative w-full overflow-hidden rounded-2xl">
-      {/* Keep aspect consistent with slides; tweak as needed */}
       <div className="aspect-[4/5]">
         <Image
           src={imageSrc}
@@ -48,7 +45,7 @@ export default function AlternatingCard({
   );
 
   return (
-    <li className="group list-none">
+    <li className={`group list-none ${className}`}>
       <Link href={href} className="block">
         {isTextTop ? (
           <>

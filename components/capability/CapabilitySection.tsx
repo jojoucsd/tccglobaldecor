@@ -221,200 +221,84 @@ export default function CapabilitySection() {
           </div>
         </div>
       </Section>
+      
+<Section className="bg-gray-50 text-brand-ink" id="specialization">
+  <header className="mb-12">
+    <h3 className="text-2xl md:text-3xl font-semibold flex justify-center items-center gap-3 text-center">
+      <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
+      Specialization
+    </h3>
+    <p className="mt-3 text-sm md:text-base text-neutral-600 max-w-2xl mx-auto text-left md:text-center md:text-left:0">
+      From hand-tufted masterpieces to Axminster innovations — our craftsmanship spans artistry,
+      technology, and versatility.
+    </p>
+  </header>
 
-      {/* 1) Specialization (what we make) */}
-      <Section className="bg-gray-50 text-brand-ink">
-        <div
-          className="mx-auto max-w-[1600px] px-4 md:px-6 lg:px-8 py-16"
-          style={{ scrollMarginTop: "calc(var(--header-h))" }}
-        >
-          <header>
-            <h3 className="text-2xl md:text-3xl font-semibold flex items-center gap-3">
-              <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
-              Specialization
-            </h3>
-          </header>
+  <ul
+    className={[
+      "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6",
+      "[&_h3]:text-brand-gold [&_p]:text-sm [&_p]:leading-snug",
+    ].join(" ")}
+    aria-label="Specialization items"
+    role="list"
+  >
+    {[
+      {
+        title: "Hand Tufted",
+        subtitle:
+          "Fully customizable in design, color, and texture. Each piece expresses individuality.",
+        imageSrc: `${bp}/images/capability/hand-tufted.avif`,
+        href: "/gallery/hand-tufted",
+      },
+      {
+        title: "Axminster Tiles",
+        subtitle:
+          "Modular precision with Axminster face construction — refined look, practical format.",
+        imageSrc: `${bp}/images/capability/ax-tile.avif`,
+        href: "/gallery/axminster-tiles",
+      },
+      {
+        title: "Axminster Carpets",
+        subtitle:
+          "Woven in 7-pitch with up to 16 colors — precision, durability, and design integrity.",
+        imageSrc: `${bp}/images/capability/ax-roll.avif`,
+        href: "/gallery/axminster-broadloom",
+      },
+      {
+        title: "Hand Ax",
+        subtitle:
+          "Artisanal warmth meets Axminster structure — the harmony of handcraft and technology.",
+        imageSrc: `${bp}/images/capability/hand-ax.avif`,
+        href: "/gallery/hand-ax",
+      },
+      {
+        title: "Printed Carpets",
+        subtitle:
+          "High-resolution digital print for creative freedom and seamless color gradients.",
+        imageSrc: `${bp}/images/capability/digital-print-tech.avif`,
+        href: "/gallery/printed",
+      },
+      {
+        title: "Custom Rugs",
+        subtitle:
+          "Bespoke shapes, sculpting, and edges — design pieces tailored to each interior.",
+        imageSrc: `${bp}/images/capability/silk.avif`,
+        href: "/gallery/custom-rugs",
+      },
+    ].map((it, i) => (
+      <AlternatingCard
+        key={it.title}
+        title={it.title}
+        subtitle={it.subtitle}
+        imageSrc={it.imageSrc}
+        href={it.href}
+        variant={i % 2 === 0 ? "imageTop" : "textTop"}
+        className="transition-transform duration-300 hover:-translate-y-1"
+      />
+    ))}
+  </ul>
+</Section>
 
-          <ul
-            className={[
-              "mt-10 grid grid-cols-1 md:grid-cols-4 gap-6",
-              // gold titles
-              "[&_h3]:text-brand-gold [&_h4]:text-brand-gold",
-              // 🔽 smaller subtitles + more line spacing
-              "[&_p]:text-[13px] md:[&_p]:text-sm [&_p]:leading-[1.6]",
-              // non-clickable
-              "[&_a]:pointer-events-none [&_a]:cursor-default",
-            ].join(" ")}
-            aria-label="Specialization items"
-            role="list"
-          >
-            {[
-              {
-                title: "Hand Tufted Carpets",
-                subtitle:
-                  "Fully customizable in design, color, and shape. From detailed tapestries to sculptural forms, each piece is crafted with precision to express individuality and texture and quality.",
-                imageSrc: `${bp}/images/capability/hand-tufted.avif`,
-              },
-              {
-                title: "Axminster Carpet Tiles",
-                subtitle:
-                  "Crafted in Japan, these tiles feature genuine Axminster face construction with a specialized backing. They combine the refined look of woven carpet with the practicality of modular installation and maintenance.",
-                imageSrc: `${bp}/images/capability/ax-tile.avif`,
-              },
-              {
-                title: "Axminster Carpets",
-                subtitle:
-                  "Woven with 7-pitch x 7-13-row quality and up to 16 colors, Axminster carpets combine precision and durability. Available in loom widths of 3.66 m, 4 m, and 5 m.",
-                imageSrc: `${bp}/images/capability/ax-roll.avif`,
-              },
-              {
-                title: "Hand Ax Production",
-                subtitle:
-                  "Blending artisanal technique with Axminster structure, Hand Ax carpets are individually crafted pieces that showcase the artistry and warmth of handwoven detail.",
-                imageSrc: `${bp}/images/capability/hand-ax.avif`,
-              },
-            ].map((it, i) => (
-              <div key={it.title} className="pointer-events-none">
-                <AlternatingCard
-                  title={it.title}
-                  subtitle={it.subtitle}
-                  imageSrc={it.imageSrc}
-                  href="#"
-                  variant={i % 2 === 0 ? "imageTop" : "textTop"}
-                />
-              </div>
-            ))}
-          </ul>
-        </div>
-      </Section>
-
-      {/* 2) Techniques */}
-      <Section className="text-brand-ink">
-        <header>
-          <h3 className="text-2xl md:text-3xl font-semibold flex items-center gap-3">
-            <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
-            Techniques
-          </h3>
-        </header>
-
-        <ul
-          className={[
-            "mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6",
-            "[&_h3]:text-brand-gold [&_h4]:text-brand-gold",
-            // 🔽 smaller subtitles + more line spacing
-            "[&_p]:text-[13px] md:[&_p]:text-sm [&_p]:leading-[1.6]",
-            "[&_a]:pointer-events-none [&_a]:cursor-default",
-          ].join(" ")}
-          role="list"
-          aria-label="Techniques"
-        >
-          {[
-            {
-              title: "Hand Tufted",
-              subtitle:
-                "Yarn is applied with a tufting gun onto a stretched canvas, forming refined textures and detailed patterns with a distinctly handcrafted character.",
-              imageSrc: `${bp}/images/capability/hand-tufted-tech.avif`,
-            },
-            {
-              title: "Hand Woven",
-              subtitle:
-                "Each piece is handwoven by skilled artisans who interlace warp and weft with care. The subtle irregularities of this process reveal the charm of natural fibers, giving every rug a tactile depth and a sense of quiet craftsmanship.",
-              imageSrc: `${bp}/images/capability/hand-woven-tech.avif`,
-            },
-            {
-              title: "Machine Woven",
-              subtitle:
-                "Modern looms deliver precise, durable weaves that balance efficiency with design integrity.",
-              imageSrc: `${bp}/images/capability/machine-woven-tech.avif`,
-            },
-            {
-              title: "Digital Printing",
-              subtitle:
-                "Advanced digital technology allows for seamless reproduction of complex designs and color gradients. This process ensures visual precision, creative freedom, and enduring vibrancy.",
-              imageSrc: `${bp}/images/capability/digital-print-tech.avif`,
-            },
-          ].map((item, i) => (
-            <div key={item.title} className="pointer-events-none">
-              <AlternatingCard
-                title={item.title}
-                subtitle={item.subtitle}
-                imageSrc={item.imageSrc}
-                href="#"
-                flip={i % 2 === 0}
-              />
-            </div>
-          ))}
-        </ul>
-
-        {/* Bottom CTA — float right */}
-        <div className="mt-10 flex justify-end">
-          <Link
-            href="/process"
-            className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold bg-brand-gold text-brand-ink hover:bg-brand-gold-deep transition-colors"
-          >
-            View Process
-          </Link>
-        </div>
-      </Section>
-
-      {/* 3) Materials */}
-      <Section className="bg-gray-50 text-brand-ink" id="materials">
-        <header>
-          <h3 className="text-2xl md:text-3xl font-semibold flex items-center gap-3">
-            <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
-            Materials
-          </h3>
-        </header>
-
-        <ul
-          className={[
-            "mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6",
-            "[&_h3]:text-brand-gold [&_h4]:text-brand-gold",
-            // 🔽 smaller subtitles + more line spacing
-            "[&_p]:text-[13px] md:[&_p]:text-sm [&_p]:leading-[1.6]",
-            "[&_a]:pointer-events-none [&_a]:cursor-default",
-          ].join(" ")}
-          role="list"
-          aria-label="Materials"
-        >
-          {[
-            {
-              title: "Wool",
-              subtitle:
-                "Soft, resilient, Naturally soft and resilient, wool brings time- less warmth and comfort underfoot. warmth",
-              imageSrc: `${bp}/images/capability/wool.avif`,
-            },
-            {
-              title: "Viscose (Rayon)",
-              subtitle:
-                "With a silky sheen and soft touch, viscose adds subtle elegance to modern interiors.",
-              imageSrc: `${bp}/images/capability/viscose.avif`,
-            },
-            {
-              title: "Silk",
-              subtitle:
-                "Lustrous and delicate, silk elevates interiors with refined luxury.",
-              imageSrc: `${bp}/images/capability/silk.avif`,
-            },
-            {
-              title: "Blend",
-              subtitle:
-                "Blended fibers achieve balance between luxury and performance.",
-              imageSrc: `${bp}/images/capability/blend.avif`,
-            },
-          ].map((item, i) => (
-            <div key={item.title} className="pointer-events-none">
-              <AlternatingCard
-                title={item.title}
-                subtitle={item.subtitle}
-                imageSrc={item.imageSrc}
-                href="#"
-                flip={i % 2 === 1}
-              />
-            </div>
-          ))}
-        </ul>
-      </Section>
 
       {/* 4) Our Capabilities & Services + Markets (50/50 like Craftsmanship) */}
       <Section className="text-brand-ink !px-0">
