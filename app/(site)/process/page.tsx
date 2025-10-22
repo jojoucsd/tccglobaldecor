@@ -24,14 +24,14 @@ function pickUnique(from: number[], count: number): number[] {
 const A_LEFT = {
   title: "Design Intent → Visual Narrative",
   subtitle:
-    "We translate your brief into a clear material story: palette, structure, and movement underfoot.",
+    "We exist to design and craft beautiful carpets with professionalism and care. Quality, efficiency, and flexibility are the keys to a sustainable future",
   image: `${bp}/images/process/process2.avif`,
 };
 
 const A_RIGHT = {
   title: "Material Study → Production Ready",
   subtitle:
-    "From early sketches to build-ready art: color approval, repeats, and zone logic dialed in.",
+    "At TCCarpets, we’re dedicated to transforming your ideas into the perfect custom carpet for your project. ",
   image: `${bp}/images/process/process1.avif`,
 };
 
@@ -214,7 +214,7 @@ export default function ProcessPage() {
           From intent to installation
         </h1>
         <p className="mt-3 max-w-3xl text-neutral-800">
-          Big frame first: two-part overview of how we move from design intent to delivery.
+          Over 20 years of experience in the carpet manufacturing industry with our own production factories. Our primary activities include the production and sale of Hand-Tufted and Axminster carpets for both contract and domestic markets.
         </p>
       </Section>
 

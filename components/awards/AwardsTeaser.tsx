@@ -15,21 +15,18 @@ const PH = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' view
 const AWARDS = [
   {
     title: "Sands Supplier Excellence Award",
-    subtitle: "Sands",
     href: "/gallery/sands-supplier-excellence-award",
-    imageSrc: `${bp}/images/awards/china_sands.avif`,   // ✅ 1st image
+    imageSrc: `${bp}/images/awards/china_sands.avif`, // ✅ 1st image
   },
   {
     title: "Marina Bay Singapore Award",
-    subtitle: "Marina Bay Sands",
     href: "/gallery/marina-bay-singapore-award",
-    imageSrc: `${bp}/images/awards/mbs.avif`,           // ✅ 2nd image
+    imageSrc: `${bp}/images/awards/mbs.avif`, // ✅ 2nd image
   },
   {
     title: "International Design Excellence (Placeholder)",
-    subtitle: "—",
     href: "/gallery/industry-excellence-placeholder",
-    imageSrc: PH,                                       // ✅ keep placeholder
+    imageSrc: `${bp}/images/awards/mgm.avif`, // ✅ keep placeholder
   },
 ];
 
@@ -44,7 +41,6 @@ export default function AwardsTeasersRow() {
     () => ({
       ...A2orig,
       title: "Featured by Marina Bay Sands",
-      subtitle: "Editorial story & film",
       imageSrc: `${bp}/images/awards/mbs.avif`,
     }),
     [A2orig]
@@ -55,18 +51,20 @@ export default function AwardsTeasersRow() {
   const galleryHref = "/gallery/marina-bay-singapore-award";
 
   const handlePlay = () => {
-    video.open(VIDYARD_EMBED);            // open modal
+    video.open(VIDYARD_EMBED); // open modal
     router.push(galleryHref, { scroll: true }); // navigate behind modal
   };
 
   return (
-    <Section id="awards" className="bg-neutral-50 text-brand-ink">
+    <Section id="awards" className="bg-neutral-50 text-brand-ink pt-10 pb-14 sm:pt-12 sm:pb-16">
       <div className="text-center">
         <h2 className="text-2xl md:text-3xl font-semibold inline-flex items-center gap-3">
           <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
           Recognitions & Awards
         </h2>
-        <p className="mt-2 text-sm text-neutral-600">Quiet, editorial proof—trusted by category leaders.</p>
+        <p className="mt-2 text-sm text-neutral-600">
+          Quiet, editorial proof — trusted by category leaders.
+        </p>
       </div>
 
       <ul
@@ -80,29 +78,25 @@ export default function AwardsTeasersRow() {
         <AlternatingCard
           {...A1}
           variant="imageTop"
-          className="relative top-3"
+          className="relative top-3 [&_h3]:text-center"
         />
 
         {/* Middle: press/video card (MBS) */}
-        <li className="relative -top-3 md:-top-4">
-          <button onClick={handlePlay} className="group block w-full text-left" aria-label="Play MBS film">
+        <li className="relative -top-3 md:-top-4 [&_h3]:text-center">
+          <button
+            onClick={handlePlay}
+            className="group block w-full text-left"
+            aria-label="Play MBS film"
+          >
             <div className="relative">
-              <AlternatingCard
-                {...A2}
-                variant="imageTop"
-                href={undefined} // whole card acts as the button
-              />
+              <AlternatingCard {...A2} variant="imageTop" href={undefined} />
               {/* Play badge overlay */}
               <span className="absolute inset-0 pointer-events-none flex items-center justify-center">
                 <span className="inline-flex items-center gap-2 rounded-full bg-black/55 group-hover:bg-black/70 px-3 py-1.5 text-xs font-semibold text-white transition">
-                  ▶ Play film
+                  ▶ Play
                 </span>
               </span>
             </div>
-            {/* Small text link to article under the card */}
-            <a href={galleryHref} className="mt-2 block text-xs text-neutral-600 underline underline-offset-4">
-              Read the MBS story →
-            </a>
           </button>
         </li>
 
@@ -110,7 +104,7 @@ export default function AwardsTeasersRow() {
         <AlternatingCard
           {...A3}
           variant="imageTop"
-          className="relative top-5"
+          className="relative top-5 [&_h3]:text-center"
         />
       </ul>
     </Section>

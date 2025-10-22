@@ -1,3 +1,4 @@
+// components/AlternatingCard.tsx
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,6 +10,9 @@ type AlternatingCardProps = {
   flip?: boolean;
   subtitle?: string;
   className?: string;
+  compact?: boolean;
+  /** NEW: render only image when false (externalize text) */
+  showText?: boolean; // <-- added
 };
 
 export default function AlternatingCard({
@@ -19,19 +23,37 @@ export default function AlternatingCard({
   flip = false,
   subtitle,
   className = "",
+  compact = false,
+  showText = true, // <-- default keeps old behavior
 }: AlternatingCardProps) {
   const isTextTop = flip ? true : variant === "textTop";
 
-  const TitleBlock = (
-    <div className={`px-2 pt-3 ${isTextTop ? "pb-2" : ""}`}> {/* ✅ adds bottom padding only for textTop */}
-      <h3 className="text-base font-semibold tracking-tight">{title}</h3>
-      {subtitle ? <p className="text-sm text-gray-500 mt-1">{subtitle}</p> : null}
+  const titleClass = compact
+    ? "text-[13px] sm:text-sm font-semibold tracking-tight"
+    : "text-base font-semibold tracking-tight";
+
+  const subtitleClass = compact
+    ? "hidden sm:block text-xs text-gray-500 mt-0.5"
+    : "text-sm text-gray-500 mt-1";
+
+  const titlePadding = compact
+    ? "px-1.5 pt-2 pb-1"
+    : `px-2 pt-3 ${isTextTop ? "pb-2" : ""}`;
+
+  // compact only affects mobile; desktop keeps your original look
+  const imageAspect = compact ? "aspect-square sm:aspect-[4/5]" : "aspect-[4/5]";
+  const imageRound  = compact ? "rounded-xl sm:rounded-2xl" : "rounded-2xl";
+
+  const TitleBlock = showText ? (
+    <div className={titlePadding}>
+      <h3 className={titleClass}>{title}</h3>
+      {subtitle ? <p className={subtitleClass}>{subtitle}</p> : null}
     </div>
-  );
+  ) : null;
 
   const ImageBlock = (
-    <div className="relative w-full overflow-hidden rounded-2xl">
-      <div className="aspect-[4/5]">
+    <div className={`relative w-full overflow-hidden ${imageRound}`}>
+      <div className={imageAspect}>
         <Image
           src={imageSrc}
           alt={title}
@@ -46,7 +68,7 @@ export default function AlternatingCard({
 
   return (
     <li className={`group list-none ${className}`}>
-      <Link href={href} className="block">
+      <Link href={href} className="block focus:outline-none">
         {isTextTop ? (
           <>
             {TitleBlock}

@@ -1,3 +1,4 @@
+// app/(site)/data/gallery.ts
 export type GalleryEntry = {
   slug: string;
   title: string;

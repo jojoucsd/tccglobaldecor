@@ -4,8 +4,25 @@ import PhotoGridMatrix, { type MatrixItem } from "@/components/gallery/PhotoGrid
 import SmartBelt from "@/components/belts/MediaBelt";
 import { GALLERY } from "@/app/(site)/data/gallery";
 import { titleFromSlug } from "@/lib/strings";
+import Link from "next/link";
 import fs from "node:fs";
 import path from "node:path";
+
+const SPECIALIZATION_SLUGS = [
+  "hand-tufted",
+  "axminster-tiles",
+  "axminster-broadloom",
+  "hand-ax",
+  "printed",
+  "custom-rugs",
+] as const;
+
+// Awards: 3-item loop
+const AWARD_SLUGS = [
+  "sands-supplier-excellence-award",
+  "marina-bay-singapore-award",
+  "industry-excellence-placeholder",
+] as const;
 
 export const dynamicParams = false;
 // If you ever see "fs not available on Edge", uncomment the next line:
@@ -88,36 +105,138 @@ export default async function GalleryPage({
   const entry = GALLERY.find((g) => g.slug === slug);
   const prettyTitle = entry?.title ?? titleFromSlug(slug);
 
+  type Loop = readonly string[] | null;
+
+const inSpec = SPECIALIZATION_SLUGS.includes(slug as any);
+const inAwards = AWARD_SLUGS.includes(slug as any);
+
+const loop: Loop = inSpec ? SPECIALIZATION_SLUGS : inAwards ? AWARD_SLUGS : null;
+
+let prevSlug: string | null = null;
+let nextSlug: string | null = null;
+let prevEntry: typeof entry | null = null;
+let nextEntry: typeof entry | null = null;
+
+if (loop) {
+  const i = loop.indexOf(slug);
+  const prev = loop[(i - 1 + loop.length) % loop.length];
+  const next = loop[(i + 1) % loop.length];
+  prevSlug = prev;
+  nextSlug = next;
+  prevEntry = GALLERY.find((g) => g.slug === prev) ?? null;
+  nextEntry = GALLERY.find((g) => g.slug === next) ?? null;
+}
+
   // ✅ build the tuple once, at render
   const items = galleryItemsFor(slug);
 
   return (
-    <Section id="gallery" className="text-brand-ink flex flex-col items-center justify-center bg-white">
-      <div className="mx-auto max-w-2xl text-center flex flex-col items-center">
-        <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.12em] uppercase text-neutral-500">
-          <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
-          Gallery
-        </span>
+<Section id="gallery" className="relative text-brand-ink flex flex-col items-center justify-center bg-white">
+  {/* Header */}
+  <div className="relative mx-auto max-w-2xl text-center flex flex-col items-center">
+    <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.12em] uppercase text-neutral-500">
+      <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
+      Gallery
+    </span>
 
-        <h1 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight">{prettyTitle}</h1>
+    <h1 className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight">{prettyTitle}</h1>
+    <p className="mt-2 text-neutral-600 text-sm md:text-base">
+      Project showcase & visual craftsmanship gallery
+    </p>
 
-        <p className="mt-2 text-neutral-600 text-sm md:text-base">Project showcase & visual craftsmanship gallery</p>
-      </div>
+    {/* Floating left/right arrows (desktop only) */}
+    {loop && (
+      <>
+        {prevSlug && (
+          <Link
+            href={`/gallery/${prevSlug}`}
+            aria-label={`Previous: ${prevEntry?.title ?? prevSlug}`}
+            className="
+              hidden sm:flex items-center justify-center
+              absolute top-1/2 -translate-y-1/2
+              left-[-14px] md:left-[-24px]
+              h-9 w-9 rounded-full bg-brand-gold text-brand-ink shadow
+              ring-1 ring-brand-gold/60 hover:bg-brand-gold-deep
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-black
+              transition
+            "
+          >
+            <svg width='18' height='18' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
+              <path d='M15 6l-6 6 6 6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
+            </svg>
+          </Link>
+        )}
 
-      <div className="w-full flex justify-center">
-        <PhotoGridMatrix items={items} className="pt-12" />
-      </div>
+        {nextSlug && (
+          <Link
+            href={`/gallery/${nextSlug}`}
+            aria-label={`Next: ${nextEntry?.title ?? nextSlug}`}
+            className="
+              hidden sm:flex items-center justify-center
+              absolute top-1/2 -translate-y-1/2
+              right-[-14px] md:right-[-24px]
+              h-9 w-9 rounded-full bg-brand-gold text-brand-ink shadow
+              ring-1 ring-brand-gold/60 hover:bg-brand-gold-deep
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-black
+              transition
+            "
+          >
+            <svg width='18' height='18' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
+              <path d='M9 6l6 6-6 6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
+            </svg>
+          </Link>
+        )}
+      </>
+    )}
+  </div>
 
-<SmartBelt
-  items={related}
-  title="Projects that feature similar work"
-  height="md"
-  seed={3}
-  count={6}
-  grayscaleHover={false}
-  showCaptions={false}   // ⬅️ hides text under each image
-  speedSec={28}
-/>
-    </Section>
+  {/* Small “Prev / Next” pills for mobile */}
+  {loop && (
+    <div className="mt-3 w-full max-w-2xl flex justify-between sm:hidden">
+      {prevSlug ? (
+        <Link
+          href={`/gallery/${prevSlug}`}
+          className="inline-flex items-center gap-1 rounded-full bg-brand-gold hover:bg-brand-gold-deep px-3 py-1.5 text-xs font-semibold text-brand-ink transition"
+          aria-label={`Previous: ${prevEntry?.title ?? prevSlug}`}
+        >
+          <svg width='14' height='14' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
+            <path d='M15 6l-6 6 6 6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
+          </svg>
+          Prev
+        </Link>
+      ) : <span />}
+
+      {nextSlug ? (
+        <Link
+          href={`/gallery/${nextSlug}`}
+          className="inline-flex items-center gap-1 rounded-full bg-brand-gold hover:bg-brand-gold-deep px-3 py-1.5 text-xs font-semibold text-brand-ink transition"
+          aria-label={`Next: ${nextEntry?.title ?? nextSlug}`}
+        >
+          Next
+          <svg width='14' height='14' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
+            <path d='M9 6l6 6-6 6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
+          </svg>
+        </Link>
+      ) : null}
+    </div>
+  )}
+
+  {/* ...keep your grid + belt below... */}
+  <div className="w-full flex justify-center">
+    <PhotoGridMatrix items={items} className="pt-12" />
+  </div>
+
+  <SmartBelt
+    items={related}
+    title="Projects that feature similar work"
+    height="md"
+    seed={3}
+    count={6}
+    grayscaleHover={false}
+    showCaptions={false}
+    speedSec={28}
+  />
+</Section>
+
   );
 }
