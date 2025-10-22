@@ -54,11 +54,17 @@ export default function Header() {
         {/* Left: Logo + BDNY badge */}
         <div className="flex items-center gap-4 sm:gap-5">
           <Link href="/" className="flex items-center">
-            <img
-              src={`${bp}/images/TCC_Logo.svg`}
-              alt="TCC Global Decor"
-              className="h-16 w-auto object-contain object-left"
-            />
+ <img
+  src={`${bp}/images/TCC_Logo.svg`}
+  alt="TCC Global Decor"
+  className="
+    h-8 sm:h-10 md:h-12 lg:h-[60px]
+    w-auto
+    object-contain object-left
+    transition-transform duration-300
+    hover:scale-105
+  "
+/>
           </Link>
 
           <Link
