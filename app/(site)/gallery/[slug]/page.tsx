@@ -79,8 +79,11 @@ const related = PROJECTS.map(([idx, slug]) => ({
 }));
 
 
-export default async function GalleryPage({ params }: { params: { slug: string } }) {
-  const { slug } = params; // no need to await a Promise here
+export default async function GalleryPage({
+  params,
+}: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+
 
   const entry = GALLERY.find((g) => g.slug === slug);
   const prettyTitle = entry?.title ?? titleFromSlug(slug);
