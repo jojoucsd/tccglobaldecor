@@ -8,28 +8,39 @@ import { useEffect, useMemo, useState } from "react";
 export type SmartBeltItem = {
   src: string;
   alt: string;
-  href?: string;         // optional link
-  label?: string;        // optional caption below image
-  kind?: "logo" | "image"; // affects default styling (grayscale for logos)
+  href?: string;           // click-through
+  label?: string;          // optional caption
+  kind?: "logo" | "image"; // grayscale hover applies when not "image"
 };
 
 type Props = {
-  items: SmartBeltItem[];
+  // EITHER pass items manually...
+  items?: SmartBeltItem[];
+  // ...OR use auto mode:
+  source?: "projects" | "gallery"; // uses /public/images/<source>/project_list_img_#.avif
+  slugs?: string[];                // maps index -> /projects/[slug]
+  hrefBase?: string;               // default "/projects"
+  startIndex?: number;             // default 1 (your images start at 1)
+  // visuals/behavior
   className?: string;
-  height?: "sm" | "md" | "lg"; // visual height
-  speedSec?: number;           // marquee duration
+  height?: "sm" | "md" | "lg";
+  speedSec?: number;
   showCaptions?: boolean;
-  grayscaleHover?: boolean;    // only applies to kind !== "image"
-  seed?: number;               // deterministic shuffle
-  count?: number;              // random subset length
+  grayscaleHover?: boolean;
+  seed?: number;
+  count?: number;
   unoptimized?: boolean;
-  title?: string;              // optional kicker/title row
+  title?: string;
   edgeFade?: boolean;
   ariaLabel?: string;
 };
 
 export default function SmartBelt({
-  items,
+  items = [],
+  source,
+  slugs,
+  hrefBase = "/projects",
+  startIndex = 1,
   className = "",
   height = "md",
   speedSec = 30,
@@ -42,19 +53,45 @@ export default function SmartBelt({
   edgeFade = true,
   ariaLabel = "media belt",
 }: Props) {
-  // deterministic shuffle + subset (keeps your randomSubset spirit)
+  const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+  // Auto-generate items from /public/images/<source>/project_list_img_#.avif
+  const generated = useMemo(() => {
+    if (!source) return [];
+    const total = slugs?.length ?? 12; // default 12 if no slugs provided
+    const arr: SmartBeltItem[] = [];
+    for (let i = 0; i < total; i++) {
+      const idx = startIndex + i;
+      const slug = slugs?.[i];
+      const labelFromSlug =
+        slug?.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+      arr.push({
+        src: `${bp}/images/${source}/project_list_img_${idx}.avif`,
+        alt: labelFromSlug ?? `Project ${idx}`,
+        href: slug ? `${hrefBase}/${slug}` : undefined,
+        label: showCaptions ? (labelFromSlug ?? undefined) : undefined,
+        kind: "image",
+      });
+    }
+    return arr;
+  }, [source, slugs, hrefBase, startIndex, bp, showCaptions]);
+
+  // Pick manual items if provided; otherwise generated
+  const combined: SmartBeltItem[] = items.length ? items : generated;
+
+  // Deterministic shuffle + subset
   const sliced = useMemo(() => {
-    if (items.length === 0) return [];
+    if (combined.length === 0) return [];
     const rng = seeded(seed ?? 1);
-    const copy = items.slice();
+    const copy = combined.slice();
     for (let i = copy.length - 1; i > 0; i--) {
       const j = Math.floor(rng() * (i + 1));
       [copy[i], copy[j]] = [copy[j], copy[i]];
     }
     return count ? copy.slice(0, count) : copy;
-  }, [items, seed, count]);
+  }, [combined, seed, count]);
 
-  // reduced motion
+  // Reduced-motion support
   const [reduceMotion, setReduceMotion] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -67,13 +104,17 @@ export default function SmartBelt({
   const loop = [...sliced, ...sliced];
 
   const hClass =
-    height === "lg" ? "h-24 md:h-28" : height === "sm" ? "h-12 md:h-14" : "h-16 md:h-20";
+    height === "lg" ? "h-24 md:h-28"
+    : height === "sm" ? "h-12 md:h-14"
+    : "h-16 md:h-20";
 
   return (
     <div className={`py-6 ${className}`}>
-      {title ? (
-        <p className="mb-4 text-center text-xs uppercase tracking-widest text-gray-500">{title}</p>
-      ) : null}
+      {title && (
+        <p className="mb-4 text-center text-xs uppercase tracking-widest text-gray-500">
+          {title}
+        </p>
+      )}
 
       <div className="relative overflow-hidden" role="region" aria-label={ariaLabel}>
         {edgeFade && (
@@ -105,9 +146,7 @@ export default function SmartBelt({
                   it.kind !== "image" && grayscaleHover
                     ? "grayscale hover:grayscale-0 opacity-90 hover:opacity-100"
                     : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
+                ].filter(Boolean).join(" ")}
                 loading="lazy"
                 unoptimized={unoptimized}
               />
@@ -125,12 +164,8 @@ export default function SmartBelt({
         </div>
       </div>
 
-      {/* keyframes + pause */}
       <style jsx global>{`
-        @keyframes smart-belt {
-          0% { transform: translateX(0) }
-          100% { transform: translateX(-50%) }
-        }
+        @keyframes smart-belt { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
         .animate-smart-belt { animation: smart-belt linear infinite }
         .pause-animation { animation-play-state: paused !important }
       `}</style>
@@ -138,13 +173,10 @@ export default function SmartBelt({
   );
 }
 
-// simple deterministic RNG
 function seeded(s: number) {
   let x = s || 1;
   return () => {
-    x ^= x << 13;
-    x ^= x >> 17;
-    x ^= x << 5;
+    x ^= x << 13; x ^= x >> 17; x ^= x << 5;
     return ((x >>> 0) % 1_000_000) / 1_000_000;
   };
 }
