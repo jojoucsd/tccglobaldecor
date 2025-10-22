@@ -297,6 +297,22 @@ export default function CapabilitySection() {
       />
     ))}
   </ul>
+    {/* --- CTA button under specialization grid --- */}
+  <div className="mt-8 flex justify-end pr-4 md:pr-12">
+    <Link
+      href="/process"
+      className="
+        inline-flex items-center gap-2
+        rounded-full bg-brand-gold hover:bg-brand-gold-deep
+        px-5 py-2 text-sm font-semibold text-brand-ink shadow-sm
+        transition-colors
+      "
+    >
+      <span>Our Process</span>
+      <span aria-hidden="true">→</span>
+    </Link>
+  </div>
+
 </Section>
 
 
