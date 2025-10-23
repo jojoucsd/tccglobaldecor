@@ -11,8 +11,8 @@ type AlternatingCardProps = {
   subtitle?: string;
   className?: string;
   compact?: boolean;
-  /** NEW: render only image when false (externalize text) */
-  showText?: boolean; // <-- added
+  /** render only image when false (externalize text) */
+  showText?: boolean;
 };
 
 export default function AlternatingCard({
@@ -24,7 +24,7 @@ export default function AlternatingCard({
   subtitle,
   className = "",
   compact = false,
-  showText = true, // <-- default keeps old behavior
+  showText = true,
 }: AlternatingCardProps) {
   const isTextTop = flip ? true : variant === "textTop";
 
@@ -40,7 +40,6 @@ export default function AlternatingCard({
     ? "px-1.5 pt-2 pb-1"
     : `px-2 pt-3 ${isTextTop ? "pb-2" : ""}`;
 
-  // compact only affects mobile; desktop keeps your original look
   const imageAspect = compact ? "aspect-square sm:aspect-[4/5]" : "aspect-[4/5]";
   const imageRound  = compact ? "rounded-xl sm:rounded-2xl" : "rounded-2xl";
 
@@ -67,7 +66,7 @@ export default function AlternatingCard({
   );
 
   return (
-    <li className={`group list-none ${className}`}>
+    <article className={`group ${className}`}>
       <Link href={href} className="block focus:outline-none">
         {isTextTop ? (
           <>
@@ -81,6 +80,6 @@ export default function AlternatingCard({
           </>
         )}
       </Link>
-    </li>
+    </article>
   );
 }
