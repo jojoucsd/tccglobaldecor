@@ -43,10 +43,22 @@ export default function AlternatingCard({
   const imageAspect = compact ? "aspect-square sm:aspect-[4/5]" : "aspect-[4/5]";
   const imageRound  = compact ? "rounded-xl sm:rounded-2xl" : "rounded-2xl";
 
+  // NEW: clamp + reserve consistent text height so card/image never grow
+  const titleClamp = "line-clamp-2";
+  const titleMinH = compact ? "min-h-[2.2rem]" : "min-h-[2.6rem]"; // ~2 lines
+  const subtitleClamp = "line-clamp-2";
+  const subtitleMinH = subtitle ? (compact ? "min-h-[1.1rem]" : "min-h-[1.25rem]") : "min-h-0";
+  // text block reserves a small stable space (title + possible subtitle)
+  const textBlockMinH = subtitle
+    ? (compact ? "min-h-[3.4rem]" : "min-h-[3.9rem]")
+    : (compact ? "min-h-[2.2rem]" : "min-h-[2.6rem]");
+
   const TitleBlock = showText ? (
-    <div className={titlePadding}>
-      <h3 className={titleClass}>{title}</h3>
-      {subtitle ? <p className={subtitleClass}>{subtitle}</p> : null}
+    <div className={`${titlePadding} ${textBlockMinH}`}>
+      <h3 className={`${titleClass} ${titleClamp} ${titleMinH}`}>{title}</h3>
+      {subtitle ? (
+        <p className={`${subtitleClass} ${subtitleClamp} ${subtitleMinH}`}>{subtitle}</p>
+      ) : null}
     </div>
   ) : null;
 

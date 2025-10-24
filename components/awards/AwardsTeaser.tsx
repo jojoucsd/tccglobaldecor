@@ -24,7 +24,7 @@ const AWARDS = [
     imageSrc: `${bp}/images/awards/mbs.avif`, // ✅ 2nd image
   },
   {
-    title: "International Design Excellence (Placeholder)",
+    title: "International Design Long Name (Placeholder)",
     href: "/gallery/industry-excellence-placeholder",
     imageSrc: `${bp}/images/awards/mgm.avif`, // ✅ keep placeholder
   },
@@ -67,46 +67,55 @@ export default function AwardsTeasersRow() {
         </p>
       </div>
 
-      <ul
-        className="
-          mt-6 flex items-start justify-center
-          gap-6 sm:gap-10 md:gap-[50px]
-          [&>li]:w-[210px] sm:[&>li]:w-[230px] md:[&>li]:w-[250px]
-        "
-      >
-        {/* Left card (Sands) */}
-        <AlternatingCard
-          {...A1}
-          variant="imageTop"
-          className="relative top-3 [&_h3]:text-center"
-        />
+ <ul
+  className="
+    mt-6 flex items-start justify-center
+    gap-6 sm:gap-10 md:gap-[50px]
+    [&_h3]:text-center [&_h3]:line-clamp-2
+  "
+>
+  {/* Left card (Sands) */}
+  <li className="w-[210px] sm:w-[230px] md:w-[250px] relative top-3">
+    <AlternatingCard
+      {...A1}
+      variant="imageTop"
+      className="w-full"   // ensure the card fills the fixed li width
+    />
+  </li>
 
-        {/* Middle: press/video card (MBS) */}
-        <li className="relative -top-3 md:-top-4 [&_h3]:text-center">
-          <button
-            onClick={handlePlay}
-            className="group block w-full text-left"
-            aria-label="Play MBS film"
-          >
-            <div className="relative">
-              <AlternatingCard {...A2} variant="imageTop" href={undefined} />
-              {/* Play badge overlay */}
-              <span className="absolute inset-0 pointer-events-none flex items-center justify-center">
-                <span className="inline-flex items-center gap-2 rounded-full bg-black/55 group-hover:bg-black/70 px-3 py-1.5 text-xs font-semibold text-white transition">
-                  ▶ Play
-                </span>
-              </span>
-            </div>
-          </button>
-        </li>
-
-        {/* Right card (placeholder for now) */}
+  {/* Middle: press/video card (MBS) */}
+  <li className="w-[210px] sm:w-[230px] md:w-[250px] relative -top-3 md:-top-4">
+    <button
+      onClick={handlePlay}
+      className="group block w-full text-left"
+      aria-label="Play MBS film"
+    >
+      <div className="relative">
         <AlternatingCard
-          {...A3}
+          {...A2}
           variant="imageTop"
-          className="relative top-5 [&_h3]:text-center"
+          href={undefined}
+          className="w-full"
         />
-      </ul>
+        {/* Play badge overlay */}
+        <span className="absolute inset-0 pointer-events-none flex items-center justify-center">
+          <span className="inline-flex items-center gap-2 rounded-full bg-black/55 group-hover:bg-black/70 px-3 py-1.5 text-xs font-semibold text-white transition">
+            ▶ Play
+          </span>
+        </span>
+      </div>
+    </button>
+  </li>
+
+  {/* Right card (placeholder) */}
+  <li className="w-[210px] sm:w-[230px] md:w-[250px] relative top-5">
+    <AlternatingCard
+      {...A3}
+      variant="imageTop"
+      className="w-full"
+    />
+  </li>
+</ul>
     </Section>
   );
 }
