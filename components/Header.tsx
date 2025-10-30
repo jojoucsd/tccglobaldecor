@@ -17,10 +17,9 @@ const NAV: NavItem[] = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const activeId = useScrollSpy(
-    NAV.map((n) => n.sectionId).filter(Boolean) as string[],
-    120
-  );
+
+  const watchIds = NAV.map((n) => n.sectionId).filter(Boolean) as string[];
+  const activeId = useScrollSpy(watchIds, 120);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -35,7 +34,7 @@ export default function Header() {
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId?: string
   ) => {
-    if (!sectionId) return;
+    if (!sectionId) return; // normal link navigation
     e.preventDefault();
     const target = `${bp}/#${sectionId}`;
     window.location.assign(target);
@@ -48,14 +47,14 @@ export default function Header() {
         scrolled
           ? "bg-white/90 backdrop-blur border-brand-gold/30 shadow-sm"
           : "bg-white border-transparent"
-      }`}
+      } text-brand-ink`}
     >
       {/* iPhone safe area */}
       <div className="pt-[env(safe-area-inset-top)]" />
 
       <div className="flex h-16 sm:h-20 items-center justify-between px-3 sm:px-4 lg:px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center" prefetch={false}>
           <img
             src={`${bp}/images/TCC_Logo.svg`}
             alt="TCC Global Decor"
@@ -67,28 +66,34 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-7 text-[1.05rem] font-semibold tracking-wide">
           {/* BDNY first */}
           <TradeShowBadge />
-          {NAV.map((n) => (
-            <Link
-              key={n.label}
-              href={n.href}
-              prefetch={false}
-              onClick={(e) => handleSectionClick(e, n.sectionId)}
-              className={`transition-colors ${
-                n.sectionId && activeId === n.sectionId
-                  ? "text-brand-gold border-b-2 border-brand-gold"
-                  : "text-brand-ink hover:text-brand-gold"
-              }`}
-            >
-              <span className="inline-block pb-0.5">{n.label}</span>
-            </Link>
-          ))}
+          {NAV.map((n) => {
+            const isActive = n.sectionId && activeId === n.sectionId;
+            return (
+              <Link
+                key={n.label}
+                href={n.href}
+                prefetch={false}
+                onClick={(e) => handleSectionClick(e, n.sectionId)}
+                aria-current={isActive ? "page" : undefined}
+                className={`transition-colors border-b-2 border-transparent ${
+                  isActive
+                    ? "text-brand-gold border-brand-gold"
+                    : "text-brand-ink hover:text-brand-gold"
+                }`}
+              >
+                <span className="inline-block pb-0.5">{n.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-black/10"
-          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-brand-ink/10 text-brand-ink"
+          onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
         >
           <svg
             viewBox="0 0 24 24"
@@ -110,35 +115,38 @@ export default function Header() {
       </div>
 
       {/* 📣 Mobile announcement bar */}
-      <div className="md:hidden border-t border-brand-gold/30 bg-amber-50">
+      <div className="md:hidden border-t border-brand-gold/30 bg-brand-gold/10">
         <div className="flex items-center justify-center py-2">
           <TradeShowBadge small />
         </div>
       </div>
 
       {/* 📱 Mobile drawer */}
-{menuOpen && (
-  <div className="md:hidden absolute top-full inset-x-0 bg-white shadow-md border-t border-neutral-100">
-    <nav className="flex flex-col items-start px-4 py-4 gap-4 text-base font-semibold">
-      {/* 🚫 Removed BDNY badge here to avoid duplication on mobile */}
-      {NAV.map((n) => (
-        <Link
-          key={n.label}
-          href={n.href}
-          prefetch={false}
-          onClick={(e) => handleSectionClick(e, n.sectionId)}
-          className={`w-full ${
-            n.sectionId && activeId === n.sectionId
-              ? "text-brand-gold"
-              : "text-brand-ink"
-          }`}
+      {menuOpen && (
+        <div
+          id="mobile-nav"
+          className="md:hidden absolute top-full inset-x-0 bg-white shadow-md border-t border-brand-ink/10"
         >
-          {n.label}
-        </Link>
-      ))}
-    </nav>
-  </div>
-)}
+          <nav className="flex flex-col items-start px-4 py-4 gap-4 text-base font-semibold">
+            {NAV.map((n) => {
+              const isActive = n.sectionId && activeId === n.sectionId;
+              return (
+                <Link
+                  key={n.label}
+                  href={n.href}
+                  prefetch={false}
+                  onClick={(e) => handleSectionClick(e, n.sectionId)}
+                  className={`w-full ${
+                    isActive ? "text-brand-gold" : "text-brand-ink"
+                  }`}
+                >
+                  {n.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

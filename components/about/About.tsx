@@ -6,11 +6,19 @@ import Section from "@/components/Section";
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const HERO = {
-  title: "Walk the Canvas — Art in Every Step",
+  title: (
+    <a
+      href="https://www.marinabaysands.com/stories/room-craft-tcc-carpets.html"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:underline hover:text-brand-gold transition-colors"
+    >
+      ART THAT YOU CAN WALK ON
+    </a>
+  ),
   image: `${bp}/images/about/artineveryfootstep.avif`,
   alt: "Hospitality lounge featuring custom carpet by TCC",
 };
-
 const COPY = {
   intro:
     "Experts in carpet production, committed to quality, efficiency, and flexible design—delivering to international standards.",

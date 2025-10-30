@@ -95,12 +95,12 @@ function CaseStudyLayout({
   details2?: string;
   images: { src: string; alt?: string }[];
 }) {
-  const hero   = images[0];
-  const img50  = images[1] ?? images.at(-1)!;
-  const smallA = images[2] ?? images.at(-1)!;
-  const img60L = images[3] ?? images.at(-1)!;
-  const smallB = images[4] ?? images.at(-1)!;
-  const img60R = images[5] ?? images.at(-1)!;
+  const hero   = images[1];
+  const img50  = images[2] ?? images.at(-1)!;
+  const smallA = images[3] ?? images.at(-1)!;
+  const img60L = images[4] ?? images.at(-1)!;
+  const smallB = images[5] ?? images.at(-1)!;
+  const img60R = images[6] ?? images.at(-1)!;
 
   return (
     <main className="min-h-screen bg-white text-brand-ink">

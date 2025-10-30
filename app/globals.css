@@ -16,8 +16,8 @@
 
 /* Tailwind v4 theme tokens → becomes text-brand-gold, bg-brand-gold, etc. */
 @theme {
-  --color-brand-gold: #D6A354;
-  --color-brand-gold-deep: #B88630;
+  --color-brand-gold: #EE9629;
+  --color-brand-gold-deep: #EE9C24;
   --color-brand-ink: #161616;
 }
 
