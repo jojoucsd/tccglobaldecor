@@ -63,3 +63,29 @@ html {
 .animate-clients-marquee-reverse {
   animation: clients-marquee-reverse 30s linear infinite;
 }
+
+/* Default = dark-on-image */
+.hero {
+  --hero-fg: #ffffff;
+  --hero-fg-muted: rgba(255,255,255,0.9);
+  --hero-chip-bg: rgba(255,255,255,0.10);
+  --hero-chip-border: rgba(255,255,255,0.70);
+  --hero-chip-hover: rgba(255,255,255,0.20);
+}
+
+/* Light scheme = dark-on-white (used by reveal slide) */
+.hero[data-scheme="light"] {
+  --hero-fg: #161616;               /* your brand ink */
+  --hero-fg-muted: rgba(22,22,22,0.90);
+  --hero-chip-bg: rgba(255,255,255,0.80);
+  --hero-chip-border: rgba(22,22,22,0.40);
+  --hero-chip-hover: rgba(255,255,255,1.00);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slideDown {
+  animation: slideDown 0.25s ease-out forwards;
+}

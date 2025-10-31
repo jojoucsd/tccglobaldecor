@@ -10,42 +10,42 @@ const ITEMS = [
   {
     title: "Hand Tufted",
     subtitle:
-      "Fully customizable in design, color, and texture. Each piece expresses individuality.",
+      "Where color, texture, and form converge — every rug a signature work of art.",
     imageSrc: `${bp}/images/capability/hand-tufted.avif`,
     href: "/gallery/hand-tufted",
   },
   {
     title: "Axminster",
     subtitle:
-      "Woven in 7-pitch with up to 16 colors precision, durability, and design integrity.",
+      "Expertly woven in 7-pitch precision with up to 16 colors — a seamless balance of strength and artistry.",
     imageSrc: `${bp}/images/capability/axminster.avif`,
     href: "/gallery/axminster",
   },
   {
     title: "Hand-Ax",
     subtitle:
-      "Artisanal warmth meets Axminster structure the harmony of handcraft and technology.",
+      "Where artisanal warmth meets Axminster precision — the perfect harmony of handcraft and technology.",
     imageSrc: `${bp}/images/capability/hand-ax.avif`,
     href: "/gallery/hand-ax",
   },
     {
     title: "Ax-Tiles",
     subtitle:
-      "Modular precision with Axminster face construction refined look, practical format.",
+      "Modular precision meets Axminster craftsmanship — refined aesthetics in a practical format.",
     imageSrc: `${bp}/images/capability/ax-tile.avif`,
     href: "/gallery/ax-tiles",
   },
   {
     title: "Printed Carpet",
     subtitle:
-      "High-resolution digital print for creative freedom and seamless color gradients.",
+      "Precision dye-printing offers limitless creative freedom — vibrant color and seamless gradient expression.",
     imageSrc: `${bp}/images/capability/printed-carpet.avif`,
     href: "/gallery/printed-carpet",
   },
   {
     title: "Machine Tufted",
     subtitle:
-      "Bespoke shapes, sculpting, and edges design pieces tailored to each interior.",
+      "Bespoke shapes, sculpted textures, and tailored edges — design pieces crafted for each interior.",
     imageSrc: `${bp}/images/capability/machine-tufted.avif`,
     href: "/gallery/machine-tufted",
   },

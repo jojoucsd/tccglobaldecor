@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import TradeShowBadge from "@/components/TradeShowBadge";
 
@@ -17,16 +17,38 @@ const NAV: NavItem[] = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
+  const lastScrollY = useRef(0);
   const watchIds = NAV.map((n) => n.sectionId).filter(Boolean) as string[];
   const activeId = useScrollSpy(watchIds, 120);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => {
+      const y = window.scrollY;
+      const goingDown = y > lastScrollY.current;
+      const nearTop = y < 30;
+
+      // Smooth hide / show logic
+      if (nearTop) setHidden(false);
+      else if (goingDown && y > 150) setHidden(true);
+      else if (!goingDown) setHidden(false);
+
+      // Background blur toggle
+      setScrolled(y > 8);
+
+      lastScrollY.current = y;
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // 👇 optional: always show when near “About” section
+  useEffect(() => {
+    if (activeId === "about") setHidden(false);
+  }, [activeId]);
 
   const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
@@ -34,7 +56,7 @@ export default function Header() {
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId?: string
   ) => {
-    if (!sectionId) return; // normal link navigation
+    if (!sectionId) return;
     e.preventDefault();
     const target = `${bp}/#${sectionId}`;
     window.location.assign(target);
@@ -43,11 +65,14 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b transition-colors duration-300 ${
+      className={[
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
+        hidden ? "-translate-y-full" : "translate-y-0",
         scrolled
-          ? "bg-white/90 backdrop-blur border-brand-gold/30 shadow-sm"
-          : "bg-white border-transparent"
-      } text-brand-ink`}
+          ? "bg-white/90 backdrop-blur border-b border-brand-gold/30 shadow-sm"
+          : "bg-white border-transparent",
+        "text-brand-ink",
+      ].join(" ")}
     >
       {/* iPhone safe area */}
       <div className="pt-[env(safe-area-inset-top)]" />
@@ -64,7 +89,6 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-7 text-[1.05rem] font-semibold tracking-wide">
-          {/* BDNY first */}
           <TradeShowBadge />
           {NAV.map((n) => {
             const isActive = n.sectionId && activeId === n.sectionId;
@@ -114,18 +138,18 @@ export default function Header() {
         </button>
       </div>
 
-      {/* 📣 Mobile announcement bar */}
+      {/* Mobile announcement bar */}
       <div className="md:hidden border-t border-brand-gold/30 bg-brand-gold/10">
         <div className="flex items-center justify-center py-2">
           <TradeShowBadge small />
         </div>
       </div>
 
-      {/* 📱 Mobile drawer */}
+      {/* Mobile drawer */}
       {menuOpen && (
         <div
           id="mobile-nav"
-          className="md:hidden absolute top-full inset-x-0 bg-white shadow-md border-t border-brand-ink/10"
+          className="md:hidden absolute top-full inset-x-0 bg-white shadow-md border-t border-brand-ink/10 animate-slideDown"
         >
           <nav className="flex flex-col items-start px-4 py-4 gap-4 text-base font-semibold">
             {NAV.map((n) => {

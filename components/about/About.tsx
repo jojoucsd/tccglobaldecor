@@ -53,16 +53,17 @@ export default function About() {
       {/* Image first on mobile, copy after */}
       <div className="mt-6 md:mt-10 grid grid-cols-1 md:grid-cols-[45%_55%] gap-8 md:gap-10 items-start text-brand-ink">
         {/* Image */}
-        <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl md:rounded-2xl bg-neutral-100 ring-1 ring-neutral-200">
-          <Image
-            src={HERO.image}
-            alt={HERO.alt}
-            fill
-            className="object-cover"
-            unoptimized
-            priority
-          />
-        </div>
+  {/* Image (stretches on md+) */}
+  <div className="relative w-full aspect-[4/3] md:aspect-auto md:h-full overflow-hidden rounded-xl md:rounded-2xl bg-neutral-100 ring-1 ring-neutral-200">
+    <Image
+      src={HERO.image}
+      alt={HERO.alt}
+      fill
+      className="object-cover object-center"
+      priority
+      unoptimized
+    />
+  </div>
 
         {/* Copy */}
         <div>

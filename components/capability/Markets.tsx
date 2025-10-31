@@ -1,11 +1,43 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Section from "@/components/Section";
+import WorldMapStaticLabeled from "@/components/WorldMapStatic";
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
+/* ----------------------------- WorldMapStatic ----------------------------- */
+type Pin = { name: string; left: number; top: number };
+
+const PINS: Pin[] = [
+  { name: "Hong Kong", left: 81.2, top: 36.7 },
+  { name: "Macau", left: 81.54, top: 37.67 },
+  { name: "Dubai (UAE)", left: 65.35, top: 36.0 },
+  { name: "Japan", left: 87.5, top: 31.0 },
+  { name: "Jeju Island", left: 84.3, top: 34.8 },
+  { name: "Malta", left: 54.03, top: 30.06 },
+  { name: "London", left: 49.96, top: 21.38 },
+  { name: "Italy", left: 52.8, top: 28.6 },
+  { name: "Las Vegas", left: 21.9, top: 34.5 },
+  { name: "New York", left: 26.8, top: 29.7 },
+  { name: "Miami", left: 27.72, top: 35.69 },
+];
+
+const CONNECTIONS: [string, string][] = [
+  ["Hong Kong", "Macau"],
+  ["Hong Kong", "Dubai (UAE)"],
+  ["Hong Kong", "Japan"],
+  ["Hong Kong", "Jeju Island"],
+  ["Hong Kong", "Malta"],
+  ["Malta", "London"],
+  ["London", "Italy"],
+  ["Las Vegas", "New York"],
+  ["Las Vegas", "Miami"],
+];
+
+/* --------------------------------- Markets -------------------------------- */
 type MarketKey =
   | "hotel"
   | "casino"
@@ -20,36 +52,30 @@ const MARKET_CFG: Record<
 > = {
   hotel: {
     title: "Hotels & Resorts",
-    desc: "Guestrooms, corridors, and lobbies.",
     img: `${bp}/images/capability/hotel.avif`,
     ctaLabel: "View Hotel Case Study",
     ctaHref: "/projects/the-londoner-hotel",
   },
   casino: {
     title: "Casinos & Gaming",
-    desc: "Vibrant, durable gaming floors.",
     img: `${bp}/images/capability/casino.avif`,
     ctaLabel: "View Casino Case Study",
     ctaHref: "/projects/park-hyatt-niseko",
   },
   cruise: {
     title: "Cruise",
-    desc: "Marine-grade beauty & performance.",
     img: `${bp}/images/capability/cruise.avif`,
   },
   aviation: {
     title: "Aviation",
-    desc: "Lightweight, refined for private jets.",
     img: `${bp}/images/capability/aviation.avif`,
   },
   yacht: {
     title: "Yacht",
-    desc: "Bespoke hand-tufted luxury at sea.",
     img: `${bp}/images/capability/yacht.avif`,
   },
   retail: {
     title: "Retail",
-    desc: "Floors that elevate brand identity.",
     img: `${bp}/images/capability/retail.avif`,
   },
 };
@@ -87,30 +113,35 @@ export default function Markets() {
   return (
     <Section className="bg-white !px-0" pad="sm" padTop={false}>
       <div className="grid grid-cols-1 md:grid-cols-2">
-        {/* LEFT: copy */}
-        <div className="h-auto md:min-h-[52vh] px-4 sm:px-6 md:px-12 py-6 md:py-12 flex flex-col">
-          <header>
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight flex items-center gap-3">
-              <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
-              Our Capabilities & Services
-            </h3>
-          </header>
+{/* LEFT column */}
+<div className="h-auto md:min-h-[52vh] px-4 sm:px-6 md:px-12 py-6 md:py-12 flex flex-col md:justify-between">
+  <header>
+    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight flex items-center gap-3">
+      <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
+      Our Capabilities & Services
+    </h3>
+  </header>
 
-          <div className="hidden md:block flex-1" />
+  {/* Map fills the middle gap on md+, stacks normally on mobile */}
+  <div className="mt-6 md:mt-8 md:flex-1 md:basis-0 md:flex md:items-center">
+    <div className="w-full md:max-w-[560px] mx-auto">
+      <WorldMapStaticLabeled
+        // tweak these until pins align perfectly with your SVG
+        contentInsets={{ left: 2.5, right: 2.5, top: 3.5, bottom: 3.5 }}
+      />
+    </div>
+  </div>
 
-          <div className="space-y-3 md:space-y-4 mt-3 md:mt-0">
-            <p className="text-[15px] sm:text-base leading-relaxed text-neutral-700">
-              From concept and design collaboration to manufacturing and
-              installation, we help hospitality brands bring distinctive
-              flooring visions to life.
-            </p>
-            <p className="text-[15px] sm:text-base leading-relaxed text-neutral-700">
-              Vertically integrated production across Macau and Mainland China
-              combines artisanal skill with Axminster and hand-tufting
-              technology—paired with close client communication.
-            </p>
-          </div>
-        </div>
+  {/* Bottom copy pinned to bottom on md+, natural on mobile */}
+  <div className="space-y-3 md:space-y-4 mt-6">
+    <p className="text-[15px] sm:text-base leading-relaxed text-neutral-700">
+      From design collaboration to final installation, we craft bespoke flooring with precision and artistry.
+    </p>
+    <p className="text-[15px] sm:text-base leading-relaxed text-neutral-700">
+      Rooted in Hong Kong and the U.S., supported by production expertise in China, TCC blends craftsmanship and innovation for the world’s most distinguished interiors.
+    </p>
+  </div>
+</div>
 
         {/* RIGHT: market pills + panel */}
         <div className="px-4 sm:px-6 md:px-12 py-6 md:py-12">
@@ -150,9 +181,7 @@ export default function Markets() {
             </div>
 
             <div className="mt-3 sm:mt-4 text-center sm:text-left">
-              <h5 className="text-base sm:text-lg font-semibold">
-                {cfg.title}
-              </h5>
+              <h5 className="text-base sm:text-lg font-semibold">{cfg.title}</h5>
               {cfg.desc && (
                 <p className="mt-1 text-sm text-neutral-700">{cfg.desc}</p>
               )}

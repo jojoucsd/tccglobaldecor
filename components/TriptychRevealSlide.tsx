@@ -3,8 +3,10 @@
 import Image from "next/image";
 
 // 🔧 Tuning knobs
-const REVEAL_DURATION_MS = 2600;   // smoother fade per image
-const REVEAL_STAGGER_MS  = 1800;   // longer delay between each reveal
+const REVEAL_DURATION_MS = 2600; // fade time per image
+const REVEAL_STAGGER_MS  = 1800; // delay between each reveal
+const DESKTOP_SCALE      = 1.02; // tiny scale compensation to avoid gaps
+const MOBILE_SCALE       = 1.01; // gentler scale on mobile
 
 export default function TriptychRevealSlide({
   images, // [install, plan, final]
@@ -16,9 +18,11 @@ export default function TriptychRevealSlide({
   prefersReducedMotion?: boolean;
 }) {
   const duration = `[${REVEAL_DURATION_MS}ms]`;
+
   return (
-    <div className="absolute inset-0">
-      {/* Mobile: slow layered crossfade */}
+    // ✅ White backdrop for clean contrast
+    <div className="absolute inset-0 bg-white transition-colors duration-500">
+      {/* Mobile: slow layered crossfade (single full-bleed at a time) */}
       <div className="md:hidden absolute inset-0">
         {images.map((img, i) => (
           <div
@@ -39,17 +43,18 @@ export default function TriptychRevealSlide({
               alt={img.alt}
               fill
               sizes="100vw"
-              className={`object-cover ${img.focus ?? "object-center"}`}
+              className={`object-cover ${img.focus ?? "object-center"} transform-gpu`}
+              // Tiny scale to eliminate micro-gaps on some devices
+              style={{ transform: `scale(${MOBILE_SCALE})` }}
               unoptimized
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/50" />
           </div>
         ))}
       </div>
 
-      {/* Desktop: full-height, slower reveal */}
+      {/* Desktop: three-up reveal, fill hero height, hairline white seams */}
       <div className="hidden md:flex absolute inset-0 px-4 sm:px-8 md:px-14">
-        <div className="grid grid-cols-3 gap-3 md:gap-4 w-full h-full items-stretch">
+        <div className="grid grid-cols-3 gap-[2px] md:gap-[3px] w-full h-full items-stretch bg-white">
           {images.map((img, i) => (
             <div
               key={`d-${i}`}
@@ -70,17 +75,18 @@ export default function TriptychRevealSlide({
                 alt={img.alt}
                 fill
                 sizes="(min-width:1024px) 33vw, 100vw"
-                className={`object-cover ${img.focus ?? "object-center"}`}
+                className={`object-cover ${img.focus ?? "object-center"} transform-gpu will-change-transform`}
+                // ✅ Tiny scale compensation so edges tuck under the seams
+                style={{ transform: `scale(${DESKTOP_SCALE})` }}
                 unoptimized
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/60" />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Vignette overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+      {/* Subtle light vignette (kept very soft for white bg) */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent" />
     </div>
   );
 }
