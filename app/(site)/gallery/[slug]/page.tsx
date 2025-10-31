@@ -10,11 +10,11 @@ import path from "node:path";
 
 const SPECIALIZATION_SLUGS = [
   "hand-tufted",
-  "axminster-tiles",
-  "axminster-broadloom",
+  "axminster",
+  "ax-tiles",
   "hand-ax",
-  "printed",
-  "custom-rugs",
+  "printed-carpet",
+  "machine-tufted",
 ] as const;
 
 // Awards: 3-item loop

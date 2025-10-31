@@ -14,12 +14,12 @@ const PH = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' view
 
 const AWARDS = [
   {
-    title: "Sands Supplier Excellence Award",
+    title: "Sands Supplier Excellence Service Award",
     href: "/gallery/sands-supplier-excellence-award",
     imageSrc: `${bp}/images/awards/china_sands.avif`, // ✅ 1st image
   },
   {
-    title: "Marina Bay Singapore Award",
+    title: "Marina Bay Singapore Regional Award",
     href: "/gallery/marina-bay-singapore-award",
     imageSrc: `${bp}/images/awards/mbs.avif`, // ✅ 2nd image
   },
@@ -40,7 +40,7 @@ export default function AwardsTeasersRow() {
   const A2 = useMemo(
     () => ({
       ...A2orig,
-      title: "Featured by Marina Bay Sands",
+      title: "Marina Bay Sands Recognition",
       imageSrc: `${bp}/images/awards/mbs.avif`,
     }),
     [A2orig]

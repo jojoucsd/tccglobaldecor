@@ -18,8 +18,8 @@ const ITEMS = [
     title: "Axminster",
     subtitle:
       "Woven in 7-pitch with up to 16 colors precision, durability, and design integrity.",
-    imageSrc: `${bp}/images/capability/ax-roll.avif`,
-    href: "/gallery/axminster-broadloom",
+    imageSrc: `${bp}/images/capability/axminster.avif`,
+    href: "/gallery/axminster",
   },
   {
     title: "Hand-Ax",
@@ -33,21 +33,21 @@ const ITEMS = [
     subtitle:
       "Modular precision with Axminster face construction refined look, practical format.",
     imageSrc: `${bp}/images/capability/ax-tile.avif`,
-    href: "/gallery/axminster-tiles",
+    href: "/gallery/ax-tiles",
   },
   {
     title: "Printed Carpet",
     subtitle:
       "High-resolution digital print for creative freedom and seamless color gradients.",
-    imageSrc: `${bp}/images/capability/digital-print-tech.avif`,
-    href: "/gallery/printed",
+    imageSrc: `${bp}/images/capability/printed-carpet.avif`,
+    href: "/gallery/printed-carpet",
   },
   {
     title: "Machine Tufted",
     subtitle:
       "Bespoke shapes, sculpting, and edges design pieces tailored to each interior.",
-    imageSrc: `${bp}/images/capability/silk.avif`,
-    href: "/gallery/custom-rugs",
+    imageSrc: `${bp}/images/capability/machine-tufted.avif`,
+    href: "/gallery/machine-tufted",
   },
 ];
 

@@ -9,11 +9,11 @@ export type GalleryEntry = {
 export const GALLERY: GalleryEntry[] = [
   // --- Core Specialization categories ---
   { slug: "hand-tufted", title: "Hand Tufted" },
-  { slug: "axminster-tiles", title: "Axminster Tiles" },
-  { slug: "axminster-broadloom", title: "Axminster Carpets (Broadloom)" },
+  { slug: "ax-tiles", title: "Axminster Tiles" },
+  { slug: "axminster", title: "Axminster" },
   { slug: "hand-ax", title: "Hand-Ax" },
-  { slug: "printed", title: "Printed Carpets" },
-  { slug: "custom-rugs", title: "Custom Rugs" },
+  { slug: "printed-carpet", title: "Printed Carpets" },
+  { slug: "machine-tufted", title: "Machine Tufted" },
 
   // --- Awards & Recognition (used by AwardsTeasersRow) ---
   {
