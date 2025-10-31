@@ -5,9 +5,7 @@ import Link from "next/link";
 import { useState, useEffect, useMemo, useRef } from "react";
 import TriptychRevealSlide from "@/components/TriptychRevealSlide";
 
-// --- Base path helper ---
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const srcBP = (p: string) => (bp ? `${bp}${p.startsWith("/") ? p : `/${p}`}` : p);
 
 // --- Copy ---
 const HERO_TITLE = "CRAFTING BESPOKE CARPETS FOR WORLD-CLASS INTERIORS";
@@ -24,15 +22,15 @@ type Slide = PhotoSlide | RevealSlide;
 
 // --- Slides (prefixed with bp) ---
 const slides: Slide[] = [
-  { type: "photo", src: srcBP("/images/hero/hero-01.avif"), alt: "Custom Hand-Ax carpet detail" },
-  { type: "photo", src: srcBP("/images/hero/hero-02.avif"), alt: "Casino floor Axminster carpet" },
-  { type: "photo", src: srcBP("/images/hero/hero-03.avif"), alt: "Hotel suite rug design" },
+  { type: "photo", src: `${bp}/images/hero/hero-01.avif`, alt: "Custom Hand-Ax carpet detail" },
+  { type: "photo", src: `${bp}/images/hero/hero-02.avif`, alt: "Casino floor Axminster carpet" },
+  { type: "photo", src: `${bp}/images/hero/hero-03.avif`, alt: "Hotel suite rug design" },
   {
     type: "reveal",
     images: [
-      { src: srcBP("/images/hero/hero-04-install.avif"), alt: "Installation in progress", focus: "object-[center_80%]" },
-      { src: srcBP("/images/hero/hero-04-plan.avif"),    alt: "Concept drawing / plan" },
-      { src: srcBP("/images/hero/hero-04-final.avif"),   alt: "Finished bespoke interior", focus: "object-[center_65%]" },
+      { src: `${bp}/images/hero/hero-04-install.avif`, alt: "Installation in progress", focus: "object-[center_80%]" },
+      { src: `${bp}/images/hero/hero-04-plan.avif`,    alt: "Concept drawing / plan" },
+      { src: `${bp}/images/hero/hero-04-final.avif`,   alt: "Finished bespoke interior", focus: "object-[center_65%]" },
     ],
   },
 ];

@@ -17,13 +17,15 @@ type Pin = {
 const PINS: Pin[] = [
   { name: "Macau",       left: 81.54, top: 37.67, code: "MFM", dy: 1.2 },
   { name: "Dubai (UAE)", left: 65.35, top: 36.0,  code: "DXB" },
-  { name: "Japan",       left: 87.5,  top: 31.0,  code: "HND" },
-  { name: "Jeju Island", left: 84.3,  top: 34.8,  code: "CJU" },
+  { name: "Japan",       left: 87.5,  top: 31.0,  code: "JAP" },
+  { name: "Jeju Island", left: 84.3,  top: 34.8,  code: "KOR" },
   { name: "Malta",       left: 54.03, top: 30.06, code: "MLA" },
   { name: "London",      left: 49.96, top: 21.38, code: "LHR" },
   { name: "Las Vegas",   left: 21.9,  top: 34.5,  code: "LAS" },
-  { name: "New York",    left: 26.8,  top: 29.7,  code: "JFK" },
+  { name: "New York",    left: 26.8,  top: 29.7,  code: "NYC" },
   { name: "Miami",       left: 27.72, top: 35.69, code: "MIA" },
+  { name: "Singapore",   left: 79.0,  top: 57.0,  code: "SIN" },
+  { name: "Philippines", left: 83.3,  top: 55.5,  code: "MNL" },
 ];
 
 export default function WorldMapStatic({
