@@ -125,10 +125,7 @@ export default function Markets() {
   {/* Map fills the middle gap on md+, stacks normally on mobile */}
   <div className="mt-6 md:mt-8 md:flex-1 md:basis-0 md:flex md:items-center">
     <div className="w-full md:max-w-[560px] mx-auto">
-      <WorldMapStaticLabeled
-        // tweak these until pins align perfectly with your SVG
-        contentInsets={{ left: 2.5, right: 2.5, top: 3.5, bottom: 3.5 }}
-      />
+<WorldMapStaticLabeled showLabels labelUseCodes />
     </div>
   </div>
 

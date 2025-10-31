@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import TradeShowBadge from "@/components/TradeShowBadge";
 
@@ -18,53 +18,98 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState<number>(76); // fallback
 
+  const rootRef = useRef<HTMLElement | null>(null);
   const lastScrollY = useRef(0);
+  const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+  // ids to watch for the scroll spy
   const watchIds = NAV.map((n) => n.sectionId).filter(Boolean) as string[];
   const activeId = useScrollSpy(watchIds, 120);
 
+  // measure header height (for scroll offset)
   useEffect(() => {
-    const handleScroll = () => {
-      const y = window.scrollY;
-      const goingDown = y > lastScrollY.current;
-      const nearTop = y < 30;
-
-      // Smooth hide / show logic
-      if (nearTop) setHidden(false);
-      else if (goingDown && y > 150) setHidden(true);
-      else if (!goingDown) setHidden(false);
-
-      // Background blur toggle
-      setScrolled(y > 8);
-
-      lastScrollY.current = y;
+    const measure = () => {
+      const el = rootRef.current;
+      if (!el) return;
+      const h = el.getBoundingClientRect().height;
+      setHeaderHeight(Math.max(56, Math.min(120, Math.round(h))));
     };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (rootRef.current) ro.observe(rootRef.current);
+    window.addEventListener("resize", measure, { passive: true });
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
   }, []);
 
-  // 👇 optional: always show when near “About” section
+  // scroll listener (throttled via rAF)
+  useEffect(() => {
+    let ticking = false;
+
+    const onScroll = () => {
+      const run = () => {
+        const y = window.scrollY;
+        const goingDown = y > lastScrollY.current;
+        const nearTop = y < 30;
+
+        setHidden(nearTop ? false : (goingDown && y > 150));
+        setScrolled(y > 8);
+
+        lastScrollY.current = y;
+        ticking = false;
+      };
+
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(run);
+      }
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // keep header visible when "About" is active
   useEffect(() => {
     if (activeId === "about") setHidden(false);
   }, [activeId]);
 
-  const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  // lock background scroll when mobile menu is open
+  useEffect(() => {
+    const { body } = document;
+    const prev = body.style.overflow;
+    if (menuOpen) {
+      body.style.overflow = "hidden";
+      return () => {
+        body.style.overflow = prev;
+      };
+    }
+  }, [menuOpen]);
 
+  // in-page smooth scroll with header offset (no full navigation)
   const handleSectionClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId?: string
   ) => {
     if (!sectionId) return;
     e.preventDefault();
-    const target = `${bp}/#${sectionId}`;
-    window.location.assign(target);
+    const el = document.getElementById(sectionId);
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const absoluteY = window.scrollY + rect.top - headerHeight;
+    window.scrollTo({ top: absoluteY, behavior: "smooth" });
     setMenuOpen(false);
   };
 
   return (
     <header
+      ref={rootRef}
       className={[
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
         hidden ? "-translate-y-full" : "translate-y-0",
@@ -82,7 +127,8 @@ export default function Header() {
         <Link href="/" className="flex items-center" prefetch={false}>
           <img
             src={`${bp}/images/TCC_Logo.svg`}
-            alt="TCC Global Decor"
+            alt=""
+            aria-hidden="true"
             className="h-8 sm:h-10 md:h-12 w-auto object-contain transition-transform duration-300 hover:scale-105"
           />
         </Link>
