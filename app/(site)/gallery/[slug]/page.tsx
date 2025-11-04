@@ -146,7 +146,13 @@ export default async function GalleryPage({
   const items = galleryItemsFor(slug);
 
   return (
-    <Section id="gallery" className="relative text-brand-ink flex flex-col items-center justify-center bg-white">
+    <Section
+      id="gallery"
+      className="
+        relative text-brand-ink flex flex-col items-center bg-white
+        pt-[calc(var(--header-h,72px)+24px)] pb-16
+      "
+    >
       {/* Header */}
       <div className="relative mx-auto max-w-2xl text-center flex flex-col items-center">
         <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.12em] uppercase text-neutral-500">
@@ -176,8 +182,14 @@ export default async function GalleryPage({
                   transition
                 "
               >
-                <svg width='18' height='18' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
-                  <path d='M15 6l-6 6 6 6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M15 6l-6 6 6 6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </Link>
             )}
@@ -196,8 +208,14 @@ export default async function GalleryPage({
                   transition
                 "
               >
-                <svg width='18' height='18' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
-                  <path d='M9 6l6 6-6 6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M9 6l6 6-6 6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </Link>
             )}
@@ -214,12 +232,20 @@ export default async function GalleryPage({
               className="inline-flex items-center gap-1 rounded-full bg-brand-gold hover:bg-brand-gold-deep px-3 py-1.5 text-xs font-semibold text-brand-ink transition"
               aria-label={`Previous: ${prevEntry?.title ?? prevSlug}`}
             >
-              <svg width='14' height='14' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
-                <path d='M15 6l-6 6 6 6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M15 6l-6 6 6 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
               Prev
             </Link>
-          ) : <span />}
+          ) : (
+            <span />
+          )}
 
           {nextSlug ? (
             <Link
@@ -228,8 +254,14 @@ export default async function GalleryPage({
               aria-label={`Next: ${nextEntry?.title ?? nextSlug}`}
             >
               Next
-              <svg width='14' height='14' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
-                <path d='M9 6l6 6-6 6' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'/>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M9 6l6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </Link>
           ) : null}
