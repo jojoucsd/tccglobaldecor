@@ -9,24 +9,30 @@ import { useVideoModal } from "@/components/VideoModalProvider";
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-// simple SVG placeholder (kept for the 3rd card for now)
+// simple SVG placeholder (optional)
 const PH = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 500'><rect width='100%' height='100%' fill='%23f5f6f7'/><rect x='0' y='0' width='100%' height='6' fill='%23D6A354'/></svg>`.replace(/\s+/g, " ");
 
+// ➕ now 4 cards
 const AWARDS = [
   {
     title: "Sands Supplier Excellence Service Award",
     href: "/gallery/sands-supplier-excellence-award",
-    imageSrc: `${bp}/images/awards/china_sands.avif`, // ✅ 1st image
+    imageSrc: `${bp}/images/awards/china_sands.avif`,
   },
   {
     title: "Marina Bay Singapore Regional Award",
     href: "/gallery/marina-bay-singapore-award",
-    imageSrc: `${bp}/images/awards/mbs.avif`, // ✅ 2nd image
+    imageSrc: `${bp}/images/awards/mbs.avif`,
   },
   {
-    title: "International Design Long Name (Placeholder)",
-    href: "/gallery/industry-excellence-placeholder",
-    imageSrc: `${bp}/images/awards/mgm.avif`, // ✅ keep placeholder
+    title: "Grand Imperial Court Winner & Honoree",
+    href: "/gallery/gold-key-award",
+    imageSrc: `${bp}/images/awards/gold-key.avif`,
+  },
+  {
+    title: "The Design Awards Winner",
+    href: "/gallery/thedesignawards",
+    imageSrc: `${bp}/images/awards/designetal.avif`,
   },
 ];
 
@@ -34,9 +40,9 @@ export default function AwardsTeasersRow() {
   const router = useRouter();
   const video = useVideoModal();
 
-  const [A1, A2orig, A3] = AWARDS;
+  const [A1, A2orig, A3, A4] = AWARDS;
 
-  // Middle card copy tweak (uses same MBS image)
+  // Middle card copy tweak (same MBS image)
   const A2 = useMemo(
     () => ({
       ...A2orig,
@@ -51,8 +57,8 @@ export default function AwardsTeasersRow() {
   const galleryHref = "/gallery/marina-bay-singapore-award";
 
   const handlePlay = () => {
-    video.open(VIDYARD_EMBED); // open modal
-    router.push(galleryHref, { scroll: true }); // navigate behind modal
+    video.open(VIDYARD_EMBED);
+    router.push(galleryHref, { scroll: true });
   };
 
   return (
@@ -67,55 +73,71 @@ export default function AwardsTeasersRow() {
         </p>
       </div>
 
- <ul
-  className="
-    mt-6 flex items-start justify-center
-    gap-6 sm:gap-10 md:gap-[50px]
-    [&_h3]:text-center [&_h3]:line-clamp-2
-  "
->
-  {/* Left card (Sands) */}
-  <li className="w-[210px] sm:w-[230px] md:w-[250px] relative top-3">
-    <AlternatingCard
-      {...A1}
-      variant="imageTop"
-      className="w-full"   // ensure the card fills the fixed li width
-    />
-  </li>
+      <ul
+        className="
+          mt-6 flex flex-wrap items-start justify-center
+          gap-6 sm:gap-10 md:gap-[50px]
+          [&_h3]:text-center [&_h3]:line-clamp-2
+        "
+      >
+        {/* 1 — keep your fixed widths; allow wrapping on mobile */}
+        <li
+          className="
+            basis-[45%] max-w-[240px] sm:basis-auto
+            w-[210px] sm:w-[230px] md:w-[250px]
+            relative md:top-3
+          "
+        >
+          <AlternatingCard {...A1} variant="imageTop" className="w-full" />
+        </li>
 
-  {/* Middle: press/video card (MBS) */}
-  <li className="w-[210px] sm:w-[230px] md:w-[250px] relative -top-3 md:-top-4">
-    <button
-      onClick={handlePlay}
-      className="group block w-full text-left"
-      aria-label="Play MBS film"
-    >
-      <div className="relative">
-        <AlternatingCard
-          {...A2}
-          variant="imageTop"
-          href={undefined}
-          className="w-full"
-        />
-        {/* Play badge overlay */}
-        <span className="absolute inset-0 pointer-events-none flex items-center justify-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-black/55 group-hover:bg-black/70 px-3 py-1.5 text-xs font-semibold text-white transition">
-            ▶ Play
-          </span>
-        </span>
-      </div>
-    </button>
-  </li>
+        {/* 2 — video/press card */}
+        <li
+          className="
+            basis-[45%] max-w-[240px] sm:basis-auto
+            w-[210px] sm:w-[230px] md:w-[250px]
+            relative md:-top-3 md:-top-4
+          "
+        >
+          <button
+            onClick={handlePlay}
+            className="group block w-full text-left"
+            aria-label="Play MBS film"
+          >
+            <div className="relative">
+              <AlternatingCard {...A2} variant="imageTop" href={undefined} className="w-full" />
+              {/* Play badge overlay */}
+              <span className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                <span className="inline-flex items-center gap-2 rounded-full bg-black/55 group-hover:bg-black/70 px-3 py-1.5 text-xs font-semibold text-white transition">
+                  ▶ Play
+                </span>
+              </span>
+            </div>
+          </button>
+        </li>
 
-  {/* Right card (placeholder) */}
-  <li className="w-[210px] sm:w-[230px] md:w-[250px] relative top-5">
-    <AlternatingCard
-      {...A3}
-      variant="imageTop"
-      className="w-full"
-    />
-  </li>
-</ul>
+        {/* 3 */}
+        <li
+          className="
+            basis-[45%] max-w-[240px] sm:basis-auto
+            w-[210px] sm:w-[230px] md:w-[250px]
+            relative md:top-5
+          "
+        >
+          <AlternatingCard {...A3} variant="imageTop" className="w-full" />
+        </li>
+
+        {/* 4 — new */}
+        <li
+          className="
+            basis-[45%] max-w-[240px] sm:basis-auto
+            w-[210px] sm:w-[230px] md:w-[250px]
+            relative md:-top-1
+          "
+        >
+          <AlternatingCard {...A4} variant="imageTop" className="w-full" />
+        </li>
+      </ul>
     </Section>
   );
 }

@@ -18,7 +18,15 @@ export default function ProjectsIndex() {
   const projects = (getAllProjects() as ProjectItem[]).slice(0, 15); // show top 15 for grid demo
 
   return (
-    <main className="mx-auto max-w-7xl px-3 sm:px-6 py-10 sm:py-16 text-brand-ink">
+    <main
+      className="
+        mx-auto max-w-7xl
+        px-3 sm:px-6
+        mt-[var(--header-h,4rem)]
+        py-10 sm:py-16
+        text-brand-ink
+      "
+    >
       {/* Header */}
       <header className="text-center max-w-3xl mx-auto">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight flex items-center justify-center gap-3">
@@ -33,46 +41,35 @@ export default function ProjectsIndex() {
       </header>
 
       {/* Grid layout */}
-<ul
-  className="
-    mt-10 sm:mt-14
-    grid grid-cols-3 gap-[6px]
-    sm:grid-cols-4 sm:gap-3
-    md:grid-cols-4 md:gap-4
-    lg:grid-cols-4 lg:gap-5
-    xl:grid-cols-4 xl:gap-6
-  "
->
-  {projects.map((p, i) => (
-    <li key={p.slug} className="relative group">
-      <Link
-        href={`/projects/${p.slug}`}
-        className="block overflow-hidden rounded-[6px] sm:rounded-[8px] ring-1 ring-neutral-200 hover:ring-brand-gold/60 transition"
-      >
-        {/* Image */}
-        <div className="relative aspect-[1/1.2] sm:aspect-[3/4]">
-          <Image
-            src={`${bp}/images/projects/${p.slug}/${p.cover}`}
-            alt={p.title}
-            fill
-            sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-            priority={i === 0}
-            unoptimized
-          />
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
-          {/* Title */}
-          <div className="absolute inset-x-0 bottom-0 p-1.5 sm:p-2 md:p-3 text-center sm:text-left text-white">
-            <h2 className="text-[11px] sm:text-sm md:text-base font-semibold drop-shadow-sm truncate">
-              {p.title}
-            </h2>
-          </div>
-        </div>
-      </Link>
-    </li>
-  ))}
-</ul>
+      <ul className="mt-10 sm:mt-14 grid grid-cols-3 gap-[6px] sm:grid-cols-4 sm:gap-3 md:grid-cols-4 md:gap-4 lg:grid-cols-4 lg:gap-5 xl:grid-cols-4 xl:gap-6">
+        {projects.map((p, i) => (
+          <li key={p.slug} className="relative group">
+            <Link
+              href={`/projects/${p.slug}`}
+              className="block overflow-hidden rounded-[6px] sm:rounded-[8px] ring-1 ring-neutral-200 hover:ring-brand-gold/60 transition"
+            >
+              <div className="relative aspect-[1/1.2] sm:aspect-[3/4]">
+                <Image
+                  src={`${bp}/images/projects/${p.slug}/${p.cover}`}
+                  alt={p.title}
+                  fill
+                  sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                  priority={i === 0}
+                  unoptimized
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-1.5 sm:p-2 md:p-3 text-center sm:text-left text-white">
+                  <h2 className="text-[11px] sm:text-sm md:text-base font-semibold drop-shadow-sm truncate">
+                    {p.title}
+                  </h2>
+                </div>
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
+

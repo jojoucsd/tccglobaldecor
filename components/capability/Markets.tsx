@@ -53,30 +53,38 @@ const MARKET_CFG: Record<
   hotel: {
     title: "Hotels & Resorts",
     img: `${bp}/images/capability/hotel.avif`,
-    ctaLabel: "View Hotel Case Study",
-    ctaHref: "/projects/the-londoner-hotel",
+    ctaLabel: "View Projects",
+    ctaHref: "/projects",
   },
   casino: {
     title: "Casinos & Gaming",
     img: `${bp}/images/capability/casino.avif`,
-    ctaLabel: "View Casino Case Study",
-    ctaHref: "/projects/park-hyatt-niseko",
+    ctaLabel: "View Projects",
+    ctaHref: "/projects",
   },
   cruise: {
     title: "Cruise",
     img: `${bp}/images/capability/cruise.avif`,
+        ctaLabel: "View Projects",
+    ctaHref: "/projects",
   },
   aviation: {
     title: "Aviation",
     img: `${bp}/images/capability/aviation.avif`,
+    ctaLabel: "View Projects",
+    ctaHref: "/projects",
   },
   yacht: {
     title: "Yacht",
     img: `${bp}/images/capability/yacht.avif`,
+    ctaLabel: "View Projects",
+    ctaHref: "/projects",
   },
   retail: {
     title: "Retail",
     img: `${bp}/images/capability/retail.avif`,
+    ctaLabel: "View Projects",
+    ctaHref: "/projects",
   },
 };
 

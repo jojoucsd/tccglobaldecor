@@ -13,33 +13,104 @@ const HERO_SUB =
   "TCC Carpets unites a professional design team and skilled craftsmen with over a decade of experience, transforming complex ideas into exclusive creations through close collaboration and precision.";
 
 // --- Slide types ---
-type PhotoSlide = { type: "photo"; src: string; alt: string };
+type PhotoSlide = {
+  type: "photo";
+  src: string;
+  mobileSrc?: string;
+  alt: string;
+  focus?: string;
+};
+
 type RevealSlide = {
   type: "reveal";
   images: { src: string; alt: string; focus?: string }[];
 };
+
 type Slide = PhotoSlide | RevealSlide;
 
 // --- Slides (prefixed with bp) ---
 const slides: Slide[] = [
-  { type: "photo", src: `${bp}/images/hero/hero-01.avif`, alt: "Custom Hand-Ax carpet detail" },
-  { type: "photo", src: `${bp}/images/hero/hero-02.avif`, alt: "Casino floor Axminster carpet" },
-  { type: "photo", src: `${bp}/images/hero/hero-03.avif`, alt: "Hotel suite rug design" },
+  {
+    type: "photo",
+    src: `${bp}/images/hero/hero-01.avif`,
+    mobileSrc: `${bp}/images/hero/hero-mobile-01.avif`,
+    alt: "Custom Hand-Ax carpet detail",
+    focus: "object-center",
+  },
+  {
+    type: "photo",
+    src: `${bp}/images/hero/hero-02.avif`,
+    mobileSrc: `${bp}/images/hero/hero-mobile-02.avif`,
+    alt: "Casino floor Axminster carpet",
+    focus: "object-[50%_55%]",
+  },
+  {
+    type: "photo",
+    src: `${bp}/images/hero/hero-03.avif`,
+    mobileSrc: `${bp}/images/hero/hero-mobile-03.avif`,
+    alt: "Hotel suite rug design",
+    focus: "object-center",
+  },
   {
     type: "reveal",
     images: [
-      { src: `${bp}/images/hero/hero-04-install.avif`, alt: "Installation in progress", focus: "object-[center_80%]" },
-      { src: `${bp}/images/hero/hero-04-plan.avif`,    alt: "Concept drawing / plan" },
-      { src: `${bp}/images/hero/hero-04-final.avif`,   alt: "Finished bespoke interior", focus: "object-[center_65%]" },
+      {
+        src: `${bp}/images/hero/hero-04-install.avif`,
+        alt: "Installation in progress",
+        focus: "object-[center_80%]",
+      },
+      {
+        src: `${bp}/images/hero/hero-04-plan.avif`,
+        alt: "Concept drawing / plan",
+      },
+      {
+        src: `${bp}/images/hero/hero-04-final.avif`,
+        alt: "Finished bespoke interior",
+        focus: "object-[center_65%]",
+      },
     ],
   },
 ];
 
 const AUTOPLAY_MS = 6500;
 
+// --- Hook: isMobile based on CSS breakpoint (≤ 639px) ---
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mq = window.matchMedia("(max-width: 639px)");
+
+    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(event.matches);
+    };
+
+    // Initial
+    handleChange(mq);
+
+    // Listen to changes
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", handleChange as (e: MediaQueryListEvent) => void);
+      return () =>
+        mq.removeEventListener("change", handleChange as (e: MediaQueryListEvent) => void);
+    } else {
+      // Safari fallback
+      // @ts-ignore
+      mq.addListener(handleChange);
+      // @ts-ignore
+      return () => mq.removeListener(handleChange);
+    }
+  }, []);
+
+  return isMobile;
+}
+
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0);
   const timer = useRef<number | undefined>(undefined);
+  const isMobile = useIsMobile();
 
   const prefersReducedMotion = useMemo(
     () =>
@@ -60,12 +131,10 @@ export default function HeroCarousel() {
 
   // autoplay
   useEffect(() => {
-    if (prefersReducedMotion) return; // ok to return void
+    if (prefersReducedMotion) return;
     clearTimer();
     timer.current = window.setTimeout(next, AUTOPLAY_MS);
-    return () => {
-      clearTimer();
-    };
+    return () => clearTimer();
   }, [index, prefersReducedMotion]);
 
   const handleMouseEnter = () => clearTimer();
@@ -77,17 +146,28 @@ export default function HeroCarousel() {
   };
 
   const activeSlide = slides[index];
-  const isLightScheme = activeSlide.type === "reveal";
+
+  // 🔑 Only use light scheme on non-mobile reveal slides
+  const isLightScheme = activeSlide.type === "reveal" && !isMobile;
 
   return (
     <section
       className="hero relative pt-[env(safe-area-inset-top)] transition-colors duration-500"
+      style={{
+        paddingTop: "calc(var(--header-h, 72px) + env(safe-area-inset-top))",
+      }}
       data-scheme={isLightScheme ? "light" : undefined}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       aria-label="TCC Global Decor featured projects"
     >
-      <div className="relative h-[60vh] min-h-[420px] md:h-[75vh] w-full overflow-hidden rounded-none md:rounded-2xl bg-black">
+      <div
+        className="
+          relative w-full overflow-hidden rounded-none md:rounded-2xl bg-black
+          h-[88svh] xs:h-[85svh] sm:h-[85svh] md:h-[85vh]
+          min-h-[440px] md:min-h-[520px]
+        "
+      >
         {/* Slides */}
         {slides.map((s, i) => {
           const active = i === index;
@@ -109,6 +189,9 @@ export default function HeroCarousel() {
             );
           }
 
+          // Photo slide
+          const imgSrc = isMobile && s.mobileSrc ? s.mobileSrc : s.src;
+
           return (
             <div
               key={i}
@@ -117,14 +200,16 @@ export default function HeroCarousel() {
               }`}
             >
               <Image
-                src={s.src}
+                src={imgSrc}
                 alt={s.alt}
                 fill
                 sizes="100vw"
-                className="object-cover object-center"
+                className={`object-cover ${s.focus ?? "object-center"}`}
                 priority={active}
                 unoptimized
               />
+
+              {/* Gradient overlay only for photo slides */}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
             </div>
           );
@@ -132,7 +217,7 @@ export default function HeroCarousel() {
 
         {/* Copy & CTA */}
         <div className="absolute inset-0 z-30 flex items-end justify-start px-5 sm:px-8 md:px-14 pb-10 pointer-events-none">
-          <div className="max-w-[90%] sm:max-w-[70%] md:max-w-[55%] pointer-events-auto">
+          <div className="max-w-[92%] sm:max-w-[70%] md:max-w-[55%] pointer-events-auto">
             <h1 className="font-bold tracking-tight leading-[1.15] text-2xl sm:text-3xl md:text-5xl lg:text-6xl max-w-[24ch] text-[var(--hero-fg)]">
               {HERO_TITLE}
             </h1>
@@ -175,7 +260,9 @@ export default function HeroCarousel() {
               key={i}
               onClick={() => setIndex(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className={`h-2 w-2 rounded-full ${i === index ? "bg-white" : "bg-white/50"} hover:bg-white`}
+              className={`h-2 w-2 rounded-full ${
+                i === index ? "bg-white" : "bg-white/50"
+              } hover:bg-white`}
             />
           ))}
         </div>

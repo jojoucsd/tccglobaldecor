@@ -56,7 +56,7 @@ export default function Header() {
         const goingDown = y > lastScrollY.current;
         const nearTop = y < 30;
 
-        setHidden(nearTop ? false : (goingDown && y > 150));
+        setHidden(nearTop ? false : goingDown && y > 150);
         setScrolled(y > 8);
 
         lastScrollY.current = y;
@@ -91,18 +91,42 @@ export default function Header() {
     }
   }, [menuOpen]);
 
-  // in-page smooth scroll with header offset (no full navigation)
+  // click handler for nav links
+  // - section links on home: smooth scroll with offset
+  // - section links off home: normal navigation to "/#about", close menu
+  // - non-section links (e.g. /projects): normal navigation, close menu
   const handleSectionClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId?: string
   ) => {
-    if (!sectionId) return;
+    // No sectionId (e.g. /projects, /connect) → just close menu and let Link navigate
+    if (!sectionId) {
+      setMenuOpen(false);
+      return;
+    }
+
+    if (typeof window === "undefined") return;
+
+    const currentPath = window.location.pathname;
+    const basePath = bp || "";
+    const isHome =
+      currentPath === "/" || currentPath === `${basePath}/`;
+
+    // If we're NOT on the homepage, let Next.js handle navigation to "/#about"
+    if (!isHome) {
+      setMenuOpen(false);
+      return;
+    }
+
+    // Already on homepage → smooth scroll with header offset
     e.preventDefault();
+
     const el = document.getElementById(sectionId);
     if (!el) return;
 
     const rect = el.getBoundingClientRect();
     const absoluteY = window.scrollY + rect.top - headerHeight;
+
     window.scrollTo({ top: absoluteY, behavior: "smooth" });
     setMenuOpen(false);
   };
@@ -114,7 +138,7 @@ export default function Header() {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
         hidden ? "-translate-y-full" : "translate-y-0",
         scrolled
-          ? "bg-white/90 backdrop-blur border-b border-brand-gold/30 shadow-sm"
+          ? "bg-white/90 backdrop-blur border-b border-neutral-200 shadow-sm"
           : "bg-white border-transparent",
         "text-brand-ink",
       ].join(" ")}
@@ -145,11 +169,12 @@ export default function Header() {
                 prefetch={false}
                 onClick={(e) => handleSectionClick(e, n.sectionId)}
                 aria-current={isActive ? "page" : undefined}
-                className={`transition-colors border-b-2 border-transparent ${
+                className={[
+                  "transition-colors border-b-2",
                   isActive
-                    ? "text-brand-gold border-brand-gold"
-                    : "text-brand-ink hover:text-brand-gold"
-                }`}
+                    ? "text-brand-ink border-brand-ink"
+                    : "text-brand-ink/80 border-transparent hover:text-brand-ink hover:border-brand-ink/60",
+                ].join(" ")}
               >
                 <span className="inline-block pb-0.5">{n.label}</span>
               </Link>
@@ -159,7 +184,7 @@ export default function Header() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-brand-ink/10 text-brand-ink"
+          className="md:hidden flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-neutral-200 text-brand-ink hover:bg-neutral-50"
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -185,7 +210,7 @@ export default function Header() {
       </div>
 
       {/* Mobile announcement bar */}
-      <div className="md:hidden border-t border-brand-gold/30 bg-brand-gold/10">
+      <div className="md:hidden border-t border-neutral-200 bg-neutral-50">
         <div className="flex items-center justify-center py-2">
           <TradeShowBadge small />
         </div>
@@ -195,7 +220,7 @@ export default function Header() {
       {menuOpen && (
         <div
           id="mobile-nav"
-          className="md:hidden absolute top-full inset-x-0 bg-white shadow-md border-t border-brand-ink/10 animate-slideDown"
+          className="md:hidden absolute top-full inset-x-0 bg-white shadow-md border-t border-neutral-200 animate-slideDown"
         >
           <nav className="flex flex-col items-start px-4 py-4 gap-4 text-base font-semibold">
             {NAV.map((n) => {
@@ -206,9 +231,12 @@ export default function Header() {
                   href={n.href}
                   prefetch={false}
                   onClick={(e) => handleSectionClick(e, n.sectionId)}
-                  className={`w-full ${
-                    isActive ? "text-brand-gold" : "text-brand-ink"
-                  }`}
+                  className={[
+                    "w-full transition-colors",
+                    isActive
+                      ? "text-brand-ink"
+                      : "text-brand-ink/80 hover:text-brand-ink",
+                  ].join(" ")}
                 >
                   {n.label}
                 </Link>

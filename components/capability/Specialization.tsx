@@ -28,7 +28,7 @@ const ITEMS = [
     imageSrc: `${bp}/images/capability/hand-ax.avif`,
     href: "/gallery/hand-ax",
   },
-    {
+  {
     title: "Ax-Tiles",
     subtitle:
       "Modular precision meets Axminster craftsmanship — refined aesthetics in a practical format.",
@@ -53,15 +53,20 @@ const ITEMS = [
 
 export default function Specialization() {
   return (
-    <Section className="bg-gray-50 text-brand-ink" id="specialization" pad="sm" padTop={false}>
+    <Section
+      className="bg-gray-50 text-brand-ink"
+      id="specialization"
+      pad="sm"
+      padTop={false}
+    >
       <header className="mb-6 md:mb-12">
         <h3 className="text-2xl md:text-3xl font-semibold flex justify-center items-center gap-3 text-center">
           <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
           Specialization
         </h3>
         <p className="mt-2 text-sm md:text-base text-neutral-600 max-w-2xl mx-auto text-center">
-          From hand-tufted masterpieces to Axminster innovations — our craftsmanship spans artistry,
-          technology, and versatility.
+          From hand-tufted masterpieces to Axminster innovations — our
+          craftsmanship spans artistry, technology, and versatility.
         </p>
       </header>
 
@@ -69,7 +74,7 @@ export default function Specialization() {
         className={[
           // Mobile: 3×2 one-screen; Desktop: 6 across with larger gaps
           "grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 lg:gap-6",
-          "[&_h4]:text-brand-gold",
+          "[&_h4]:text-brand-ink", // ✅ switched from gold to black
         ].join(" ")}
         role="list"
         aria-label="Specialization items"
@@ -81,8 +86,12 @@ export default function Specialization() {
               {/* Desktop: show title/subtitle ABOVE the image for odd cards */}
               {isTextTopDesktop && (
                 <div className="hidden lg:block px-1.5 lg:px-0 pb-2">
-                  <h4 className="text-sm font-semibold tracking-tight">{it.title}</h4>
-                  <p className="hidden sm:block text-sm text-gray-500 mt-1">{it.subtitle}</p>
+                  <h4 className="text-sm font-semibold tracking-tight">
+                    {it.title}
+                  </h4>
+                  <p className="hidden sm:block text-sm text-gray-500 mt-1">
+                    {it.subtitle}
+                  </p>
                 </div>
               )}
 
@@ -98,9 +107,17 @@ export default function Specialization() {
               />
 
               {/* Mobile & default desktop: title/subtitle BELOW the image (or for even cards on desktop) */}
-              <div className={`px-1.5 lg:px-0 pt-2 ${isTextTopDesktop ? "lg:hidden" : ""}`}>
-                <h4 className="text-[13px] sm:text-sm font-semibold tracking-tight">{it.title}</h4>
-                <p className="hidden sm:block text-sm text-gray-500 mt-1">{it.subtitle}</p>
+              <div
+                className={`px-1.5 lg:px-0 pt-2 ${
+                  isTextTopDesktop ? "lg:hidden" : ""
+                }`}
+              >
+                <h4 className="text-[13px] sm:text-sm font-semibold tracking-tight">
+                  {it.title}
+                </h4>
+                <p className="hidden sm:block text-sm text-gray-500 mt-1">
+                  {it.subtitle}
+                </p>
               </div>
             </li>
           );
