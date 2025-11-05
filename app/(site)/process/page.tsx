@@ -89,7 +89,11 @@ function TimelineStep({ step, index }: { step: Step; index: number }) {
     index === 0 ? "" : "-mt-20 sm:-mt-24 md:-mt-32 lg:-mt-36";
 
   const card = (
-    <div className="bg-white border border-neutral-200 rounded-2xl shadow-sm p-4 sm:p-5">
+    <div
+      className={`bg-white border border-neutral-200 rounded-2xl shadow-sm p-4 sm:p-5 flex flex-col ${
+        isLeft ? "items-end text-right" : "items-start text-left"
+      }`}
+    >
       {step.label && (
         <p className="text-[10px] sm:text-xs font-semibold tracking-[0.18em] uppercase text-brand-gold">
           {step.label}
@@ -135,7 +139,7 @@ function TimelineStep({ step, index }: { step: Step; index: number }) {
     >
       {isLeft ? (
         <>
-          {/* Left steps align toward the center line */}
+          {/* LEFT: content floats toward the center line (right side of column) */}
           <div className="pr-2 sm:pr-4 md:pr-8 lg:pr-12 flex justify-end">
             {Inner}
           </div>
@@ -144,7 +148,7 @@ function TimelineStep({ step, index }: { step: Step; index: number }) {
       ) : (
         <>
           <div />
-          {/* Right steps align toward the center line */}
+          {/* RIGHT: content floats toward the center line (left side of column) */}
           <div className="pl-2 sm:pl-4 md:pl-8 lg:pl-12 flex justify-start">
             {Inner}
           </div>
@@ -202,8 +206,6 @@ function ProcessTimeline() {
           />
         </svg>
 
-        {/* We no longer show a separate straight spine on mobile */}
-
         <ol className="relative space-y-10 md:space-y-16">
           {STEPS.map((step, i) => (
             <TimelineStep key={step.id} step={step} index={i} />
@@ -222,17 +224,17 @@ export default function ProcessPage() {
   return (
     <main className="min-h-screen bg-white text-brand-ink">
       {/* Intro */}
-<Section className="pt-20 pb-8 text-center">
-  <p className="text-sm uppercase tracking-widest text-brand-gold">Process</p>
-  <h1 className="mt-2 text-3xl md:text-4xl font-bold text-brand-ink">
-    From intent to installation
-  </h1>
-  <p className="mt-3 max-w-3xl mx-auto text-neutral-800">
-    From the first sketch to final installation, our process is designed to
-    support designers, owners, and contractors with clear communication,
-    fast sampling, and reliable delivery.
-  </p>
-</Section>
+      <Section className="pt-20 pb-8 text-center">
+        <p className="text-sm uppercase tracking-widest text-brand-gold">Process</p>
+        <h1 className="mt-2 text-3xl md:text-4xl font-bold text-brand-ink">
+          From intent to installation
+        </h1>
+        <p className="mt-3 max-w-3xl mx-auto text-neutral-800">
+          From the first sketch to final installation, our process is designed to
+          support designers, owners, and contractors with clear communication,
+          fast sampling, and reliable delivery.
+        </p>
+      </Section>
 
       {/* Vertical timeline */}
       <ProcessTimeline />
