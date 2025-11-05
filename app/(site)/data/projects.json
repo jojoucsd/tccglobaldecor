@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "londoner-macau",
+    "address": "Estrada do Istmo. s/n, Cotai, Macau SAR, P.R. China",
+    "summary": "Located at the heart of Cotai, The Londoner Hotel captures the grandeur of British sophistication through architecture and interior design. Inspired by London’s timeless heritage, the hotel merges classic detailing with modern luxury, creating a distinct atmosphere of refined hospitality.",
+    "description": "Within this setting, TCC Carpets crafted bespoke designs that echo the hotel’s British narrative. Each carpet was tailored to its environment—bold patterns and rich tones define the public areas, while softer palettes and delicate motifs enrich the suites. Through meticulous craftsmanship and advanced production, the carpets bring harmony, comfort, and identity to every space, making them an integral part of The Londoner’s distinguished character.",
+    "notes": "Geometric motifs inspired by British architecture guide the flow of movement, while layered color gradients create visual depth under soft ambient lighting. Each installation showcases TCC Carpets’ ability to balance design precision with the dynamic needs of high-traffic hospitality environments."
+  },
+  {
+    "slug": "park-hyatt-niseko",
+    "address": "328-47 Aza Iwaobetsu, Kutchan, Abuta District, Hokkaido, Japan",
+    "summary": "Nestled at the base of Mount Annupuri, the Park Hyatt Niseko Hanazono celebrates natural beauty through quiet luxury and refined craftsmanship. The interior design draws inspiration from the surrounding landscape—snow, wood, and stone.",
+    "description": "Within this context, TCC Carpets designed a series of bespoke floor coverings that reflect the rhythm of nature and the Japanese aesthetic of restraint, balancing visual calm with tactile warmth.",
+    "notes": "Subtle gradations and organic patterns complement wood and stone interiors across suites and public areas."
+  },
+  {
+    "slug": "four-seasons-grand",
+    "address": "Cotai Strip, Macau SAR, P.R. China",
+    "summary": "Four Seasons Grand Macau exudes contemporary elegance with understated luxury and precision detailing.",
+    "description": "Custom wool and silk carpets were developed to harmonize with marble textures and soft ambient tones throughout guestroom and suite levels.",
+    "notes": "Neutral palettes and fine craftsmanship support a calm, residential atmosphere."
+  },
+  {
+    "slug": "grand-hyatt-macau",
+    "address": "City of Dreams, Estrada do Istmo, Cotai, Macau SAR",
+    "summary": "Grand Hyatt Macau blends modern design with layered texture and hospitality warmth.",
+    "description": "TCC Carpets produced patterns inspired by flowing water motifs that define the lobby, ballroom, and circulation spaces.",
+    "notes": "Rich layering and bold geometry convey energy and motion through key public areas."
+  },
+  {
+    "slug": "mGM-cotai",
+    "address": "Avenida da Navios, Cotai, Macau SAR",
+    "summary": "MGM Cotai showcases innovation and artistry across large-format hospitality interiors.",
+    "description": "Expansive custom carpets mirror architectural curvature and lighting rhythm, unifying public floors, lounges, and VIP zones.",
+    "notes": "Sculptural color transitions emphasize scale and movement across the property."
+  },
+  {
+    "slug": "mGM-macau",
+    "address": "Avenida Dr. Sun Yat Sen, Macau SAR",
+    "summary": "MGM Macau combines art, luxury, and performance in a highly animated environment.",
+    "description": "Bespoke woven designs integrate metallic fibers and jewel tones to accent the casino, lobby, and feature corridors.",
+    "notes": "Vibrant hues and reflective details echo the property’s art-driven identity."
+  },
+  {
+    "slug": "grand-lisboa",
+    "address": "Avenida de Lisboa, Macau SAR",
+    "summary": "An icon of Macau’s skyline, Grand Lisboa reflects opulence through bold form and dramatic interiors.",
+    "description": "TCC developed patterned Axminster carpets that respond to the building’s golden façade and fluid architectural language.",
+    "notes": "Gold-accent threads and strong motifs reinforce the tower’s signature silhouette."
+  },
+  {
+    "slug": "karl-lagerfeld-macau",
+    "address": "Grand Lisboa Palace, Cotai, Macau SAR",
+    "summary": "The Karl Lagerfeld Hotel fuses couture sensibility with tailored, high-luxury interiors.",
+    "description": "Carpet designs incorporate fine linear details and monogram-like geometry, translating fashion aesthetics into a hospitality context.",
+    "notes": "Monochrome contrasts and precise patterning reference the designer’s timeless palette."
+  },
+  {
+    "slug": "marina-bay-sands",
+    "address": "10 Bayfront Avenue, Singapore 018956",
+    "summary": "Marina Bay Sands stands as Singapore’s emblem of innovation and modern luxury.",
+    "description": "Large-scale bespoke carpets were engineered for grand public volumes, maintaining clarity under complex lighting and heavy footfall.",
+    "notes": "Wave-like motifs and directional textures align with the property’s architectural rhythm."
+  },
+  {
+    "slug": "melco-group",
+    "address": "Macau SAR / Manila / Cyprus",
+    "summary": "Melco Group’s integrated resorts share a vision of immersive entertainment and contemporary design.",
+    "description": "Across multiple properties, TCC Carpets tailored motifs and palettes to reflect each destination while preserving Melco’s overall design language.",
+    "notes": "Unified craftsmanship across regions supports a consistent brand experience."
+  },
+  {
+    "slug": "raffles-macau",
+    "address": "Galaxy Macau Complex, Cotai, Macau SAR",
+    "summary": "Raffles Macau channels heritage luxury with a contemporary art-deco influence.",
+    "description": "Custom carpets draw on Parisian geometry and refined tonal layering to complement marble, brass, and soft furnishings.",
+    "notes": "Subtle shimmer accents and structured layouts elevate the sense of calm elegance."
+  },
+  {
+    "slug": "ritz-carlton-macau",
+    "address": "Galaxy Macau Complex, Cotai, Macau SAR",
+    "summary": "The Ritz-Carlton Macau embodies bespoke elegance and highly personalized refinement.",
+    "description": "Soft textures and tonal gradients were crafted to create an intimate residential ambience within a high-luxury hotel setting.",
+    "notes": "Understated patterns enhance comfort, privacy, and long-term visual longevity."
+  }
+]

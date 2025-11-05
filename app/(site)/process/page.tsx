@@ -88,31 +88,31 @@ function TimelineStep({ step, index }: { step: Step; index: number }) {
   const overlapClass =
     index === 0 ? "" : "-mt-20 sm:-mt-24 md:-mt-32 lg:-mt-36";
 
-  const card = (
-    <div
-      className={`bg-white border border-neutral-200 rounded-2xl shadow-sm p-4 sm:p-5 flex flex-col ${
-        isLeft ? "items-end text-right" : "items-start text-left"
+const card = (
+  <div
+    className={`bg-transparent rounded-none p-4 sm:p-5 flex flex-col ${
+      isLeft ? "items-end text-right" : "items-start text-left"
+    }`}
+  >
+    {step.label && (
+      <p className="text-[10px] sm:text-xs font-semibold tracking-[0.18em] uppercase text-brand-gold">
+        {step.label}
+      </p>
+    )}
+    <h3
+      className={`text-sm sm:text-base md:text-lg font-semibold text-brand-ink ${
+        step.label ? "mt-1" : ""
       }`}
     >
-      {step.label && (
-        <p className="text-[10px] sm:text-xs font-semibold tracking-[0.18em] uppercase text-brand-gold">
-          {step.label}
-        </p>
-      )}
-      <h3
-        className={`text-sm sm:text-base md:text-lg font-semibold text-brand-ink ${
-          step.label ? "mt-1" : ""
-        }`}
-      >
-        {step.title}
-      </h3>
-      {step.body && (
-        <p className="mt-2 text-xs sm:text-sm md:text-base text-neutral-800">
-          {step.body}
-        </p>
-      )}
-    </div>
-  );
+      {step.title}
+    </h3>
+    {step.body && (
+      <p className="mt-2 text-xs sm:text-sm md:text-base text-neutral-800">
+        {step.body}
+      </p>
+    )}
+  </div>
+);
 
   const image = (
     <div className="relative mt-2 sm:mt-3 aspect-[3/2] overflow-hidden rounded-2xl bg-neutral-100">
