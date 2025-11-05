@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import TriptychRevealSlide from "@/components/TriptychRevealSlide";
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -109,40 +109,79 @@ function useIsMobile() {
 
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0);
-  const timer = useRef<number | undefined>(undefined);
+  const intervalRef = useRef<number | null>(null);
   const isMobile = useIsMobile();
 
-  const prefersReducedMotion = useMemo(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    []
-  );
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  const next = () => setIndex((p) => (p + 1) % slides.length);
-  const prev = () => setIndex((p) => (p - 1 + slides.length) % slides.length);
+  // Detect prefers-reduced-motion
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const clearTimer = () => {
-    if (timer.current !== undefined) {
-      window.clearTimeout(timer.current);
-      timer.current = undefined;
+    const update = () => {
+      setPrefersReducedMotion(mq.matches);
+    };
+
+    update(); // initial
+
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", update);
+      return () => mq.removeEventListener("change", update);
+    } else {
+      // Safari fallback
+      // @ts-ignore
+      mq.addListener(update);
+      // @ts-ignore
+      return () => mq.removeListener(update);
+    }
+  }, []);
+
+  const stopAutoplay = () => {
+    if (intervalRef.current != null) {
+      window.clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
   };
 
-  // autoplay
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-    clearTimer();
-    timer.current = window.setTimeout(next, AUTOPLAY_MS);
-    return () => clearTimer();
-  }, [index, prefersReducedMotion]);
-
-  const handleMouseEnter = () => clearTimer();
-  const handleMouseLeave = () => {
-    if (!prefersReducedMotion) {
-      clearTimer();
-      timer.current = window.setTimeout(next, AUTOPLAY_MS);
+  const startAutoplay = () => {
+    if (prefersReducedMotion) {
+      stopAutoplay();
+      return;
     }
+    if (intervalRef.current != null) return; // already running
+
+    intervalRef.current = window.setInterval(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+    }, AUTOPLAY_MS);
+  };
+
+  // Start/stop autoplay when motion preference changes
+  useEffect(() => {
+    startAutoplay();
+    return () => stopAutoplay();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefersReducedMotion]);
+
+  const goTo = (nextIndex: number | ((prev: number) => number)) => {
+    stopAutoplay();
+    setIndex((prev) =>
+      typeof nextIndex === "function"
+        ? (nextIndex as (p: number) => number)(prev)
+        : nextIndex % slides.length
+    );
+    startAutoplay();
+  };
+
+  const next = () => goTo((p) => (p + 1) % slides.length);
+  const prev = () => goTo((p) => (p - 1 + slides.length) % slides.length);
+
+  const handleMouseEnter = () => {
+    stopAutoplay();
+  };
+
+  const handleMouseLeave = () => {
+    startAutoplay();
   };
 
   const activeSlide = slides[index];
@@ -258,7 +297,7 @@ export default function HeroCarousel() {
           {slides.map((_, i) => (
             <button
               key={i}
-              onClick={() => setIndex(i)}
+              onClick={() => goTo(i)}
               aria-label={`Go to slide ${i + 1}`}
               className={`h-2 w-2 rounded-full ${
                 i === index ? "bg-white" : "bg-white/50"
