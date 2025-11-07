@@ -41,19 +41,18 @@ const AWARD_TITLES: Record<string, string> = {
 
 // Map image index -> project slug (edit this list to match your files)
 const PROJECTS: Array<[number, string]> = [
-  [1,  "galaxy-macau"],
-  [2,  "four-seasons-macau"],
-  [3,  "grand-lisboa-palace"],
-  [4,  "londoner-court"],
-  [5,  "mgm-cotai"],
-  [6,  "morocco-resort"],
+  [1,  "four-seasons-grand"],
+  [2,  "grand-hyatt-macau"],
+  [3,  "grand-lisboa"],
+  [4,  "karl-lagerfeld-macau"],
+  [5,  "londoner-macau"],
+  [6,  "marina-bay-sands"],
   [7,  "park-hyatt-niseko"],
-  [8,  "the-venetian"],
-  [9,  "wynn-palace"],
-  [10, "raffles-hainan"],
-  [11, "sands-macao"],
-  [12, "studio-city"],
-  [13, "the-londoner-hotel"],
+  [8,  "melco-group"],
+  [9,  "mGM-cotai"],
+  [10, "raffles-macau"],
+  [11, "ritz-carlton-macau"],
+  [12, "mGM-macau"],
 ];
 
 // exact-6 tuple type
@@ -104,7 +103,7 @@ function galleryItemsFor(slug: string): SixItems {
 }
 
 const related = PROJECTS.map(([idx, slug]) => ({
-  src: `${bp}/images/projects/project_list_img_${idx}.avif`,
+  src: `${bp}/images/projects/project_icon_img_${idx}.avif`,
   alt: slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
   href: `/projects/${slug}`,
   kind: "image" as const,

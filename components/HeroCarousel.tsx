@@ -10,7 +10,7 @@ const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 // --- Copy ---
 const HERO_TITLE = "CRAFTING BESPOKE CARPETS FOR WORLD-CLASS INTERIORS";
 const HERO_SUB =
-  "TCC Carpets unites a professional design team and skilled craftsmen with over a decade of experience, transforming complex ideas into exclusive creations through close collaboration and precision.";
+  "TCC unites a professional design team and skilled craftsmen with over decades of experience, transforming complex ideas into exclusive creations through collaboration and precision.";
 
 // --- Slide types ---
 type PhotoSlide = {

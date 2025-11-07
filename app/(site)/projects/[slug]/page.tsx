@@ -77,7 +77,8 @@ function ProjectLayout({
   const img60R = images[6] ?? images.at(-1)!;
 
   return (
-    <main className="min-h-screen bg-white text-brand-ink">
+    // Added top padding so fixed header no longer overlaps hero
+    <main className="min-h-screen bg-white text-brand-ink pt-16 sm:pt-20 lg:pt-24">
       {/* HERO with in-banner back link */}
       {hero && (
         <section className="relative w-full h-[52vh] sm:h-[58vh] md:h-[60vh] min-h-[300px]">
@@ -164,10 +165,10 @@ function ProjectLayout({
                 unoptimized
               />
             </div>
-{/* Concept → Realization caption */}
-<p className="mt-6 sm:mt-8 text-sm sm:text-[15px] font-semibold tracking-[0.14em] uppercase text-brand-ink">
-  Concept Plan → Realized Space
-</p>
+            {/* Concept → Realization caption */}
+            <p className="mt-6 sm:mt-8 text-sm sm:text-[15px] font-semibold tracking-[0.14em] uppercase text-brand-ink">
+              Concept Plan → Realized Space
+            </p>
           </div>
         </div>
       </Section>
@@ -220,9 +221,9 @@ function ProjectLayout({
         </div>
 
         {/* Feature space caption */}
-<p className="mt-6 sm:mt-8 text-sm sm:text-[15px] font-semibold tracking-[0.14em] uppercase text-brand-ink">
-  Feature Space &amp; Detail View
-</p>
+        <p className="mt-6 sm:mt-8 text-sm sm:text-[15px] font-semibold tracking-[0.14em] uppercase text-brand-ink">
+          Feature Space &amp; Detail View
+        </p>
       </Section>
 
       {/* Divider */}
