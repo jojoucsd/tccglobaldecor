@@ -19,25 +19,38 @@ const HERO = {
   image: `${bp}/images/about/artineveryfootstep.avif`,
   alt: "Hospitality lounge featuring custom carpet by TCC",
 };
+
 const COPY = {
   intro:
-    "Experts in carpet production, committed to quality, efficiency, and flexible design—delivering to international standards.",
+    "Experts in carpet production, dedicated to quality, efficiency, and design solutions tailored to each project—crafted to international standards with precision.",
   pillars: [
-    { h: "Talent and Service", p: "Carpets are our products—but our people and service are our true foundation." },
-    { h: "Communication", p: "Collaboration turns your intent into buildable designs and custom carpets." },
-    { h: "Commitment", p: "Not just making carpets right—doing what’s right in every detail." },
+    {
+      h: "Talent and Service",
+      p: "Carpets are our craft, but our people and service are our true strength.",
+    },
+    {
+      h: "Communication",
+      p: "Collaboration transforms your vision into crafted designs ready for production.",
+    },
+    {
+      h: "Commitment",
+      p: "Not just making carpets right—doing what’s right in every detail.",
+    },
   ],
-  highlights: [
-    "Over 20 years of experience in the carpet manufacturing industry with our own production factories.",
-    "Creators of luxurious tufted and woven carpets and rugs.",
-    "Specialists in customized projects for hospitality, casinos, cruise liners, residences, private jets, and yachts.",
-    "Dedicated team of over 550 skilled artisans and professionals.",
-  ],
+highlights: [
+  "Vertically integrated and agile—connecting design, sales, and production for faster, sharper execution.",
+  "Owning hand-tufted facilities and partnering with a network of Axminster mills ensures quality control and competitive value.",
+  "A 550-strong team united by craft and accountability—dedicated to excellence in every detail.",
+]
 };
 
 export default function About() {
   return (
-    <Section id="about" style={{ scrollMarginTop: "calc(var(--header-h))" }} className="scroll-mt-24">
+    <Section
+      id="about"
+      style={{ scrollMarginTop: "calc(var(--header-h))" }}
+      className="scroll-mt-24"
+    >
       {/* Heading */}
       <header className="text-center text-brand-ink">
         <p className="inline-flex items-center gap-2 text-[11px] tracking-[0.18em] uppercase text-neutral-500">
@@ -52,18 +65,17 @@ export default function About() {
 
       {/* Image first on mobile, copy after */}
       <div className="mt-6 md:mt-10 grid grid-cols-1 md:grid-cols-[45%_55%] gap-8 md:gap-10 items-start text-brand-ink">
-        {/* Image */}
-  {/* Image (stretches on md+) */}
-  <div className="relative w-full aspect-[4/3] md:aspect-auto md:h-full overflow-hidden rounded-xl md:rounded-2xl bg-neutral-100 ring-1 ring-neutral-200">
-    <Image
-      src={HERO.image}
-      alt={HERO.alt}
-      fill
-      className="object-cover object-center"
-      priority
-      unoptimized
-    />
-  </div>
+        {/* Image (stretches on md+) */}
+        <div className="relative w-full aspect-[4/3] md:aspect-auto md:h-full overflow-hidden rounded-xl md:rounded-2xl bg-neutral-100 ring-1 ring-neutral-200">
+          <Image
+            src={HERO.image}
+            alt={HERO.alt}
+            fill
+            className="object-cover object-center"
+            priority
+            unoptimized
+          />
+        </div>
 
         {/* Copy */}
         <div>
