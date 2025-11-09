@@ -72,7 +72,7 @@ const slides: Slide[] = [
   },
 ];
 
-const AUTOPLAY_MS = 6500;
+const AUTOPLAY_MS = 5000;
 
 // --- Hook: isMobile based on CSS breakpoint (≤ 639px) ---
 function useIsMobile() {

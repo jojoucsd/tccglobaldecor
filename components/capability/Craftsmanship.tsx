@@ -1,15 +1,28 @@
 "use client";
 import Image from "next/image";
 import Section from "@/components/Section";
+import { useEffect, useState } from "react";
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-// smaller left image
 const SUPPORT_IMAGE = `${bp}/images/capability/craftmenship.avif`;
-// main large image
-const UN_IMAGE = `${bp}/images/capability/un.avif`;
+const UN_IMAGE_DESKTOP = `${bp}/images/capability/un.avif`;
+const UN_IMAGE_MOBILE = `${bp}/images/capability/un-mobile.avif`;
 
 export default function Craftsmanship() {
+  // Track viewport width for responsive image selection
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Run once on mount and on resize
+    const handleResize = () => setIsMobile(window.innerWidth < 768); // Tailwind md breakpoint
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const UN_IMAGE = isMobile ? UN_IMAGE_MOBILE : UN_IMAGE_DESKTOP;
+
   return (
     <Section className="bg-white !px-0" pad="sm" id="craftsmanship">
       <div className="px-4 sm:px-6 md:px-12 py-6 md:py-12">
@@ -36,6 +49,7 @@ export default function Craftsmanship() {
                 alt="TCC artisans preparing yarns for custom carpet design"
                 fill
                 className="object-cover"
+                priority
               />
             </div>
 
@@ -49,13 +63,15 @@ export default function Craftsmanship() {
             </p>
           </div>
 
-          {/* RIGHT COLUMN (hero image, same height as left on desktop) */}
+          {/* RIGHT COLUMN */}
           <div className="relative w-full h-[480px] md:h-full overflow-hidden rounded-2xl ring-1 ring-neutral-200 shadow-[0_18px_45px_rgba(0,0,0,0.12)]">
             <Image
+              key={UN_IMAGE} // force re-render when switching
               src={UN_IMAGE}
               alt="United Nations Omar Heritage Room carpet by TCC"
               fill
               className="object-cover"
+              priority
             />
             <div className="absolute inset-x-0 bottom-0 bg-black/35 backdrop-blur-sm px-3 py-2">
               <p className="text-[10px] sm:text-[11px] font-medium tracking-wide uppercase text-white text-right">
