@@ -11,6 +11,7 @@ const NAV: NavItem[] = [
   { href: "/#about", label: "About", sectionId: "about" },
   { href: "/projects", label: "Projects" },
   { href: "/#capability", label: "Craftsmanship", sectionId: "capability" },
+  { href: "/#collaborations", label: "Collaborations", sectionId: "collaborations" },
   { href: "/connect", label: "Connect" },
 ];
 
