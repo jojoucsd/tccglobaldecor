@@ -89,3 +89,51 @@ html {
 .animate-slideDown {
   animation: slideDown 0.25s ease-out forwards;
 }
+
+/* =========================================
+   MOURNING MODE – black & white site theme
+   ========================================= */
+
+/* Add `class="mourning"` to <html> or <body> to enable this */
+html.mourning {
+  /* Force neutral light theme */
+  --background: #ffffff;
+  --foreground: #111111;
+
+  /* Desaturate everything */
+  filter: grayscale(1);
+}
+
+/* Ensure text still has enough contrast */
+html.mourning body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Soften brand colors further if needed */
+html.mourning {
+  --color-brand-gold: #e5e5e5;      /* light gray */
+  --color-brand-gold-deep: #a3a3a3; /* darker gray */
+  --color-brand-ink: #111827;       /* near-black text */
+}
+
+/* Images & video: grayscale + dimmed (overlay effect) */
+html.mourning img,
+html.mourning picture,
+html.mourning video {
+  filter: grayscale(1);
+  opacity: 0.7; /* feels like a subtle black veil */
+}
+
+/* Hero overlay for background images */
+.hero {
+  position: relative; /* ensure overlay positions correctly */
+}
+
+html.mourning .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); /* dark overlay */
+  pointer-events: none;
+}
