@@ -5,7 +5,7 @@ import Section from "@/components/Section";
 
 export const COLLABORATIONS = [
   { title: "Alexander’s Design", role: "Design Partner",          img: "alexanders-collection.avif", url: "https://www.alexanders-collection.com/rugs" },
-  { title: "One-Interiors",       role: "Creative Direction",     img: "one.avif",                    url: "https://www.one-interior.com/" },
+  { title: "One-Interiors",       role: "Creative Direction",     img: "one.avif",                    url: "https://www.oneminteriors.com/" },
   { title: "TredMor®",            role: "Material Collaboration", img: "tred-mor.avif",               url: "https://commercial-carpetcushion.com/" },
   { title: "Malta Projects",      role: "Manufacturing Partner",  img: "malta-solutions.avif",        url: "https://www.maltasolutions.biz/" },
 ];
