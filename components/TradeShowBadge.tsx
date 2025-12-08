@@ -17,7 +17,7 @@ export default function TradeShowBadge({
       }
     >
       <span className="inline-block h-2 w-2 rounded-full bg-white/70" />
-      In Memory of the Lives Lost — 香港，加油 🤍
+      HD Expo 2026 — Mandalay Bay, Las Vegas • May 5–7
     </div>
   );
 }

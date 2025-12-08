@@ -8,9 +8,12 @@ export const metadata: Metadata = {
 };
 
 // Toggle mourning mode here
-const mourning =
-  process.env.NEXT_PUBLIC_MOURNING_MODE === "1" || true;
+// const mourning =
+//   process.env.NEXT_PUBLIC_MOURNING_MODE === "1" || true;
 //            ↑ remove `|| true` later if you want env-only control
+
+// Toggle mourning mode here
+const mourning = process.env.NEXT_PUBLIC_MOURNING_MODE === "1";
 
 export default function RootLayout({
   children,
