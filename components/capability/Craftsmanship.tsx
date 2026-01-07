@@ -5,23 +5,34 @@ import { useEffect, useState } from "react";
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-const SUPPORT_IMAGE = `${bp}/images/capability/craftmenship.avif`;
-const UN_IMAGE_DESKTOP = `${bp}/images/capability/un.avif`;
-const UN_IMAGE_MOBILE = `${bp}/images/capability/un-mobile.avif`;
+const SUPPORT_IMAGE = `${bp}/images/capability/craftsmanship.avif`;
+
+// Carousel images for UN Headquarters project
+const UN_IMAGES = [
+  {
+    src: `${bp}/images/capability/un1.avif`,
+    alt: "United Nations Headquarters NYC Oman Heritage Walk - Detail 1"
+  },
+  {
+    src: `${bp}/images/capability/un2.avif`,
+    alt: "United Nations Headquarters NYC Oman Heritage Walk - Detail 2"
+  },
+  {
+    src: `${bp}/images/capability/un3.avif`,
+    alt: "United Nations Headquarters NYC Oman Heritage Walk - Detail 3"
+  }
+];
 
 export default function Craftsmanship() {
-  // Track viewport width for responsive image selection
-  const [isMobile, setIsMobile] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Auto-advance carousel every 5 seconds
   useEffect(() => {
-    // Run once on mount and on resize
-    const handleResize = () => setIsMobile(window.innerWidth < 768); // Tailwind md breakpoint
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % UN_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
   }, []);
-
-  const UN_IMAGE = isMobile ? UN_IMAGE_MOBILE : UN_IMAGE_DESKTOP;
 
   return (
     <Section className="bg-white !px-0" pad="sm" id="craftsmanship">
@@ -63,20 +74,69 @@ export default function Craftsmanship() {
             </p>
           </div>
 
-          {/* RIGHT COLUMN */}
-          <div className="relative w-full h-[480px] md:h-full overflow-hidden rounded-2xl ring-1 ring-neutral-200 shadow-[0_18px_45px_rgba(0,0,0,0.12)]">
-            <Image
-              key={UN_IMAGE} // force re-render when switching
-              src={UN_IMAGE}
-              alt="United Nations Omar Heritage Room carpet by TCC"
-              fill
-              className="object-cover"
-              priority
-            />
+          {/* RIGHT COLUMN - Carousel */}
+          <div className="relative w-full h-[480px] md:h-full overflow-hidden rounded-2xl ring-1 ring-neutral-200 shadow-[0_18px_45px_rgba(0,0,0,0.12)] group">
+            {/* Carousel Images */}
+            {UN_IMAGES.map((image, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-opacity duration-1000 ${
+                  index === currentSlide ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover"
+                  priority={index === 0}
+                />
+              </div>
+            ))}
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={() => setCurrentSlide((prev) => (prev - 1 + UN_IMAGES.length) % UN_IMAGES.length)}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              aria-label="Previous slide"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={() => setCurrentSlide((prev) => (prev + 1) % UN_IMAGES.length)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              aria-label="Next slide"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Bottom Overlay with Title and Dots */}
             <div className="absolute inset-x-0 bottom-0 bg-black/35 backdrop-blur-sm px-3 py-2">
-              <p className="text-[10px] sm:text-[11px] font-medium tracking-wide uppercase text-white text-right">
-                United Nations · Omar Heritage Room
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] sm:text-[11px] font-medium tracking-wide uppercase text-white">
+                  UN HQ NYC · Oman Heritage Walk
+                </p>
+
+                {/* Dots Navigation */}
+                <div className="flex gap-1.5">
+                  {UN_IMAGES.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                        index === currentSlide
+                          ? "bg-white w-6"
+                          : "bg-white/50 hover:bg-white/75"
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
