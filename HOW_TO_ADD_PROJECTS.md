@@ -13,9 +13,9 @@
 
 **Examples:**
 - "Octavius Tower Caesars Palace" → `octavius-caesars`
-- "Park Hyatt Niseko" → `park-hyatt-niseko`
+- "Park Hyatt Niseko Hanazono" → `park-hyatt-niseko`
+- "Grand Hyatt Macau" → `grand-hyatt-macau`
 - "The Londoner Macau" → `londoner-macau`
-- "MGM Grand Las Vegas" → `mgm-grand-las-vegas`
 
 ---
 
@@ -35,9 +35,9 @@
 
 ### Photo Requirements
 
-**Ideally provide 7 photos** (numbered 0–6)
-
-If you have more, keep going: 7, 8, 9, 10, etc.
+**Minimum: 5 photos** (numbered 0–4)
+**Recommended: 7 photos** (numbered 0–6)
+**Maximum: Unlimited** (keep numbering: 7, 8, 9, 10, 11, ...)
 
 ---
 
@@ -52,7 +52,7 @@ If you have more, keep going: 7, 8, 9, 10, etc.
 | **4** | Another important interior | Main space, lobby, hallway, etc. |
 | **5** | Detail or close-up | Carpet texture, pattern, edge detail |
 | **6** | Final main interior or detail | Last key photo |
-| **7+** | (Optional) Extra photos | Any additional images you want to include |
+| **7+** | (Optional) Extra photos | Additional angles, details, or areas |
 
 ---
 
@@ -76,32 +76,55 @@ If you have more, keep going: 7, 8, 9, 10, etc.
 exterior.jpg
 banner photo.png
 photo_2.jpg
+IMG_1234.jpg
 ```
 
 **Rules:**
 - Start at 0 (not 1)
 - No skipped numbers (0, 1, 2, 3 ✅ / 0, 1, 3, 5 ❌)
-- No spaces in names
+- No spaces in file names
 - Allowed formats: `.jpg`, `.jpeg`, `.png`
 
 ---
 
-## STEP 3: Folder Structure Example
+## STEP 3: Real Examples from Our Projects
 
-Your folder should look like this:
+### Example 1: Grand Hyatt Macau (5 photos)
+**Folder:** [grand-hyatt-macau](https://github.com/jojoucsd/tccglobaldecor/tree/main/public/images/projects/grand-hyatt-macau)
 
 ```
-octavius-caesars/
-├── 0.jpg
-├── 1.jpg
-├── 2.jpg
-├── 3.jpg
-├── 4.jpg
-├── 5.jpg
-├── 6.jpg
-├── 7.jpg (optional)
-└── 8.jpg (optional)
+grand-hyatt-macau/
+├── 0.avif     ← Building exterior (cover image)
+├── 1.avif     ← Wide landscape banner
+├── 2.avif     ← Interior with carpet installed
+├── 3.avif     ← Floor plan/drawing
+└── 4.avif     ← Additional interior detail
 ```
+
+**Note:** This project has 5 photos, which is the minimum. The website will show Sections A and C.
+
+---
+
+### Example 2: Park Hyatt Niseko (12 photos)
+**Folder:** [park-hyatt-niseko](https://github.com/jojoucsd/tccglobaldecor/tree/main/public/images/projects/park-hyatt-niseko)
+
+```
+park-hyatt-niseko/
+├── 0.avif     ← Building exterior (cover image)
+├── 1.avif     ← Wide landscape banner
+├── 2.avif     ← Interior with carpet
+├── 3.avif     ← Floor plan/drawing
+├── 4.avif     ← Main space photo
+├── 5.avif     ← Detail shot
+├── 6.avif     ← Another interior
+├── 7.avif     ← Extra photo
+├── 8.avif     ← Extra photo
+├── 9.avif     ← Extra photo
+├── 10.avif    ← Extra photo
+└── 11.avif    ← Extra photo
+```
+
+**Note:** This project has 12 photos. Photos 0-6 are used in the layout, and photos 7-11 appear in a carousel at the bottom of the page.
 
 ---
 

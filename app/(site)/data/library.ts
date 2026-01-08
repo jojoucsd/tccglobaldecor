@@ -13,7 +13,7 @@ function getAllLibraryImages(): LibraryImage[] {
   return fs
     .readdirSync(LIBRARY_DIR)
     .filter((f) => f.toLowerCase().endsWith(".avif"))
-    .sort()
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
     .map((filename) => ({ filename }));
 }
 

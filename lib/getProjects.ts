@@ -101,7 +101,7 @@ export function getAllProjects(): ProjectRecord[] {
       const files = fs
         .readdirSync(dir)
         .filter((f) => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
-        .sort();
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
 
       if (!files.length) return null;
 
