@@ -21,15 +21,15 @@
 
 ## STEP 2: Prepare the Photos
 
-### ⚠️ IMPORTANT — What You Need to Do:
+### ⚠️ IMPORTANT — File Format & Naming:
 
-**DO NOT:**
-- ❌ Resize images
-- ❌ Convert to different formats
-- ❌ Edit or crop photos
+**You can:**
+- ✅ Resize, crop, or edit photos as needed
+- ✅ Use `.jpg`, `.jpeg`, or `.png` format
 
-**ONLY DO THIS:**
-- ✅ Rename the files correctly (see below)
+**You must:**
+- ✅ Rename the files correctly using numbers only (see below)
+- ✅ Use correct file formats (`.jpg`, `.jpeg`, `.png`)
 
 ---
 
@@ -128,9 +128,11 @@ park-hyatt-niseko/
 
 ---
 
-## STEP 4: Include Project Details
+## STEP 4: Include Project Details (Optional)
 
-Copy and fill out this template:
+**Note:** This step is optional. Sometimes the photo provider doesn't need to provide project notes and details — that can be handled by the person implementing the project. However, it's very helpful if you can provide this information!
+
+If you have the information, copy and fill out this template:
 
 ```
 PROJECT NAME: Octavius Tower Caesars Palace
@@ -179,41 +181,31 @@ across suites and public areas.
 
 ---
 
-## STEP 5: Checklist Before Sending
+## STEP 5: Submit Your Project
 
-- [ ] Folder name is lowercase with dashes (e.g., `octavius-caesars`)
-- [ ] Files are named: `0`, `1`, `2`, `3`, `4`, `5`, `6` (with .jpg or .png)
-- [ ] No skipped numbers
-- [ ] Photo 2 = real interior with installed carpet
-- [ ] Photo 3 = drawing or plan of **the same space as photo 2**
-- [ ] Project information included (name, address, summary, description)
+**Once your project is ready:**
 
----
+1. Put all photos in a folder with the correct name (lowercase with dashes)
+2. Make sure files are named: `0`, `1`, `2`, `3`, `4`, etc. (no skipped numbers)
+3. Send it to the web developer by:
+   - Uploading to cloud storage (Google Drive, Dropbox, etc.), OR
+   - Emailing as a zip file
 
-## STEP 6: Submit
-
-**Send either:**
-- The folder (uncompressed)
-- OR a zip file
-
-**Both are fine!**
-
-**Send to:** Your web developer
+**That's it!** The developer will handle the rest.
 
 ---
 
 ## 🙌 Reassurance for Non-Technical Users
 
-**You do NOT need to:**
-- Resize images
-- Convert file formats
-- Edit or crop photos
-- Know anything technical
+**You do NOT need to know anything technical!**
 
 **Just:**
+- Choose good photos that show the project
 - Rename the files correctly (0, 1, 2, 3, etc.)
-- Follow the folder naming rules
-- That's it!
+- Put them in a folder with the right name
+- Send it to the developer
+
+**That's all!** The developer will handle optimization, conversion, and uploading.
 
 ---
 
@@ -231,8 +223,8 @@ A: Great! Keep numbering: 7, 8, 9, 10, 11, etc.
 **Q: What if I only have 5 photos?**
 A: That's okay — just send what you have (0, 1, 2, 3, 4).
 
-**Q: Do the photos need to be a certain size?**
-A: No — the developer will handle resizing and optimization.
+**Q: Do the photos need to be a certain size or format?**
+A: No specific requirements — `.jpg`, `.jpeg`, or `.png` formats are fine. The developer will handle final optimization and conversion.
 
 ---
 
