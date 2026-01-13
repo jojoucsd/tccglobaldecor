@@ -41,18 +41,24 @@ const AWARD_TITLES: Record<string, string> = {
 
 // Map image index -> project slug (edit this list to match your files)
 const PROJECTS: Array<[number, string]> = [
-  [1,  "four-seasons-grand"],
-  [2,  "grand-hyatt-macau"],
-  [3,  "grand-lisboa"],
-  [4,  "karl-lagerfeld-macau"],
-  [5,  "londoner-macau"],
-  [6,  "marina-bay-sands"],
-  [7,  "park-hyatt-niseko"],
-  [8,  "melco-group"],
-  [9,  "mGM-cotai"],
-  [10, "raffles-macau"],
-  [11, "ritz-carlton-macau"],
-  [12, "mGM-macau"],
+  [1,  "londoner-grand"],
+  [2,  "park-hyatt-niseko"],
+  [3,  "four-seasons-grand"],
+  [4,  "grand-hyatt-macau"],
+  [5,  "mGM-cotai"],
+  [6,  "mGM-macau"],
+  [7,  "grand-lisboa"],
+  [8,  "karl-lagerfeld-macau"],
+  [9,  "marina-bay-sands"],
+  [10, "melco-group"],
+  [11, "raffles-macau"],
+  [12, "ritz-carlton-macau"],
+  [13, "united-nations-NYC"],
+  [14, "caesars-octavius-LV"],
+  [15, "caesars-palace-LV"],
+  [16, "londoner-hotel"],
+  [17, "dream-tower-jeju-island"],
+  [18, "w-taipei"],
 ];
 
 // exact-6 tuple type
