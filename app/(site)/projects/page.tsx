@@ -29,12 +29,12 @@ export default function ProjectsIndex() {
     >
       {/* Header */}
       <header className="text-center max-w-3xl mx-auto">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight flex items-center justify-center gap-3">
-          <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight flex items-center justify-center gap-4">
+          <span className="inline-block h-[4px] w-10 bg-brand-gold rounded-full" />
           Projects
-          <span className="inline-block h-[3px] w-8 bg-brand-gold rounded-full" />
+          <span className="inline-block h-[4px] w-10 bg-brand-gold rounded-full" />
         </h1>
-        <p className="mt-3 sm:mt-5 text-[14px] sm:text-base md:text-lg text-neutral-700 leading-relaxed">
+        <p className="mt-4 sm:mt-6 text-[15px] sm:text-base md:text-lg text-neutral-600 leading-relaxed">
           A showcase of our bespoke carpet projects for world-class hotels,
           casinos, and hospitality destinations.
         </p>
@@ -58,9 +58,9 @@ export default function ProjectsIndex() {
                   priority={i === 0}
                   unoptimized
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-1.5 sm:p-2 md:p-3 text-center sm:text-left text-white">
-                  <h2 className="text-[11px] sm:text-sm md:text-base font-semibold drop-shadow-sm truncate">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-4 md:p-5 text-center sm:text-left text-white">
+                  <h2 className="text-sm sm:text-lg md:text-xl font-bold drop-shadow-lg line-clamp-2 leading-tight">
                     {p.title}
                   </h2>
                 </div>
