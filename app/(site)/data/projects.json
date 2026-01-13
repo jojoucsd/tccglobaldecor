@@ -1,6 +1,6 @@
 [
   {
-    "slug": "londoner-macau",
+    "slug": "londoner-grand",
     "address": "Estrada do Istmo. s/n, Cotai, Macau SAR, P.R. China",
     "summary": "Located at the heart of Cotai, The Londoner Hotel captures the grandeur of British sophistication through architecture and interior design. Inspired by London’s timeless heritage, the hotel merges classic detailing with modern luxury, creating a distinct atmosphere of refined hospitality.",
     "description": "Within this setting, TCC Carpets crafted bespoke designs that echo the hotel’s British narrative. Each carpet was tailored to its environment—bold patterns and rich tones define the public areas, while softer palettes and delicate motifs enrich the suites. Through meticulous craftsmanship and advanced production, the carpets bring harmony, comfort, and identity to every space, making them an integral part of The Londoner’s distinguished character.",
@@ -84,10 +84,45 @@
     "notes": "Understated patterns enhance comfort, privacy, and long-term visual longevity."
   },
   {
-    "slug": "united-nations-new-york",
+    "slug": "united-nations-NYC",
     "address": "United Nations Plaza, New York, NY",
     "summary": "The United Nations Headquarters in New York stands as a symbol of international diplomacy and cultural exchange.",
     "description": "For the Oman Heritage Walk, TCC Carpets designed bespoke floor coverings that honor Omani heritage and craftsmanship, creating a welcoming environment that bridges tradition with the UN's mission of global unity.",
     "notes": "Traditional Omani motifs and earthy tones reflect the cultural narrative of the heritage installation."
+  },
+  {
+    "slug": "caesars-octavius-LV",
+    "address": "Las Vegas Blvd South, Las Vegas, NV",
+    "summary": "The Octavius Tower at Caesars Palace represents the pinnacle of Las Vegas luxury accommodation.",
+    "description": "TCC Carpets crafted bespoke floor coverings for the 68th and 69th floor hallways and suites, delivering refined elegance at the tower's most exclusive levels.",
+    "notes": "Sophisticated patterns and premium materials complement the elevated guest experience of the upper floors."
+  },
+  {
+    "slug": "caesars-palace-LV",
+    "address": "Las Vegas Blvd South, Las Vegas, NV",
+    "summary": "Caesars Palace remains an icon of Las Vegas grandeur and timeless Roman-inspired luxury.",
+    "description": "For the Palace Tower Villa—the property's most prestigious and high-end accommodation—TCC Carpets designed bespoke floor coverings befitting its ultra-luxury status.",
+    "notes": "Opulent textures and refined detailing reflect the villa's position as the crown jewel of Caesars Palace."
+  },
+  {
+    "slug": "londoner-hotel",
+    "address": "Estrada do Istmo. s/n, Cotai, Macau SAR, P.R. China",
+    "summary": "The Londoner Hotel is part of the iconic Londoner Macao resort, offering British-inspired luxury in the heart of Cotai.",
+    "description": "TCC Carpets contributed bespoke floor coverings that complement the hotel's refined British aesthetic, blending classic elegance with modern comfort across guest areas.",
+    "notes": "Tailored designs and quality craftsmanship support the hotel's distinctive hospitality experience."
+  },
+  {
+    "slug": "dream-tower-jeju-island",
+    "address": "Jeju Island, South Korea",
+    "summary": "Dream Tower stands as Jeju Island's premier integrated resort destination.",
+    "description": "TCC Carpets delivered custom floor coverings that enhance the resort's contemporary interiors, reflecting the natural beauty of Jeju Island through thoughtful design.",
+    "notes": "Modern patterns and refined textures contribute to the property's elevated guest experience."
+  },
+  {
+    "slug": "w-taipei",
+    "address": "Taipei, Taiwan",
+    "summary": "W Taipei brings bold, contemporary luxury to Taiwan's vibrant capital.",
+    "description": "TCC Carpets crafted bespoke designs that align with the W brand's dynamic and fashion-forward identity, adding energy and sophistication to the hotel's interiors.",
+    "notes": "Bold motifs and contemporary palettes echo the property's stylish urban character."
   }
 ]

@@ -15,7 +15,7 @@ type ProjectItem = {
 };
 
 export default function ProjectsIndex() {
-  const projects = (getAllProjects() as ProjectItem[]).slice(0, 15); // show top 15 for grid demo
+  const projects = (getAllProjects() as ProjectItem[]).slice(0, 24); // show top 24 for grid
 
   return (
     <main
