@@ -101,7 +101,8 @@ export default function SmartBelt({
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  const loop = [...sliced, ...sliced];
+  // Triple the items for smoother infinite loop (no visible seam)
+  const loop = [...sliced, ...sliced, ...sliced];
 
   const hClass =
     height === "lg" ? "h-24 md:h-28"
@@ -165,8 +166,15 @@ export default function SmartBelt({
       </div>
 
       <style jsx global>{`
-        @keyframes smart-belt { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
-        .animate-smart-belt { animation: smart-belt linear infinite }
+        @keyframes smart-belt {
+          0% { transform: translate3d(0, 0, 0) }
+          100% { transform: translate3d(-33.333%, 0, 0) }
+        }
+        .animate-smart-belt {
+          animation: smart-belt linear infinite;
+          backface-visibility: hidden;
+          perspective: 1000px;
+        }
         .pause-animation { animation-play-state: paused !important }
       `}</style>
     </div>
