@@ -4,7 +4,37 @@
 
 ---
 
-## STEP 1: Create a Project Folder
+## Quick Reference
+
+> **TL;DR: Put numbered photos in a correctly-named folder and send it.**
+
+### Folder Name
+**Format:** lowercase-with-dashes
+```
+✅ octavius-caesars
+✅ park-hyatt-niseko
+❌ Octavius Caesars
+```
+
+### File Names
+**Use numbers only:** `0.jpg`, `1.jpg`, `2.jpg`, `3.jpg`...
+
+| # | Photo Type |
+|---|------------|
+| 0 | Building exterior (cover) |
+| 1 | Wide banner (top of page) |
+| 2 | Interior with carpet |
+| 3 | Floor plan/drawing |
+| 4 | Another interior |
+| 5+ | Extra photos (optional) |
+
+**Minimum:** 5 photos (0-4) | **Recommended:** 7+ photos
+
+---
+
+## Full Guide
+
+### STEP 1: Create a Project Folder
 
 **Folder name must be:**
 - Lowercase letters only
@@ -19,9 +49,9 @@
 
 ---
 
-## STEP 2: Prepare the Photos
+### STEP 2: Prepare the Photos
 
-### ⚠️ IMPORTANT — File Format & Naming:
+#### ⚠️ IMPORTANT — File Format & Naming:
 
 **You can:**
 - ✅ Resize, crop, or edit photos as needed
@@ -33,7 +63,7 @@
 
 ---
 
-### Photo Requirements
+#### Photo Requirements
 
 **Minimum: 5 photos** (numbered 0–4)
 **Recommended: 7 photos** (numbered 0–6)
@@ -41,7 +71,7 @@
 
 ---
 
-### What Each Photo Should Be
+#### What Each Photo Should Be
 
 | File Name | What It Shows | Notes |
 |-----------|---------------|-------|
@@ -56,7 +86,7 @@
 
 ---
 
-### File Naming Rules
+#### File Naming Rules
 
 **Numbers only — no letters, no words**
 
@@ -87,9 +117,9 @@ IMG_1234.jpg
 
 ---
 
-## STEP 3: Real Examples from Our Projects
+### STEP 3: Real Examples from Our Projects
 
-### Example 1: Grand Hyatt Macau (5 photos)
+#### Example 1: Grand Hyatt Macau (5 photos)
 **Folder:** [grand-hyatt-macau](https://github.com/jojoucsd/tccglobaldecor/tree/main/public/images/projects/grand-hyatt-macau)
 
 ```
@@ -105,7 +135,7 @@ grand-hyatt-macau/
 
 ---
 
-### Example 2: Park Hyatt Niseko (12 photos)
+#### Example 2: Park Hyatt Niseko (12 photos)
 **Folder:** [park-hyatt-niseko](https://github.com/jojoucsd/tccglobaldecor/tree/main/public/images/projects/park-hyatt-niseko)
 
 ```
@@ -128,7 +158,7 @@ park-hyatt-niseko/
 
 ---
 
-## STEP 4: Include Project Details (Optional)
+### STEP 4: Include Project Details (Optional)
 
 **Note:** This step is optional. Sometimes the photo provider doesn't need to provide project notes and details — that can be handled by the person implementing the project. However, it's very helpful if you can provide this information!
 
@@ -181,7 +211,7 @@ across suites and public areas.
 
 ---
 
-## STEP 5: Submit Your Project
+### STEP 5: Submit Your Project
 
 **Once your project is ready:**
 

@@ -1,0 +1,154 @@
+# Team TODO List
+
+**Last Updated:** January 2026
+
+This document tracks tasks and requests for the team. Please check regularly and update your progress.
+
+---
+
+## 🔴 CRITICAL: Need Team Assistance
+
+These projects require immediate attention and support from the team:
+
+### Grand Hyatt Macau — CRITICAL
+| Issue | Details |
+|-------|---------|
+| Missing floor plan / flood-in images | Required for project page layout |
+| Images not updated | Current photos need to be replaced |
+| Photo count | Only 5 photos (minimum is 3, but needs more) |
+| **Action needed** | Team to source new photos urgently |
+
+### Melco Group — CRITICAL
+| Issue | Details |
+|-------|---------|
+| Missing floor plan / flood-in images | Required for project page layout |
+| Needs new photos | Current photos need refresh |
+| **Action needed** | Team to source new photos urgently |
+
+---
+
+## 🟠 Projects Needing Photos
+
+**Photo requirements:** Minimum 3, Maximum 12 per project
+
+### Needs More Onsite/Interior Photos
+
+| Project | Current | What's Needed | Priority |
+|---------|---------|---------------|----------|
+| **Caesars Palace LV** | 6 | More onsite photos | Medium |
+| **Four Seasons Grand** | 7 | Could use a couple more | Low |
+
+### Needs Guest Room Photos
+
+| Project | Current | What's Needed | Priority |
+|---------|---------|---------------|----------|
+| **Grand Lisboa** | 7 | Guest room photos (currently only mass gaming) | Medium |
+
+### Needs Mass Gaming Photos (If Available)
+
+_Note: Not all hotels have mass gaming. Only provide if we have these photos._
+
+| Project | Current | What's Needed | Priority |
+|---------|---------|---------------|----------|
+| **Karl Lagerfeld Macau** | 7 | Mass gaming photos if available | Low |
+| **MGM Cotai** | 7 | Mass gaming photos | Low |
+| **MGM Macau** | 6 | Mass gaming photos | Low |
+
+### Needs Floor Plan / Flood-In Photos
+
+| Project | Current | What's Needed | Priority |
+|---------|---------|---------------|----------|
+| **W Taipei** | 14 | Floor plan or flood-in images | Medium |
+
+### Copyright Concerns
+
+| Project | Issue |
+|---------|-------|
+| **W Taipei** | All photos may have copyright issues — please verify |
+
+---
+
+## 🟡 Projects Needing Marketing Copy
+
+The following projects have **placeholder/generic descriptions**. Marketing team please provide proper copy:
+
+| Project | What's Needed | Status |
+|---------|---------------|--------|
+| **Londoner Hotel** | Summary, Description, Notes | ⏳ Pending |
+| **Dream Tower Jeju Island** | Summary, Description, Notes | ⏳ Pending |
+| **W Taipei** | Summary, Description, Notes | ⏳ Pending |
+
+**Template for each project:**
+```
+PROJECT: [Project Name]
+
+SUMMARY (2-3 sentences):
+Brief overview of the property — design philosophy, atmosphere, unique characteristics.
+
+DESCRIPTION (3-4 sentences):
+How TCC Carpets contributed. What did we create? Techniques/materials used?
+
+NOTES (1-2 sentences):
+Additional details about patterns, colors, special features.
+```
+
+---
+
+## 📊 Current Photo Count Summary
+
+**Requirements:** Minimum 3 photos, Maximum 12 photos per project
+
+| Project | Photos | Status |
+|---------|--------|--------|
+| W Taipei | 14 | ⚠️ Over max (12) |
+| Park Hyatt Niseko | 12 | ✅ At max |
+| Londoner Grand | 11 | ✅ Good |
+| Dream Tower Jeju Island | 11 | ✅ Good |
+| Londoner Hotel | 10 | ✅ Good |
+| Caesars Octavius LV | 8 | ✅ Good |
+| Four Seasons Grand | 7 | ✅ Good |
+| Grand Lisboa | 7 | ✅ Good |
+| Karl Lagerfeld Macau | 7 | ✅ Good |
+| MGM Cotai | 7 | ✅ Good |
+| Marina Bay Sands | 7 | ✅ Good |
+| Ritz-Carlton Macau | 7 | ✅ Good |
+| United Nations NYC | 7 | ✅ Good |
+| Caesars Palace LV | 6 | ✅ OK |
+| MGM Macau | 6 | ✅ OK |
+| Melco Group | 6 | ✅ OK |
+| Raffles Macau | 6 | ✅ OK |
+| Grand Hyatt Macau | 5 | ⚠️ Needs more |
+
+---
+
+## 📋 Ling's Tasks
+
+**Deadline: Q1 2026**
+
+| Task | Description | Status |
+|------|-------------|--------|
+| **Deck 1: US Market Pitch** | Pitching deck for Matthew — US market focus | ⏳ Pending |
+| **Deck 2: Vegas Gaming** | Vegas gaming power player & carpet supply chain deck | ⏳ Pending |
+
+---
+
+## 🟢 Completed
+
+_(Move completed tasks here with date)_
+
+---
+
+## How to Update This Document
+
+1. When you complete a task, move it to the **Completed** section with the date
+2. Add new tasks under the appropriate priority section
+3. Update status icons: ⏳ Pending → 🔄 In Progress → ✅ Done
+
+**Priority levels:**
+- 🔴 CRITICAL — Needs immediate team assistance
+- 🟠 Medium — Should be addressed soon
+- 🟡 Low — Address when possible
+
+---
+
+**Questions?** Contact the development team.
