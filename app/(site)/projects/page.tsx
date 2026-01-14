@@ -17,6 +17,10 @@ type ProjectItem = {
 export default function ProjectsIndex() {
   const projects = (getAllProjects() as ProjectItem[]).slice(0, 24); // show top 24 for grid
 
+  // Show 1 CTA card on desktop if grid is not perfect (4 columns)
+  const desktopCols = 4;
+  const showCta = projects.length % desktopCols !== 0;
+
   return (
     <main
       className="
@@ -68,6 +72,30 @@ export default function ProjectsIndex() {
             </Link>
           </li>
         ))}
+
+        {/* CTA card - only visible on desktop when grid is not perfect */}
+        {showCta && (
+          <li className="relative group hidden sm:block">
+            <Link
+              href="/connect"
+              className="block overflow-hidden rounded-[8px] ring-1 ring-brand-gold/40 hover:ring-brand-gold transition h-full"
+            >
+              <div className="relative aspect-[3/4] bg-gradient-to-br from-neutral-50 to-neutral-100 flex flex-col items-center justify-center p-6 text-center">
+                <div className="w-12 h-12 mb-4 rounded-full bg-brand-gold/10 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-brand-gold-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                </div>
+                <h2 className="text-lg md:text-xl font-bold text-brand-ink leading-tight">
+                  Let Us Achieve Your Vision
+                </h2>
+                <p className="mt-2 text-sm text-neutral-500">
+                  Start your project today
+                </p>
+              </div>
+            </Link>
+          </li>
+        )}
       </ul>
     </main>
   );

@@ -59,6 +59,9 @@ const PROJECTS: Array<[number, string]> = [
   [16, "londoner-hotel"],
   [17, "dream-tower-jeju-island"],
   [18, "w-taipei"],
+  [19, "COD-manila"],
+  [20, "seabank-malta"],
+  [21, "studio-city-epic-tower-macau"],
 ];
 
 // exact-6 tuple type

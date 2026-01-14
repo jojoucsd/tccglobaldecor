@@ -124,5 +124,26 @@
     "summary": "W Taipei brings bold, contemporary luxury to Taiwan's vibrant capital.",
     "description": "TCC Carpets crafted bespoke designs that align with the W brand's dynamic and fashion-forward identity, adding energy and sophistication to the hotel's interiors.",
     "notes": "Bold motifs and contemporary palettes echo the property's stylish urban character."
+  },
+  {
+    "slug": "COD-manila",
+    "address": "Manila, Philippines",
+    "summary": "City of Dreams Manila brings world-class integrated resort entertainment to the Philippines.",
+    "description": "TCC Carpets delivered bespoke floor coverings that complement the resort's luxurious interiors, blending international design standards with local hospitality warmth.",
+    "notes": "Contemporary patterns and refined textures support the property's premium guest experience."
+  },
+  {
+    "slug": "seabank-malta",
+    "address": "Malta",
+    "summary": "Seabank Hotel Malta offers Mediterranean hospitality with modern resort amenities.",
+    "description": "TCC Carpets provided custom floor coverings designed to enhance the hotel's contemporary coastal aesthetic and high-traffic hospitality spaces.",
+    "notes": "Durable materials and refined designs meet the demands of resort-style accommodation."
+  },
+  {
+    "slug": "studio-city-epic-tower-macau",
+    "address": "Cotai, Macau SAR",
+    "summary": "Studio City's Epic Tower represents the next evolution of entertainment-focused hospitality in Macau.",
+    "description": "TCC Carpets crafted bespoke floor coverings that complement the tower's cinematic theme and contemporary luxury positioning.",
+    "notes": "Dynamic patterns and premium materials support the property's entertainment-driven identity."
   }
 ]
