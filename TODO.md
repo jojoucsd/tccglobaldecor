@@ -1,8 +1,20 @@
 # Team TODO List
 
-**Last Updated:** January 2026
+**Last Updated:** January 15, 2026
+**Core Maintainer:** Ling
 
 This document tracks tasks and requests for the team. Please check regularly and update your progress.
+
+---
+
+## 🔵 Infrastructure / Tech
+
+### Talk to Jason (When Back in HK)
+| Topic | Details |
+|-------|---------|
+| **AWS Setup** | Discuss AWS infrastructure options |
+| **Image Bucket** | This repo is getting a large amount of images — need cloud storage solution |
+| **Priority** | Medium — discuss when Ling is back in Hong Kong |
 
 ---
 
@@ -15,15 +27,16 @@ These projects require immediate attention and support from the team:
 |-------|---------|
 | Missing floor plan / flood-in images | Required for project page layout |
 | Images not updated | Current photos need to be replaced |
-| Photo count | Only 5 photos (minimum is 3, but needs more) |
-| **Action needed** | Team to source new photos urgently |
+| Photo count | Now 12 photos ✅ |
+| **Action needed** | Team to source floor plan/flood-in photos |
 
 ### Melco Group — CRITICAL
 | Issue | Details |
 |-------|---------|
 | Missing floor plan / flood-in images | Required for project page layout |
 | Needs new photos | Current photos need refresh |
-| **Action needed** | Team to source new photos urgently |
+| Photo count | Now 9 photos ✅ |
+| **Action needed** | Team to source floor plan/flood-in photos |
 
 ---
 
@@ -77,6 +90,9 @@ The following projects have **placeholder/generic descriptions**. Marketing team
 | **Londoner Hotel** | Summary, Description, Notes | ⏳ Pending |
 | **Dream Tower Jeju Island** | Summary, Description, Notes | ⏳ Pending |
 | **W Taipei** | Summary, Description, Notes | ⏳ Pending |
+| **COD Manila** | Summary, Description, Notes | ⏳ Pending |
+| **Seabank Malta** | Summary, Description, Notes | ⏳ Pending |
+| **Studio City Epic Tower** | Summary, Description, Notes | ⏳ Pending |
 
 **Template for each project:**
 ```
@@ -96,16 +112,21 @@ Additional details about patterns, colors, special features.
 
 ## 📊 Current Photo Count Summary
 
-**Requirements:** Minimum 3 photos, Maximum 12 photos per project
+**Requirements:** Minimum 3 photos, Maximum 12 per project
+**Total Projects:** 21
 
 | Project | Photos | Status |
 |---------|--------|--------|
 | W Taipei | 14 | ⚠️ Over max (12) |
+| Grand Hyatt Macau | 12 | ✅ At max |
 | Park Hyatt Niseko | 12 | ✅ At max |
 | Londoner Grand | 11 | ✅ Good |
 | Dream Tower Jeju Island | 11 | ✅ Good |
 | Londoner Hotel | 10 | ✅ Good |
+| Raffles Macau | 10 | ✅ Good |
+| Melco Group | 9 | ✅ Good |
 | Caesars Octavius LV | 8 | ✅ Good |
+| COD Manila | 8 | ✅ Good |
 | Four Seasons Grand | 7 | ✅ Good |
 | Grand Lisboa | 7 | ✅ Good |
 | Karl Lagerfeld Macau | 7 | ✅ Good |
@@ -115,9 +136,8 @@ Additional details about patterns, colors, special features.
 | United Nations NYC | 7 | ✅ Good |
 | Caesars Palace LV | 6 | ✅ OK |
 | MGM Macau | 6 | ✅ OK |
-| Melco Group | 6 | ✅ OK |
-| Raffles Macau | 6 | ✅ OK |
-| Grand Hyatt Macau | 5 | ⚠️ Needs more |
+| Seabank Malta | 6 | ✅ OK |
+| Studio City Epic Tower | 6 | ✅ OK |
 
 ---
 
@@ -132,9 +152,33 @@ Additional details about patterns, colors, special features.
 
 ---
 
+## 🔄 Ongoing
+
+### Make Site More AI & Non-Tech Friendly
+| Goal | Details |
+|------|---------|
+| **Objective** | Enable other TCC team members to edit content without relying on Ling |
+| **Current state** | Requires technical knowledge to update projects |
+| **Future state** | AI-assisted or simple interface for content updates |
+| **Maintainer** | Ling (core maintainer for now) |
+
+---
+
 ## 🟢 Completed
 
-_(Move completed tasks here with date)_
+### January 15, 2026
+- ✅ Added 7 new projects (UN NYC, Caesars x2, Londoner Hotel, Dream Tower, W Taipei, COD Manila, Seabank Malta, Studio City)
+- ✅ Increased project grid limit to 24
+- ✅ Added CTA card for incomplete desktop grid rows
+- ✅ Fixed project icons and routing (21 total)
+- ✅ Consolidated documentation (HOW_TO_ADD_PROJECTS + Quick Guide → single file)
+- ✅ Created TODO.md for team tracking
+- ✅ Made project titles bigger/bolder on grid page
+- ✅ Renamed all improperly named image files to numbered format
+- ✅ Improved MediaBelt animation smoothness (GPU acceleration)
+- ✅ Updated Grand Hyatt Macau photos (now 12)
+- ✅ Updated Melco Group photos (now 9)
+- ✅ Updated Raffles Macau photos (now 10)
 
 ---
 
@@ -145,10 +189,12 @@ _(Move completed tasks here with date)_
 3. Update status icons: ⏳ Pending → 🔄 In Progress → ✅ Done
 
 **Priority levels:**
+- 🔵 Infrastructure — Tech/system related
 - 🔴 CRITICAL — Needs immediate team assistance
 - 🟠 Medium — Should be addressed soon
 - 🟡 Low — Address when possible
+- 🔄 Ongoing — Continuous improvement
 
 ---
 
-**Questions?** Contact the development team.
+**Questions?** Contact Ling (core maintainer).
