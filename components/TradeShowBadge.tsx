@@ -17,7 +17,7 @@ export default function TradeShowBadge({
       }
     >
       <span className="inline-block h-2 w-2 rounded-full bg-white/70" />
-      HD Expo 2026 — Mandalay Bay, Las Vegas • May 5–7
+      HD Expo '26 — Mandalay Bay, LV • May 5–7
     </div>
   );
 }
