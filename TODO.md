@@ -90,7 +90,7 @@ The following projects have **placeholder/generic descriptions**. Marketing team
 | **Londoner Hotel** | Summary, Description, Notes | ⏳ Pending |
 | **Dream Tower Jeju Island** | Summary, Description, Notes | ⏳ Pending |
 | **W Taipei** | Summary, Description, Notes | ⏳ Pending |
-| **COD Manila** | Summary, Description, Notes | ⏳ Pending |
+| **City of Dreams Manila** | Summary, Description, Notes | ⏳ Pending |
 | **Seabank Malta** | Summary, Description, Notes | ⏳ Pending |
 | **Studio City Epic Tower** | Summary, Description, Notes | ⏳ Pending |
 
@@ -126,7 +126,7 @@ Additional details about patterns, colors, special features.
 | Raffles Macau | 10 | ✅ Good |
 | Melco Group | 9 | ✅ Good |
 | Caesars Octavius LV | 8 | ✅ Good |
-| COD Manila | 8 | ✅ Good |
+| City of Dreams Manila | 8 | ✅ Good |
 | Four Seasons Grand | 7 | ✅ Good |
 | Grand Lisboa | 7 | ✅ Good |
 | Karl Lagerfeld Macau | 7 | ✅ Good |
@@ -159,15 +159,16 @@ Additional details about patterns, colors, special features.
 |------|---------|
 | **Objective** | Enable other TCC team members to edit content without relying on Ling |
 | **Current state** | Requires technical knowledge to update projects |
-| **Future state** | AI-assisted or simple interface for content updates |
+| **Future state** | Admin CMS for project/photo management |
 | **Maintainer** | Ling (core maintainer for now) |
+| **Plan** | See [PLAN-ADMIN-CMS.md](./PLAN-ADMIN-CMS.md) for detailed roadmap |
 
 ---
 
 ## 🟢 Completed
 
 ### January 15, 2026
-- ✅ Added 7 new projects (UN NYC, Caesars x2, Londoner Hotel, Dream Tower, W Taipei, COD Manila, Seabank Malta, Studio City)
+- ✅ Added 7 new projects (UN NYC, Caesars x2, Londoner Hotel, Dream Tower, W Taipei, City of Dreams Manila, Seabank Malta, Studio City)
 - ✅ Increased project grid limit to 24
 - ✅ Added CTA card for incomplete desktop grid rows
 - ✅ Fixed project icons and routing (21 total)
