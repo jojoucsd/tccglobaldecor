@@ -1,6 +1,7 @@
 [
   {
     "slug": "londoner-grand",
+    "priority": 1,
     "address": "Estrada do Istmo. s/n, Cotai, Macau SAR, P.R. China",
     "summary": "Located at the heart of Cotai, The Londoner Hotel captures the grandeur of British sophistication through architecture and interior design. Inspired by London’s timeless heritage, the hotel merges classic detailing with modern luxury, creating a distinct atmosphere of refined hospitality.",
     "description": "Within this setting, TCC Carpets crafted bespoke designs that echo the hotel’s British narrative. Each carpet was tailored to its environment—bold patterns and rich tones define the public areas, while softer palettes and delicate motifs enrich the suites. Through meticulous craftsmanship and advanced production, the carpets bring harmony, comfort, and identity to every space, making them an integral part of The Londoner’s distinguished character.",
@@ -8,6 +9,7 @@
   },
   {
     "slug": "park-hyatt-niseko",
+    "priority": 1,
     "address": "328-47 Aza Iwaobetsu, Kutchan, Abuta District, Hokkaido, Japan",
     "summary": "Nestled at the base of Mount Annupuri, the Park Hyatt Niseko Hanazono celebrates natural beauty through quiet luxury and refined craftsmanship. The interior design draws inspiration from the surrounding landscape—snow, wood, and stone.",
     "description": "Within this context, TCC Carpets designed a series of bespoke floor coverings that reflect the rhythm of nature and the Japanese aesthetic of restraint, balancing visual calm with tactile warmth.",
@@ -57,6 +59,7 @@
   },
   {
     "slug": "marina-bay-sands",
+    "priority": 1,
     "address": "10 Bayfront Avenue, Singapore 018956",
     "summary": "Marina Bay Sands stands as Singapore’s emblem of innovation and modern luxury.",
     "description": "Large-scale bespoke carpets were engineered for grand public volumes, maintaining clarity under complex lighting and heavy footfall.",
@@ -85,6 +88,7 @@
   },
   {
     "slug": "united-nations-NYC",
+    "priority": 1,
     "address": "United Nations Plaza, New York, NY",
     "summary": "The United Nations Headquarters in New York stands as a symbol of international diplomacy and cultural exchange.",
     "description": "For the Oman Heritage Walk, TCC Carpets designed bespoke floor coverings that honor Omani heritage and craftsmanship, creating a welcoming environment that bridges tradition with the UN's mission of global unity.",
@@ -92,6 +96,7 @@
   },
   {
     "slug": "caesars-octavius-LV",
+    "priority": 1,
     "address": "Las Vegas Blvd South, Las Vegas, NV",
     "summary": "The Octavius Tower at Caesars Palace represents the pinnacle of Las Vegas luxury accommodation.",
     "description": "TCC Carpets crafted bespoke floor coverings for the 68th and 69th floor hallways and suites, delivering refined elegance at the tower's most exclusive levels.",

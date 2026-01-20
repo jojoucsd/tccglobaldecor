@@ -16,6 +16,7 @@ export type ProjectRecord = {
   summary?: string;      // overview
   description?: string;  // details
   notes?: string;        // extra notes
+  priority?: number;     // lower = higher priority (1 = featured)
 };
 
 type ProjectMeta = Partial<ProjectRecord> & { slug: string };
@@ -122,7 +123,13 @@ export function getAllProjects(): ProjectRecord[] {
     })
     .filter(Boolean) as ProjectRecord[];
 
-  return scanned;
+  // Sort: priority first (lower = top), then alphabetically by title
+  return scanned.sort((a, b) => {
+    const aPriority = a.priority ?? 999;
+    const bPriority = b.priority ?? 999;
+    if (aPriority !== bPriority) return aPriority - bPriority;
+    return a.title.localeCompare(b.title);
+  });
 }
 
 export function getProjectBySlug(slug: string): ProjectRecord | undefined {
