@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "TCCarpets",
+  title: "TCC",
   description: "Crafting bespoke carpets for world-class interiors",
 };
 
