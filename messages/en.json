@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "craftsmanship": "Craftsmanship",
+    "collaborations": "Collaborations",
+    "connect": "Connect"
+  },
+  "hero": {
+    "title": "CRAFTING BESPOKE CARPETS FOR WORLD-CLASS INTERIORS",
+    "subtitle": "TCC unites a professional design team and skilled craftsmen with over decades of experience, transforming complex ideas into exclusive creations through collaboration and precision.",
+    "cta": "Explore projects"
+  },
+  "about": {
+    "eyebrow": "Our Story",
+    "title": "ART THAT YOU CAN WALK ON",
+    "intro": "Experts in carpet production, dedicated to quality, efficiency, and design solutions tailored to each project—crafted to international standards with precision.",
+    "viewProjects": "View Projects",
+    "ourProcess": "Our Process",
+    "talentTitle": "Talent and Service",
+    "talentDesc": "Carpets are our craft, but our people and service are our true strength.",
+    "communicationTitle": "Communication",
+    "communicationDesc": "Collaboration transforms your vision into crafted designs ready for production.",
+    "commitmentTitle": "Commitment",
+    "commitmentDesc": "Not just making carpets right—doing what's right in every detail.",
+    "highlight1": "Vertically integrated and agile—connecting design, sales, and production for faster, sharper execution.",
+    "highlight2": "Owning hand-tufted facilities and partnering with a network of Axminster mills ensures quality control and competitive value.",
+    "highlight3": "A 550-strong team united by craft and accountability—dedicated to excellence in every detail."
+  },
+  "craftsmanship": {
+    "eyebrow": "Craft",
+    "title": "Craftsmanship",
+    "body": "We treat carpet-making as both art and discipline. Every weave, tuft, and shade is shaped with intent—transforming wool, nylon, and viscose into living surfaces that respond to light and depth. Each piece carries the imprint of human touch and the rigor of craft, made to be felt as much as seen.",
+    "unCaption": "UN HQ NYC · Oman Heritage Walk"
+  },
+  "specialization": {
+    "title": "Specialization",
+    "subtitle": "From hand-tufted masterpieces to Axminster innovations — our craftsmanship spans artistry, technology, and versatility.",
+    "ourProcess": "Our Process",
+    "handTufted": "Hand Tufted",
+    "handTuftedDesc": "Where color, texture, and form converge — every rug a signature work of art.",
+    "axminster": "Axminster",
+    "axminsterDesc": "Expertly woven in 7-pitch precision with up to 16 colors — a seamless balance of strength and artistry.",
+    "handAx": "Hand-Ax",
+    "handAxDesc": "Where artisanal warmth meets Axminster precision — the perfect harmony of handcraft and technology.",
+    "axTiles": "Ax-Tiles",
+    "axTilesDesc": "Modular precision meets Axminster craftsmanship — refined aesthetics in a practical format.",
+    "printedCarpet": "Printed Carpet",
+    "printedCarpetDesc": "Precision dye-printing offers limitless creative freedom — vibrant color and seamless gradient expression.",
+    "machineTufted": "Machine Tufted",
+    "machineTuftedDesc": "Bespoke shapes, sculpted textures, and tailored edges — design pieces crafted for each interior."
+  },
+  "markets": {
+    "title": "Our Capabilities & Services",
+    "bodyA": "From design collaboration to final installation, we craft bespoke flooring with precision and artistry.",
+    "bodyB": "Rooted in Hong Kong and the U.S., supported by production expertise in China, TCC blends craftsmanship and innovation for the world's most distinguished interiors.",
+    "marketsTitle": "Markets We Serve",
+    "viewProjects": "View Projects",
+    "hotel": "Hotels & Resorts",
+    "casino": "Casinos & Gaming",
+    "cruise": "Cruise",
+    "aviation": "Aviation",
+    "yacht": "Yacht",
+    "retail": "Retail"
+  },
+  "awards": {
+    "title": "Recognitions & Awards",
+    "subtitle": "Quiet, editorial proof — trusted by category leaders.",
+    "playButton": "Play",
+    "sands": "Sands Supplier Excellence Service Award",
+    "mbs": "Marina Bay Sands Recognition",
+    "goldKey": "Grand Imperial Court Winner & Honoree",
+    "designAwards": "The Design Awards Winner"
+  },
+  "collaborations": {
+    "title": "Collaborations"
+  },
+  "clients": {
+    "defaultTitle": "Trusted by leading hospitality brands",
+    "globalPartners": "Our Global Partners"
+  },
+  "connect": {
+    "title": "Let's Connect",
+    "subtitle": "Our teams in Hong Kong, Las Vegas, and Macau are ready to discuss your project. Reach out directly — we respond promptly.",
+    "cta": "Get in Touch"
+  },
+  "connectPage": {
+    "eyebrow": "Contact",
+    "title": "Get in Touch",
+    "subtitle": "Our teams across Hong Kong, Las Vegas, and Macau are ready to discuss your project. Reach out directly — we respond promptly.",
+    "asiaPacific": "Asia Pacific",
+    "northAmerica": "North America",
+    "greaterChina": "Greater China"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "A showcase of our bespoke carpet projects for world-class hotels, casinos, and hospitality destinations.",
+    "galleryPending": "Gallery Pending",
+    "ctaTitle": "Let Us Achieve Your Vision",
+    "ctaSubtitle": "Start your project today",
+    "backLabel": "Projects"
+  },
+  "projectTitles": {
+    "venetian-hotel-macau": "Venetian Hotel Macau",
+    "wynn-hotel-las-vegas": "Wynn Hotel Las Vegas",
+    "wynn-macau": "Wynn Macau",
+    "paiza-mansions-venetian-macau": "Paiza Mansions Venetian Macau",
+    "hard-rock-malta": "Hard Rock Hotel Malta",
+    "st-regis-macau": "St. Regis Macau",
+    "londoner-grand": "The Londoner Grand",
+    "park-hyatt-niseko": "Park Hyatt Niseko",
+    "four-seasons-grand": "Four Seasons Grand Macau",
+    "grand-hyatt-macau": "Grand Hyatt Macau",
+    "mGM-cotai": "MGM Cotai",
+    "mGM-macau": "MGM Macau",
+    "grand-lisboa": "Grand Lisboa",
+    "karl-lagerfeld-macau": "Karl Lagerfeld Hotel Macau",
+    "marina-bay-sands": "Marina Bay Sands",
+    "melco-group": "Melco Group",
+    "raffles-macau": "Raffles Macau",
+    "ritz-carlton-macau": "Ritz-Carlton Macau",
+    "united-nations-NYC": "United Nations Headquarters NYC",
+    "caesars-octavius-LV": "Caesars Palace Octavius Tower",
+    "caesars-palace-LV": "Caesars Palace Las Vegas",
+    "londoner-hotel": "The Londoner Hotel",
+    "dream-tower-jeju-island": "Dream Tower Jeju Island",
+    "w-taipei": "W Taipei",
+    "city-of-dreams-manila": "City of Dreams Manila",
+    "seabank-malta": "Seabank Hotel Malta",
+    "studio-city-epic-tower-macau": "Studio City Epic Tower Macau"
+  },
+  "process": {
+    "eyebrow": "Process",
+    "title": "From intent to installation",
+    "subtitle": "From the first sketch to final installation, our process is designed to support designers, owners, and contractors with clear communication, fast sampling, and reliable delivery.",
+    "ctaQuestion": "Ready to translate your concept into a finished surface?",
+    "seeProjects": "See Projects",
+    "startProject": "Start a Project",
+    "stepLabel": "Step {n}",
+    "step1Title": "Design Elements from Client",
+    "step2Title": "Pattern Development",
+    "step3Title": "Pattern Development with Options",
+    "step4Title": "Strike-offs",
+    "step5Title": "Flooded in Floor Plan"
+  }
+}

@@ -1,5 +1,35 @@
 [
   {
+    "slug": "venetian-hotel-macau",
+    "title": "Venetian Hotel Macau",
+    "address": "Estrada da Baía de Nossa Senhora da Esperança, Cotai, Macau SAR"
+  },
+  {
+    "slug": "wynn-hotel-las-vegas",
+    "title": "Wynn Hotel Las Vegas",
+    "address": "3131 S Las Vegas Blvd, Las Vegas, NV"
+  },
+  {
+    "slug": "wynn-macau",
+    "title": "Wynn Macau",
+    "address": "Rua Cidade de Sintra, NAPE, Macau SAR"
+  },
+  {
+    "slug": "paiza-mansions-venetian-macau",
+    "title": "Paiza Mansions Venetian Macau",
+    "address": "Estrada da Baía de Nossa Senhora da Esperança, Cotai, Macau SAR"
+  },
+  {
+    "slug": "hard-rock-malta",
+    "title": "Hard Rock Hotel Malta",
+    "address": "St. George's Bay, St. Julian's, Malta"
+  },
+  {
+    "slug": "st-regis-macau",
+    "title": "St. Regis Macau",
+    "address": "Estrada do Istmo, Cotai, Macau SAR"
+  },
+  {
     "slug": "londoner-grand",
     "priority": 1,
     "address": "Estrada do Istmo. s/n, Cotai, Macau SAR, P.R. China",

@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import Section from "@/components/Section";
 import Image from "next/image";
-import { ALL_CLIENT_LOGOS } from "@/app/(site)/data/clients"; // ✅ central logo data
+import { ALL_CLIENT_LOGOS } from "@/app/(site)/data/clients";
 
 // --- Random picker utility ---
 function getRandomSubset<T>(arr: T[], count: number): T[] {
@@ -16,9 +17,9 @@ function getRandomSubset<T>(arr: T[], count: number): T[] {
 
 export default function ClientsBelt({
   id,
-  title = "Trusted by leading hospitality brands",
-  seed = 1,               // optional: different number for different belts
-  count = 6,              // how many logos to show per belt
+  title,
+  seed = 1,
+  count = 6,
   className = "",
 }: {
   id?: string;
@@ -27,6 +28,8 @@ export default function ClientsBelt({
   count?: number;
   className?: string;
 }) {
+  const t = useTranslations('clients');
+  const displayTitle = title ?? t('defaultTitle');
   // random but stable per seed
   const logos = useMemo(() => {
     const r = Math.random;
@@ -55,7 +58,7 @@ export default function ClientsBelt({
   return (
     <Section id={id} className={`py-10 md:py-12 bg-white ${className}`}>
       <p className="mb-6 text-center text-xs uppercase tracking-widest text-gray-500">
-        {title}
+        {displayTitle}
       </p>
 
       <div

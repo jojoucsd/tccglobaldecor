@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "about": "關於我們",
+    "projects": "項目",
+    "craftsmanship": "工藝",
+    "collaborations": "合作",
+    "connect": "聯絡"
+  },
+  "hero": {
+    "title": "為世界頂級室內空間打造專屬地毯",
+    "subtitle": "TCC 匯聚專業設計團隊與技藝精湛的工匠，憑藉數十年豐富經驗，以精誠合作與精準執行，將複雜創意化為獨特佳作。",
+    "cta": "探索項目"
+  },
+  "about": {
+    "eyebrow": "我們的故事",
+    "title": "讓藝術在每一步生輝",
+    "intro": "地毯製造專家，致力於品質、效率與設計解決方案，為每個項目量身打造，以精準達到國際標準。",
+    "viewProjects": "查看項目",
+    "ourProcess": "我們的流程",
+    "talentTitle": "人才與服務",
+    "talentDesc": "地毯是我們的專業，但人才與服務才是我們真正的核心。",
+    "communicationTitle": "溝通",
+    "communicationDesc": "協作將您的願景轉化為可付諸生產的精心設計。",
+    "commitmentTitle": "承諾",
+    "commitmentDesc": "不只是把地毯做好——而是在每一個細節中做正確的事。",
+    "highlight1": "垂直整合、靈活敏捷——連結設計、銷售與生產，實現更快速、更精準的執行。",
+    "highlight2": "自營手工簇絨工廠，並與阿克明斯特工廠網絡合作，確保品質管控與競爭力。",
+    "highlight3": "550人的團隊以工藝精神與責任感凝聚，在每一個細節中追求卓越。"
+  },
+  "craftsmanship": {
+    "eyebrow": "工藝",
+    "title": "工藝精神",
+    "body": "我們將地毯製作視為藝術與紀律的結合。每一次編織、每一根簇絨、每一種色調都蘊含匠心——將羊毛、尼龍和粘膠纖維化為有生命的表面，回應光與景深的變化。每件作品都承載著人手的溫度與工藝的嚴謹，讓人感受到的，不亞於眼睛看到的。",
+    "unCaption": "聯合國總部紐約 · 阿曼文化遺產步道"
+  },
+  "specialization": {
+    "title": "專業技術",
+    "subtitle": "從手工簇絨傑作到阿克明斯特創新——我們的工藝涵蓋藝術、技術與多樣性。",
+    "ourProcess": "我們的流程",
+    "handTufted": "手工簇絨",
+    "handTuftedDesc": "色彩、質感與形態融為一體——每件地毯皆是獨特藝術品。",
+    "axminster": "阿克明斯特",
+    "axminsterDesc": "7針精密編織，最多支援16色——兼顧耐用性與藝術性的完美平衡。",
+    "handAx": "手工-阿克",
+    "handAxDesc": "匠心溫度與阿克明斯特精準的完美融合——手工技藝與科技的和諧統一。",
+    "axTiles": "阿克磚型",
+    "axTilesDesc": "模組精度與阿克明斯特工藝相結合——以實用格式呈現精緻美學。",
+    "printedCarpet": "印花地毯",
+    "printedCarpetDesc": "精密染色印刷帶來無限創意自由——生動色彩與無縫漸變的完美表達。",
+    "machineTufted": "機器簇絨",
+    "machineTuftedDesc": "訂製形狀、雕塑質感與剪裁邊緣——專為室內空間精心製作的設計精品。"
+  },
+  "markets": {
+    "title": "我們的能力與服務",
+    "bodyA": "從設計協作到最終安裝，我們以精準與藝術匠心打造定制地板。",
+    "bodyB": "植根香港與美國，依托中國的生產技術，TCC將工藝與創新融合，服務於全球最卓越的室內空間。",
+    "marketsTitle": "我們服務的市場",
+    "viewProjects": "查看項目",
+    "hotel": "酒店與度假村",
+    "casino": "賭場與博彩",
+    "cruise": "郵輪",
+    "aviation": "航空",
+    "yacht": "遊艇",
+    "retail": "零售"
+  },
+  "awards": {
+    "title": "榮譽與獎項",
+    "subtitle": "含蓄而有力的佐證——深受行業領導者信賴。",
+    "playButton": "播放",
+    "sands": "金沙供應商卓越服務獎",
+    "mbs": "濱海灣金沙認可獎",
+    "goldKey": "金匙獎得主及入選者",
+    "designAwards": "設計大獎得主"
+  },
+  "collaborations": {
+    "title": "合作夥伴"
+  },
+  "clients": {
+    "defaultTitle": "深受頂尖酒店品牌信賴",
+    "globalPartners": "我們的全球合作夥伴"
+  },
+  "connect": {
+    "title": "聯繫我們",
+    "subtitle": "我們在香港、拉斯維加斯及澳門的團隊，隨時準備與您探討項目需求。歡迎直接聯絡，我們將迅速回覆。",
+    "cta": "立即聯繫"
+  },
+  "connectPage": {
+    "eyebrow": "聯絡我們",
+    "title": "聯繫我們",
+    "subtitle": "我們在香港、拉斯維加斯及澳門的團隊，隨時準備與您探討項目需求。歡迎直接聯絡，我們將迅速回覆。",
+    "asiaPacific": "亞太區",
+    "northAmerica": "北美地區",
+    "greaterChina": "大中華區"
+  },
+  "projects": {
+    "title": "項目",
+    "subtitle": "我們為世界頂級酒店、賭場及度假村打造訂製地毯的精彩呈現。",
+    "galleryPending": "圖庫整理中",
+    "ctaTitle": "讓我們實現您的願景",
+    "ctaSubtitle": "立即開始您的項目",
+    "backLabel": "項目"
+  },
+  "projectTitles": {
+    "venetian-hotel-macau": "澳門威尼斯人度假村",
+    "wynn-hotel-las-vegas": "拉斯維加斯永利酒店",
+    "wynn-macau": "澳門永利酒店",
+    "paiza-mansions-venetian-macau": "澳門威尼斯人百家樂軒",
+    "hard-rock-malta": "馬爾他硬石酒店",
+    "st-regis-macau": "澳門瑞吉酒店",
+    "londoner-grand": "澳門倫敦人大酒店",
+    "park-hyatt-niseko": "日本二世谷柏悅酒店",
+    "four-seasons-grand": "澳門四季名都酒店",
+    "grand-hyatt-macau": "澳門君悅酒店",
+    "mGM-cotai": "澳門美獅美高梅",
+    "mGM-macau": "澳門美高梅",
+    "grand-lisboa": "澳門新葡京酒店",
+    "karl-lagerfeld-macau": "澳門新葡京卡爾拉格斐酒店",
+    "marina-bay-sands": "新加坡濱海灣金沙",
+    "melco-group": "新濠博亞娛樂",
+    "raffles-macau": "澳門萊佛士酒店",
+    "ritz-carlton-macau": "澳門麗思卡爾頓酒店",
+    "united-nations-NYC": "紐約聯合國總部",
+    "caesars-octavius-LV": "拉斯維加斯凱撒宮奧古都塔",
+    "caesars-palace-LV": "拉斯維加斯凱撒宮",
+    "londoner-hotel": "澳門倫敦人酒店",
+    "dream-tower-jeju-island": "韓國濟州夢想塔",
+    "w-taipei": "台北W酒店",
+    "city-of-dreams-manila": "菲律賓馬尼拉夢幻城",
+    "seabank-malta": "馬爾他海岸酒店",
+    "studio-city-epic-tower-macau": "澳門新濠影匯史詩塔"
+  },
+  "process": {
+    "eyebrow": "流程",
+    "title": "從構思到安裝",
+    "subtitle": "從第一張草圖到最終安裝，我們的流程旨在為設計師、業主和承包商提供清晰的溝通、快速的樣品和可靠的交付。",
+    "ctaQuestion": "準備好將您的概念轉化為完工的表面了嗎？",
+    "seeProjects": "查看項目",
+    "startProject": "開始項目",
+    "stepLabel": "步驟 {n}",
+    "step1Title": "接收客戶設計元素",
+    "step2Title": "圖案開發",
+    "step3Title": "圖案開發選項",
+    "step4Title": "樣品打樣",
+    "step5Title": "平面圖中的鋪設效果"
+  }
+}

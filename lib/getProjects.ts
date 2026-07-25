@@ -17,6 +17,7 @@ export type ProjectRecord = {
   description?: string;  // details
   notes?: string;        // extra notes
   priority?: number;     // lower = higher priority (1 = featured)
+  comingSoon?: boolean;  // true when folder exists but has no images yet
 };
 
 type ProjectMeta = Partial<ProjectRecord> & { slug: string };
@@ -42,10 +43,19 @@ function titleFromSlug(slug: string) {
 }
 
 function preferCover(files: string[]) {
+  // 1. Explicit cover file named "cover.*" (any extension)
+  const explicitCover = files.find((f) => /^cover\./i.test(f));
+  if (explicitCover) return explicitCover;
+
+  // 2. Legacy project_list named AVIF
   const avifs = files.filter((f) => path.extname(f).toLowerCase() === ".avif");
   const preferred = avifs.find((f) => /project_list/i.test(f));
   if (preferred) return preferred;
+
+  // 3. First AVIF alphabetically (code uses numeric sort so 01, 02... 10 order correctly)
   if (avifs.length) return avifs[0];
+
+  // 4. First file of any supported type
   return files[0] ?? "";
 }
 
@@ -92,9 +102,6 @@ export function getAllProjects(): ProjectRecord[] {
     .map((d) => d.name)
     .sort();
 
-  // DEBUG (optional): uncomment to verify slugs
-  console.log("[projects] FS slugs:", slugs);
-  console.log("[projects] JSON slugs:", metaList.map((m) => m.slug));
 
   const scanned: ProjectRecord[] = slugs
     .map((slug) => {
@@ -104,16 +111,30 @@ export function getAllProjects(): ProjectRecord[] {
         .filter((f) => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
         .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
 
-      if (!files.length) return null;
+      const meta = metaBySlug.get(slug);
+
+      // 4 or fewer images = not enough for a detail page; show as gallery-pending in the grid
+      const comingSoon = files.length <= 4;
+
+      if (!files.length) {
+        return {
+          slug,
+          title: meta?.title ?? titleFromSlug(slug),
+          cover: "",
+          images: [],
+          comingSoon: true,
+          ...(meta ?? {}),
+        } as ProjectRecord;
+      }
 
       const base: ProjectRecord = {
         slug,
         title: titleFromSlug(slug),
         cover: preferCover(files),
         images: files,
+        comingSoon,
       };
 
-      const meta = metaBySlug.get(slug);
       if (!meta) return base;
 
       return {

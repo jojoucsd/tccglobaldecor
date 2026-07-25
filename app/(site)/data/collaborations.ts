@@ -1,24 +1,30 @@
 // app/(site)/data/collaborations.ts
+// Single source of truth for collaboration partners.
+// CollabTeaser.tsx reads from its own inline copy — keep them in sync.
 
 export const COLLABORATIONS = [
   {
-    title: "Alexanders Collection",
-    role: "Luxury Axminster & Hand-Tufted Series",
+    title: "Alexander's Design",
+    role: "Design Partner",
     img: "alexanders-collection.avif",
+    url: "https://www.alexanders-collection.com/rugs",
   },
   {
-    title: "Tred-Mor",
-    role: "Acoustic Cushion Collaboration",
+    title: "One M Interiors",
+    role: "Creative Partner",
+    img: "one-m-interiors.avif",
+    url: "https://www.oneminteriors.com/",
+  },
+  {
+    title: "TredMor®",
+    role: "Material Collaboration",
     img: "tred-mor.avif",
+    url: "https://commercial-carpetcushion.com/",
   },
   {
-    title: "Malta Solutions",
-    role: "Sustainability & Material Innovation",
+    title: "Malta Projects",
+    role: "Business Partner",
     img: "malta-solutions.avif",
-  },
-  {
-    title: "One-Interiors",
-    role: "Design & Pattern Study",
-    img: null, // placeholder for now
+    url: "https://www.maltasolutions.biz/",
   },
 ];

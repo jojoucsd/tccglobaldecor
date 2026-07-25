@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+// Update this when the event changes
+const EVENT_LABEL = "BDNY '26 — NYC • Booth #1264 • Nov 8–9";
+
 export default function TradeShowBadge({
   small = false,
 }: {
@@ -17,7 +20,7 @@ export default function TradeShowBadge({
       }
     >
       <span className="inline-block h-2 w-2 rounded-full bg-white/70" />
-      BDNY '26 — NYC • Booth #1264 • Nov 8–9
+      {EVENT_LABEL}
     </div>
   );
 }

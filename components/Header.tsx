@@ -1,35 +1,45 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useScrollSpy } from "@/hooks/useScrollSpy";
-import TradeShowBadge from "@/components/TradeShowBadge";
+import { useEffect, useRef, useState } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
+import { useScrollSpy } from '@/hooks/useScrollSpy';
+import TradeShowBadge from '@/components/TradeShowBadge';
 
 type NavItem = { href: string; label: string; sectionId?: string };
 
-const NAV: NavItem[] = [
-  { href: "/#about", label: "About", sectionId: "about" },
-  { href: "/projects", label: "Projects" },
-  { href: "/#capability", label: "Craftsmanship", sectionId: "capability" },
-  { href: "/#collaborations", label: "Collaborations", sectionId: "collaborations" },
-  { href: "/connect", label: "Connect" },
-];
+const LOCALES = [
+  { code: 'en', label: 'EN' },
+  { code: 'zh-TW', label: '繁' },
+  { code: 'zh-CN', label: '简' },
+] as const;
 
 export default function Header() {
+  const t = useTranslations('nav');
+  const locale = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const NAV: NavItem[] = [
+    { href: '/#about', label: t('about'), sectionId: 'about' },
+    { href: '/projects', label: t('projects') },
+    { href: '/#capability', label: t('craftsmanship'), sectionId: 'capability' },
+    { href: '/#collaborations', label: t('collaborations'), sectionId: 'collaborations' },
+    { href: '/connect', label: t('connect') },
+  ];
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState<number>(76); // fallback
+  const [headerHeight, setHeaderHeight] = useState<number>(76);
 
   const rootRef = useRef<HTMLElement | null>(null);
   const lastScrollY = useRef(0);
-  const bp = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-  // ids to watch for the scroll spy
   const watchIds = NAV.map((n) => n.sectionId).filter(Boolean) as string[];
   const activeId = useScrollSpy(watchIds, 120);
 
-  // measure header height (for scroll offset)
   useEffect(() => {
     const measure = () => {
       const el = rootRef.current;
@@ -40,95 +50,74 @@ export default function Header() {
     measure();
     const ro = new ResizeObserver(measure);
     if (rootRef.current) ro.observe(rootRef.current);
-    window.addEventListener("resize", measure, { passive: true });
+    window.addEventListener('resize', measure, { passive: true });
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", measure);
+      window.removeEventListener('resize', measure);
     };
   }, []);
 
-  // scroll listener (throttled via rAF)
   useEffect(() => {
     let ticking = false;
-
     const onScroll = () => {
       const run = () => {
         const y = window.scrollY;
         const goingDown = y > lastScrollY.current;
         const nearTop = y < 30;
-
         setHidden(nearTop ? false : goingDown && y > 150);
         setScrolled(y > 8);
-
         lastScrollY.current = y;
         ticking = false;
       };
-
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(run);
       }
     };
-
     onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // keep header visible when "About" is active
   useEffect(() => {
-    if (activeId === "about") setHidden(false);
+    if (activeId === 'about') setHidden(false);
   }, [activeId]);
 
-  // lock background scroll when mobile menu is open
   useEffect(() => {
     const { body } = document;
     const prev = body.style.overflow;
     if (menuOpen) {
-      body.style.overflow = "hidden";
-      return () => {
-        body.style.overflow = prev;
-      };
+      body.style.overflow = 'hidden';
+      return () => { body.style.overflow = prev; };
     }
   }, [menuOpen]);
 
-  // click handler for nav links
-  // - section links on home: smooth scroll with offset
-  // - section links off home: normal navigation to "/#about", close menu
-  // - non-section links (e.g. /projects): normal navigation, close menu
+  const isHome = pathname === '/';
+
   const handleSectionClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId?: string
   ) => {
-    // No sectionId (e.g. /projects, /connect) → just close menu and let Link navigate
     if (!sectionId) {
       setMenuOpen(false);
       return;
     }
-
-    if (typeof window === "undefined") return;
-
-    const currentPath = window.location.pathname;
-    const basePath = bp || "";
-    const isHome =
-      currentPath === "/" || currentPath === `${basePath}/`;
-
-    // If we're NOT on the homepage, let Next.js handle navigation to "/#about"
+    if (typeof window === 'undefined') return;
     if (!isHome) {
       setMenuOpen(false);
       return;
     }
-
-    // Already on homepage → smooth scroll with header offset
     e.preventDefault();
-
     const el = document.getElementById(sectionId);
     if (!el) return;
-
     const rect = el.getBoundingClientRect();
     const absoluteY = window.scrollY + rect.top - headerHeight;
+    window.scrollTo({ top: absoluteY, behavior: 'smooth' });
+    setMenuOpen(false);
+  };
 
-    window.scrollTo({ top: absoluteY, behavior: "smooth" });
+  const switchLocale = (newLocale: string) => {
+    router.replace(pathname, { locale: newLocale });
     setMenuOpen(false);
   };
 
@@ -136,15 +125,14 @@ export default function Header() {
     <header
       ref={rootRef}
       className={[
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
-        hidden ? "-translate-y-full" : "translate-y-0",
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out',
+        hidden ? '-translate-y-full' : 'translate-y-0',
         scrolled
-          ? "bg-white/90 backdrop-blur border-b border-neutral-200 shadow-sm"
-          : "bg-white border-transparent",
-        "text-brand-ink",
-      ].join(" ")}
+          ? 'bg-white/90 backdrop-blur border-b border-neutral-200 shadow-sm'
+          : 'bg-white border-transparent',
+        'text-brand-ink',
+      ].join(' ')}
     >
-      {/* iPhone safe area */}
       <div className="pt-[env(safe-area-inset-top)]" />
 
       <div className="flex h-16 sm:h-20 items-center justify-between px-3 sm:px-4 lg:px-6">
@@ -169,18 +157,39 @@ export default function Header() {
                 href={n.href}
                 prefetch={false}
                 onClick={(e) => handleSectionClick(e, n.sectionId)}
-                aria-current={isActive ? "page" : undefined}
+                aria-current={isActive ? 'page' : undefined}
                 className={[
-                  "transition-colors border-b-2",
+                  'transition-colors border-b-2',
                   isActive
-                    ? "text-brand-ink border-brand-ink"
-                    : "text-brand-ink/80 border-transparent hover:text-brand-ink hover:border-brand-ink/60",
-                ].join(" ")}
+                    ? 'text-brand-ink border-brand-ink'
+                    : 'text-brand-ink/80 border-transparent hover:text-brand-ink hover:border-brand-ink/60',
+                ].join(' ')}
               >
                 <span className="inline-block pb-0.5">{n.label}</span>
               </Link>
             );
           })}
+
+          {/* Language switcher */}
+          <div className="flex items-center gap-1 text-sm font-medium">
+            {LOCALES.map((l, i) => (
+              <span key={l.code} className="flex items-center">
+                {i > 0 && <span className="text-neutral-300 mx-1">|</span>}
+                <button
+                  onClick={() => switchLocale(l.code)}
+                  className={[
+                    'transition-colors px-0.5',
+                    locale === l.code
+                      ? 'text-brand-ink font-bold'
+                      : 'text-brand-ink/50 hover:text-brand-ink',
+                  ].join(' ')}
+                  aria-label={`Switch to ${l.code}`}
+                >
+                  {l.label}
+                </button>
+              </span>
+            ))}
+          </div>
         </nav>
 
         {/* Mobile hamburger */}
@@ -191,20 +200,11 @@ export default function Header() {
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            className="h-6 w-6"
-          >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="h-6 w-6">
             <path
               strokeWidth="2"
               strokeLinecap="round"
-              d={
-                menuOpen
-                  ? "M6 6l12 12M18 6l-12 12"
-                  : "M4 6h16M4 12h16M4 18h16"
-              }
+              d={menuOpen ? 'M6 6l12 12M18 6l-12 12' : 'M4 6h16M4 12h16M4 18h16'}
             />
           </svg>
         </button>
@@ -233,16 +233,32 @@ export default function Header() {
                   prefetch={false}
                   onClick={(e) => handleSectionClick(e, n.sectionId)}
                   className={[
-                    "w-full transition-colors",
-                    isActive
-                      ? "text-brand-ink"
-                      : "text-brand-ink/80 hover:text-brand-ink",
-                  ].join(" ")}
+                    'w-full transition-colors',
+                    isActive ? 'text-brand-ink' : 'text-brand-ink/80 hover:text-brand-ink',
+                  ].join(' ')}
                 >
                   {n.label}
                 </Link>
               );
             })}
+
+            {/* Mobile language switcher */}
+            <div className="flex items-center gap-3 pt-2 border-t border-neutral-100 w-full">
+              {LOCALES.map((l) => (
+                <button
+                  key={l.code}
+                  onClick={() => switchLocale(l.code)}
+                  className={[
+                    'text-sm font-semibold transition-colors',
+                    locale === l.code
+                      ? 'text-brand-ink underline underline-offset-2'
+                      : 'text-brand-ink/50 hover:text-brand-ink',
+                  ].join(' ')}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
           </nav>
         </div>
       )}
