@@ -37,9 +37,25 @@ export default function ProjectsGrid({
   const visibleProjects = filteredProjects.slice(0, visibleCount);
   const hasMore = visibleCount < filteredProjects.length;
 
-  // grid is 3 cols below sm, 4 cols at sm+ — each breakpoint needs its own
-  // "does the last row need a filler card" check, or mobile can be left
-  // with a gap even when desktop's is filled (and vice versa)
+  // grid is 3 cols below sm, 4 cols at sm+. While there's more to load, don't
+  // show a trailing partial row on either breakpoint — round each down to
+  // its own complete-row boundary and let the rest appear on the next
+  // "Load More" click instead of leaving a gap.
+  const mobileCutoff = hasMore ? Math.floor(visibleProjects.length / 3) * 3 : visibleProjects.length;
+  const desktopCutoff = hasMore ? Math.floor(visibleProjects.length / 4) * 4 : visibleProjects.length;
+
+  function cardVisibilityClass(index: number) {
+    const onMobile = index < mobileCutoff;
+    const onDesktop = index < desktopCutoff;
+    if (onMobile && onDesktop) return '';
+    if (onMobile) return 'block sm:hidden';
+    if (onDesktop) return 'hidden sm:block';
+    return 'hidden';
+  }
+
+  // once everything is loaded, fill the last row's remainder (if any) with
+  // the CTA card instead — computed per breakpoint since 3-col and 4-col
+  // don't divide evenly at the same counts
   const showCtaMobile = !hasMore && visibleProjects.length % 3 !== 0;
   const showCtaDesktop = !hasMore && visibleProjects.length % 4 !== 0;
 
@@ -90,7 +106,7 @@ export default function ProjectsGrid({
 
       <ul className="mt-8 sm:mt-10 grid grid-cols-3 gap-[6px] sm:grid-cols-4 sm:gap-3 md:grid-cols-4 md:gap-4 lg:grid-cols-4 lg:gap-5 xl:grid-cols-4 xl:gap-6">
         {visibleProjects.map((p, i) => (
-          <li key={p.slug} className="relative group">
+          <li key={p.slug} className={`relative group ${cardVisibilityClass(i)}`}>
             {p.comingSoon ? (
               <div
                 className="block overflow-hidden rounded-[6px] sm:rounded-[8px] ring-1 ring-neutral-200 cursor-default select-none"
@@ -130,7 +146,7 @@ export default function ProjectsGrid({
                     )
                   ) : null}
                   <div className="absolute top-2 right-2">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-sm px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold tracking-widest uppercase text-white/80">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 text-[8px] sm:text-[10px] font-semibold tracking-normal sm:tracking-widest uppercase text-white/80 whitespace-nowrap">
                       {t('galleryPending')}
                     </span>
                   </div>
