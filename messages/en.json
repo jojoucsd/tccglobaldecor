@@ -98,7 +98,13 @@
     "galleryPending": "Gallery Pending",
     "ctaTitle": "Let Us Achieve Your Vision",
     "ctaSubtitle": "Start your project today",
-    "backLabel": "Projects"
+    "backLabel": "Projects",
+    "filterAll": "All",
+    "filterHotel": "Hotels",
+    "filterRestaurant": "Restaurants",
+    "filterGaming": "Gaming",
+    "filterLiving": "Living",
+    "loadMore": "Load More"
   },
   "projectTitles": {
     "venetian-hotel-macau": "Venetian Hotel Macau",

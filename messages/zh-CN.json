@@ -98,7 +98,13 @@
     "galleryPending": "图库整理中",
     "ctaTitle": "让我们实现您的愿景",
     "ctaSubtitle": "立即开始您的项目",
-    "backLabel": "项目"
+    "backLabel": "项目",
+    "filterAll": "全部",
+    "filterHotel": "酒店",
+    "filterRestaurant": "餐厅",
+    "filterGaming": "博彩",
+    "filterLiving": "非博彩",
+    "loadMore": "加载更多"
   },
   "projectTitles": {
     "venetian-hotel-macau": "澳门威尼斯人度假村",

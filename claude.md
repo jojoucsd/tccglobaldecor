@@ -1,6 +1,6 @@
 # TCC-Site Codebase Reference
 
-**Last Updated:** 2026-07-24
+**Last Updated:** 2026-07-26
 **Project:** TCC Carpets Marketing Website
 **Framework:** Next.js 15 with React 19, TypeScript, Tailwind CSS 4
 
@@ -16,6 +16,7 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 - TypeScript 5
 - Tailwind CSS 4 (with custom CSS variables, not the v3 config file approach)
 - **next-intl v4.13.4** — EN + zh-TW + zh-CN i18n
+- **image-size** — reads cover image pixel dimensions at build time to detect landscape vs. portrait (see `lib/getProjects.ts`)
 - **Primary deployment:** AWS Amplify (SSR, supports middleware)
 - **Legacy deployment:** GitHub Pages (`gh-pages` branch, static export only)
 - Amplify base URL: no base path needed
@@ -34,7 +35,8 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 │   │       ├── page.tsx             # Homepage (composes all major sections)
 │   │       ├── layout.tsx           # Site shell: Header + Footer + VideoModalProvider
 │   │       ├── projects/
-│   │       │   ├── page.tsx         # Projects grid (sorted by priority)
+│   │       │   ├── page.tsx         # Server: fetches projects, renders header + <ProjectsGrid>
+│   │       │   ├── ProjectsGrid.tsx # Client: tag filter chips, Load More pagination, card grid
 │   │       │   └── [slug]/
 │   │       │       ├── page.tsx                # Server component — fetches project data
 │   │       │       └── ProjectLayoutClient.tsx # Client carousel + image layout
@@ -126,8 +128,9 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 | `messages/en.json` | Master string file — add new keys here first, then mirror in zh-TW/zh-CN |
 | `components/Header.tsx` | Responsive nav with language switcher (EN/繁/简) |
 | `components/HeroCarousel.tsx` | Auto-rotating 4-slide hero with reduced-motion support |
-| `lib/getProjects.ts` | **Server-only.** Reads `/public/images/projects/` then merges metadata from `projects.json` |
-| `app/(site)/data/projects.json` | Project metadata: title, address, summary, description, notes, priority |
+| `lib/getProjects.ts` | **Server-only.** Reads `/public/images/projects/`, merges metadata from `projects.json`, detects cover orientation (`coverIsLandscape`) via `image-size` |
+| `app/[locale]/(site)/projects/ProjectsGrid.tsx` | **Client.** Tag filter chips (hotel/restaurant/gaming/living), Load More pagination, renders the card grid |
+| `app/(site)/data/projects.json` | Project metadata: title, address, summary, description, notes, priority, tags |
 | `app/(site)/data/clients.ts` | Generates 63 `ClientLogo` refs (numeric filenames) |
 | `app/(site)/data/collaborations.ts` | **Canonical** source for partner data — `CollabTeaser` imports from here |
 | `hooks/useScrollSpy.ts` | IntersectionObserver; returns active section id |
@@ -209,17 +212,24 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 {
   "slug": "project-name",
   "priority": 1,
-  "title": "Display Title",
+  "title": "Display Title, With Location If Helpful",
   "address": "City, Country",
   "summary": "Short overview paragraph",
   "description": "Longer detail paragraph",
-  "notes": "Extra notes (optional)"
+  "notes": "Extra notes (optional)",
+  "tags": ["hotel", "gaming"]
 }
 ```
 
 **Cover image selection:** prefers `project_list*.avif`, then `cover.avif`, then any `.avif`, then first image alphabetically.
 
 **Image naming convention:** `0.avif` = cover/hero. Remaining images sort numerically.
+
+**Cover orientation:** `getProjects.ts` reads the cover's actual pixel dimensions (via `image-size`) and sets `coverIsLandscape`. The Projects grid uses this to render landscape covers uncropped with a blurred-backdrop letterbox (`object-contain`), while portrait covers fill the card edge-to-edge (`object-cover`) — no manual cropping needed on your end.
+
+**Tags & filtering:** `tags` is a free-form string array. The Projects grid currently filters on four values — `hotel`, `restaurant`, `gaming`, `living` — as multi-select OR chips (see "Projects Grid — Tags & Filtering" below). A project can carry any combination (e.g. a restaurant inside a casino hotel could be `["restaurant"]` on its own card, with the hotel separately tagged `["hotel", "gaming"]`).
+
+**Naming: slug vs. title.** The slug (= folder name = URL segment) should stay short and lowercase — it's just a technical ID, never rename it after the fact (breaks shared links, and Amplify's Linux filesystem is case-sensitive so uppercase folder names silently 404 in production). If a project needs location context for clarity (e.g. "which city is this restaurant in?"), put it in `title` instead — that's what actually renders on the card. Example: slug `tao-peak-hudson-yards`, title `"Tao Peak, Hudson Yards, New York"`.
 
 **⚠️ Folder casing:** The Amplify deployment runs on Linux (case-sensitive). Folder name `Four-Seasons-Grand` will NOT match slug `four-seasons-grand`. Always use lowercase slugs for folder names.
 
@@ -247,7 +257,7 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 | `/` | `app/[locale]/(site)/page.tsx` | Homepage (en has no prefix) |
 | `/zh-TW/` | same page | Traditional Chinese |
 | `/zh-CN/` | same page | Simplified Chinese |
-| `/projects` | `app/[locale]/(site)/projects/page.tsx` | Grid, sorted by priority |
+| `/projects` | `app/[locale]/(site)/projects/page.tsx` | Grid, sorted by priority, tag-filterable with Load More |
 | `/projects/[slug]` | `ProjectLayoutClient.tsx` | Carousel + layout adapts to image count |
 | `/gallery/[slug]` | `app/[locale]/(site)/gallery/[slug]/page.tsx` | Matrix grid |
 | `/awards/[slug]` | `app/[locale]/(site)/awards/[slug]/page.tsx` | Award detail |
@@ -303,6 +313,13 @@ Used for collab cards, project cards, and detail pages. Key props:
 - `variant`: `"imageTop"` | `"textTop"` — image/text order
 - `compact`: smaller font + spacing
 - `showText`: toggle text block (still reserves space by default)
+
+### Projects Grid — Tags & Filtering
+`ProjectsGrid.tsx` (client component) owns all interactive grid behavior:
+- **Filter chips:** All / Hotels / Restaurants / Gaming / Living — multi-select, OR logic (union of any selected tags). Selecting nothing = show everything, including untagged projects (e.g. United Nations HQ NYC, which is neither a hotel nor restaurant).
+- **Load More pagination:** shows 16 cards initially (`INITIAL_COUNT`), reveals 12 more per click (`LOAD_STEP`). Resets to 16 whenever the filter selection changes. This exists specifically so the grid doesn't become an unbounded scroll as the project count grows past ~30.
+- **"Let Us Achieve Your Vision" filler card:** fills the last row when the visible card count doesn't evenly divide the column count, so the grid never ends on an awkward partial row. It's computed **independently per breakpoint** — `visibleProjects.length % 3` for the mobile 3-col grid, `% 4` for the sm+ 4-col grid — rendered as two separate `<li>`s toggled with `block sm:hidden` / `hidden sm:block`. This only fires when `!hasMore` (i.e. all filtered results are already showing, not mid-pagination). Per Ling: mobile must never show a whitespace gap; a partial last row is acceptable on desktop/iPad.
+- Translation keys live under `projects` namespace: `filterAll`, `filterHotel`, `filterRestaurant`, `filterGaming`, `filterLiving`, `loadMore`.
 
 ---
 
@@ -403,12 +420,13 @@ All zh-TW and zh-CN translations were machine-generated. HK staff should review 
 ## Common Tasks
 
 ### Adding a New Project
-1. Create `/public/images/projects/[slug]/` — **use all-lowercase slug**
+1. Create `/public/images/projects/[slug]/` — **use all-lowercase slug, and don't rename it later** (breaks shared URLs + risks case-sensitivity issues on Amplify)
 2. Add cover image named `0.avif` (or `cover.avif` — first `.avif` alphabetically wins)
 3. Add remaining images named `1.avif`, `2.avif`, etc.
-4. Add entry to `app/(site)/data/projects.json` with `slug`, `title`, `address`, `summary`, `description`
+4. Add entry to `app/(site)/data/projects.json` with `slug`, `title`, `address`, `summary`, `description`, `tags` (`["hotel","gaming"]`, `["hotel","living"]`, or `["restaurant"]`)
 5. Add Chinese title to `messages/zh-TW.json` and `messages/zh-CN.json` under `projectTitles`
 6. Set `"priority": 1` to feature it at the top of the grid
+7. If the project needs location context in its display name (e.g. a restaurant that could be confused with others of the same brand), put it in `title` — not the slug
 
 ### Updating Trade Show Badge
 Edit `components/TradeShowBadge.tsx` — all event details are hardcoded there.
@@ -489,10 +507,17 @@ Several project folders have low-res WeChat-compressed images or placeholder cov
 - Several projects with AI-generated placeholder covers
 
 ### Gallery Specialization Icons
-21 loose `project_icon_img_*.avif` files exist in `/public/images/projects/` (moved to `/public/images/old-icons/` and removed). Originally intended for gallery specialization carousels — not yet built. When time allows:
-1. Add `tags` field to `projects.json` (e.g. `"tags": ["axminster", "casino"]`)
+21 loose `project_icon_img_*.avif` files exist in `/public/images/projects/` (moved to `/public/images/old-icons/` and removed). Originally intended for gallery specialization carousels — not yet built. The `tags` field now exists (added 2026-07-26 for the Projects grid filter — see "Projects Grid — Tags & Filtering" above) and could be extended with specialization values (e.g. `"axminster"`) to power this. When time allows:
+1. Extend `tags` vocabulary in `projects.json` with specialization values
 2. Update gallery pages to dynamically filter projects by tag
 3. Move icons into respective project folders
+
+### Projects Grid Tag Taxonomy — Needs Marco's Review
+All 28 projects were given a best-guess `hotel`/`restaurant` + `gaming`/`living` tag on 2026-07-26 based on public knowledge of which properties are casino resorts. Two need explicit confirmation:
+- **`melco-group`** — tagged `["hotel", "gaming"]` as a placeholder, but it's a company name (Melco is a casino operator), not a single property. Worth clarifying what this card should actually represent.
+- **`united-nations-NYC`** — intentionally left untagged (neither a hotel nor restaurant), only appears in the "All" view.
+
+Also: Marco (CEO) wants standout F&B projects (e.g. Michelin-caliber restaurants) to get their own cards even when housed inside a hotel TCC also worked on — his reasoning is the restaurant's brand recognition can exceed the host building's. First one added: **Tao Peak, Hudson Yards, New York** (`tao-peak-hudson-yards`), still gallery-pending with one rendering image. More F&B projects are expected soon (Marco tends to add projects at a steady clip), which is part of why the Load More pagination above exists.
 
 ---
 

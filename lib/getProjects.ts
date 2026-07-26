@@ -2,12 +2,14 @@
 import "server-only";
 import fs from "node:fs";
 import path from "node:path";
+import { imageSize } from "image-size";
 
 /** --------- Types --------- */
 export type ProjectRecord = {
   slug: string;
   title: string;
   cover: string;
+  coverIsLandscape?: boolean;
   images: string[];
 
   // optional fields used by the project detail page
@@ -18,6 +20,7 @@ export type ProjectRecord = {
   notes?: string;        // extra notes
   priority?: number;     // lower = higher priority (1 = featured)
   comingSoon?: boolean;  // true when folder exists but has no images yet
+  tags?: string[];       // "hotel" | "restaurant" | "gaming" | "living" — used by the Projects grid filter
 };
 
 type ProjectMeta = Partial<ProjectRecord> & { slug: string };
@@ -57,6 +60,17 @@ function preferCover(files: string[]) {
 
   // 4. First file of any supported type
   return files[0] ?? "";
+}
+
+function isCoverLandscape(filePath: string): boolean {
+  try {
+    const buffer = fs.readFileSync(filePath);
+    const { width, height } = imageSize(buffer);
+    if (!width || !height) return false;
+    return width / height >= 1;
+  } catch {
+    return false;
+  }
 }
 
 function resolveMetaPath(): string | null {
@@ -127,10 +141,13 @@ export function getAllProjects(): ProjectRecord[] {
         } as ProjectRecord;
       }
 
+      const cover = preferCover(files);
+
       const base: ProjectRecord = {
         slug,
         title: titleFromSlug(slug),
-        cover: preferCover(files),
+        cover,
+        coverIsLandscape: cover ? isCoverLandscape(path.join(dir, cover)) : false,
         images: files,
         comingSoon,
       };
