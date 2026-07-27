@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(source ~/.nvm/nvm.sh)",
+      "Bash(heroku logs *)",
+      "mcp__claude-in-chrome__navigate",
+      "Bash(gh run watch *)",
+      "mcp__claude-in-chrome__find",
+      "mcp__claude-in-chrome__resize_window",
+      "Bash(heroku config)",
+      "Bash(node scripts/to-avif.mjs *)"
+    ]
+  }
+}
