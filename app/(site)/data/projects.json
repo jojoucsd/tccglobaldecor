@@ -42,7 +42,8 @@
     "tags": [
       "hotel",
       "living"
-    ]
+    ],
+    "coverPosition": "38% center"
   },
   {
     "slug": "st-regis-macau",
@@ -153,7 +154,8 @@
     "tags": [
       "hotel",
       "gaming"
-    ]
+    ],
+    "coverPosition": "15% center"
   },
   {
     "slug": "melco-group",
