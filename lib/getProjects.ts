@@ -2,14 +2,13 @@
 import "server-only";
 import fs from "node:fs";
 import path from "node:path";
-import { imageSize } from "image-size";
 
 /** --------- Types --------- */
 export type ProjectRecord = {
   slug: string;
   title: string;
   cover: string;
-  coverIsLandscape?: boolean;
+  coverPosition?: string; // CSS object-position for the cover crop, e.g. "top", "20% 50%" — defaults to "center"
   images: string[];
 
   // optional fields used by the project detail page
@@ -60,17 +59,6 @@ function preferCover(files: string[]) {
 
   // 4. First file of any supported type
   return files[0] ?? "";
-}
-
-function isCoverLandscape(filePath: string): boolean {
-  try {
-    const buffer = fs.readFileSync(filePath);
-    const { width, height } = imageSize(buffer);
-    if (!width || !height) return false;
-    return width / height >= 1;
-  } catch {
-    return false;
-  }
 }
 
 function resolveMetaPath(): string | null {
@@ -141,13 +129,10 @@ export function getAllProjects(): ProjectRecord[] {
         } as ProjectRecord;
       }
 
-      const cover = preferCover(files);
-
       const base: ProjectRecord = {
         slug,
         title: titleFromSlug(slug),
-        cover,
-        coverIsLandscape: cover ? isCoverLandscape(path.join(dir, cover)) : false,
+        cover: preferCover(files),
         images: files,
         comingSoon,
       };

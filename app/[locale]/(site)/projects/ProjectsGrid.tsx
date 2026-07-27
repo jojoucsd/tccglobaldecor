@@ -113,38 +113,7 @@ export default function ProjectsGrid({
                 aria-label={`${titleMap[p.slug] ?? p.title} — ${t('galleryPending')}`}
               >
                 <div className="relative aspect-[1/1.2] sm:aspect-[3/4] bg-neutral-200">
-                  {p.cover ? (
-                    p.coverIsLandscape ? (
-                      <>
-                        <Image
-                          src={`${bp}/images/projects/${p.slug}/${p.cover}`}
-                          alt=""
-                          aria-hidden="true"
-                          fill
-                          sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
-                          className="object-cover scale-110 blur-lg brightness-75"
-                          unoptimized
-                        />
-                        <Image
-                          src={`${bp}/images/projects/${p.slug}/${p.cover}`}
-                          alt={p.title}
-                          fill
-                          sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
-                          className="object-contain"
-                          unoptimized
-                        />
-                      </>
-                    ) : (
-                      <Image
-                        src={`${bp}/images/projects/${p.slug}/${p.cover}`}
-                        alt={p.title}
-                        fill
-                        sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
-                        className="object-cover"
-                        unoptimized
-                      />
-                    )
-                  ) : null}
+                  {p.cover ? <CoverImage p={p} /> : null}
                   <div className="absolute top-2 right-2">
                     <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 text-[8px] sm:text-[10px] font-semibold tracking-normal sm:tracking-widest uppercase text-white/80 whitespace-nowrap">
                       {t('galleryPending')}
@@ -164,38 +133,7 @@ export default function ProjectsGrid({
                 className="block overflow-hidden rounded-[6px] sm:rounded-[8px] ring-1 ring-neutral-200 hover:ring-brand-gold/60 transition"
               >
                 <div className="relative aspect-[1/1.2] sm:aspect-[3/4] bg-neutral-200">
-                  {p.coverIsLandscape ? (
-                    <>
-                      <Image
-                        src={`${bp}/images/projects/${p.slug}/${p.cover}`}
-                        alt=""
-                        aria-hidden="true"
-                        fill
-                        sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
-                        className="object-cover scale-110 blur-lg brightness-75"
-                        unoptimized
-                      />
-                      <Image
-                        src={`${bp}/images/projects/${p.slug}/${p.cover}`}
-                        alt={p.title}
-                        fill
-                        sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
-                        className="object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-                        priority={i === 0}
-                        unoptimized
-                      />
-                    </>
-                  ) : (
-                    <Image
-                      src={`${bp}/images/projects/${p.slug}/${p.cover}`}
-                      alt={p.title}
-                      fill
-                      sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                      priority={i === 0}
-                      unoptimized
-                    />
-                  )}
+                  <CoverImage p={p} priority={i === 0} hoverZoom />
                   <div className="absolute inset-x-0 bottom-0 h-20 sm:h-24 bg-gradient-to-t from-black/85 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-4 md:p-5 text-center sm:text-left text-white">
                     <h2 className="text-sm sm:text-lg md:text-xl font-bold drop-shadow-lg line-clamp-2 leading-tight">
@@ -232,6 +170,29 @@ export default function ProjectsGrid({
         </div>
       )}
     </>
+  );
+}
+
+function CoverImage({
+  p,
+  priority = false,
+  hoverZoom = false,
+}: {
+  p: ProjectRecord;
+  priority?: boolean;
+  hoverZoom?: boolean;
+}) {
+  return (
+    <Image
+      src={`${bp}/images/projects/${p.slug}/${p.cover}`}
+      alt={p.title}
+      fill
+      sizes="(min-width:1280px)25vw,(min-width:1024px)25vw,(min-width:640px)33vw,100vw"
+      className={`object-cover ${hoverZoom ? 'transition-transform duration-300 group-hover:scale-[1.03]' : ''}`}
+      style={{ objectPosition: p.coverPosition || 'center' }}
+      priority={priority}
+      unoptimized
+    />
   );
 }
 
