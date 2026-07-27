@@ -16,7 +16,6 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 - TypeScript 5
 - Tailwind CSS 4 (with custom CSS variables, not the v3 config file approach)
 - **next-intl v4.13.4** — EN + zh-TW + zh-CN i18n
-- **image-size** — reads cover image pixel dimensions at build time to detect landscape vs. portrait (see `lib/getProjects.ts`)
 - **Primary deployment:** AWS Amplify (SSR, supports middleware)
 - **Legacy deployment:** GitHub Pages (`gh-pages` branch, static export only)
 - Amplify base URL: no base path needed
@@ -128,7 +127,7 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 | `messages/en.json` | Master string file — add new keys here first, then mirror in zh-TW/zh-CN |
 | `components/Header.tsx` | Responsive nav with language switcher (EN/繁/简) |
 | `components/HeroCarousel.tsx` | Auto-rotating 4-slide hero with reduced-motion support |
-| `lib/getProjects.ts` | **Server-only.** Reads `/public/images/projects/`, merges metadata from `projects.json`, detects cover orientation (`coverIsLandscape`) via `image-size` |
+| `lib/getProjects.ts` | **Server-only.** Reads `/public/images/projects/`, merges metadata from `projects.json` |
 | `app/[locale]/(site)/projects/ProjectsGrid.tsx` | **Client.** Tag filter chips (hotel/restaurant/gaming/living), Load More pagination, renders the card grid |
 | `app/(site)/data/projects.json` | Project metadata: title, address, summary, description, notes, priority, tags |
 | `app/(site)/data/clients.ts` | Generates 63 `ClientLogo` refs (numeric filenames) |
@@ -217,7 +216,8 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
   "summary": "Short overview paragraph",
   "description": "Longer detail paragraph",
   "notes": "Extra notes (optional)",
-  "tags": ["hotel", "gaming"]
+  "tags": ["hotel", "gaming"],
+  "coverPosition": "top"
 }
 ```
 
@@ -225,7 +225,7 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 
 **Image naming convention:** `0.avif` = cover/hero. Remaining images sort numerically.
 
-**Cover orientation:** `getProjects.ts` reads the cover's actual pixel dimensions (via `image-size`) and sets `coverIsLandscape`. The Projects grid uses this to render landscape covers uncropped with a blurred-backdrop letterbox (`object-contain`), while portrait covers fill the card edge-to-edge (`object-cover`) — no manual cropping needed on your end.
+**Cover cropping:** Every cover — portrait or landscape — renders with `object-cover`, cropped to fill the card edge-to-edge, centered by default. A landscape or off-center photo gets a plain center-crop rather than a letterbox; if the crop clips something important, set `coverPosition` in `projects.json` (any valid CSS `object-position` value, e.g. `"top"`, `"20% 50%"`) to nudge the focal point without re-editing the source image. (An earlier version letterboxed landscape covers with a blurred backdrop instead of cropping — removed 2026-07-26 because a mixed grid of cropped and letterboxed cards read as visually inconsistent; see feedback memory for the reasoning.)
 
 **Tags & filtering:** `tags` is a free-form string array. The Projects grid currently filters on four values — `hotel`, `restaurant`, `gaming`, `living` — as multi-select OR chips (see "Projects Grid — Tags & Filtering" below). A project can carry any combination (e.g. a restaurant inside a casino hotel could be `["restaurant"]` on its own card, with the hotel separately tagged `["hotel", "gaming"]`).
 
@@ -427,6 +427,9 @@ All zh-TW and zh-CN translations were machine-generated. HK staff should review 
 5. Add Chinese title to `messages/zh-TW.json` and `messages/zh-CN.json` under `projectTitles`
 6. Set `"priority": 1` to feature it at the top of the grid
 7. If the project needs location context in its display name (e.g. a restaurant that could be confused with others of the same brand), put it in `title` — not the slug
+
+### Converting a Source Photo to AVIF
+Use `node scripts/to-avif.mjs <source-path> <dest-path> [quality]` (wraps the project's existing `sharp` dependency; `sips` on macOS can read AVIF but not write it, so it's not an option here). Convention: save as `cover.avif` rather than overwriting `0.avif`, so the original numbered image stays in the gallery instead of being lost. Move the raw pre-conversion source file to `/originals/` at the repo root (gitignored, outside `public/`) rather than leaving it in the project folder — `getProjects.ts` picks up any `.jpg`/`.png`/`.webp` left in `public/images/projects/[slug]/` as a gallery image too.
 
 ### Updating Trade Show Badge
 Edit `components/TradeShowBadge.tsx` — all event details are hardcoded there.
