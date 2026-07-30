@@ -211,7 +211,7 @@ export default function Header() {
             {langMenuOpen && (
               <div
                 role="listbox"
-                className="absolute right-0 top-full mt-2 w-28 overflow-hidden rounded-lg bg-white py-1 shadow-lg ring-1 ring-neutral-200 animate-slideDown"
+                className="absolute right-0 top-full mt-2 w-16 overflow-hidden rounded-lg bg-white py-1 shadow-lg ring-1 ring-neutral-200 animate-slideDown"
               >
                 {LOCALES.map((l) => (
                   <button
@@ -223,7 +223,7 @@ export default function Header() {
                       setLangMenuOpen(false);
                     }}
                     className={[
-                      'block w-full px-3 py-2 text-left text-sm transition-colors',
+                      'block w-full px-3 py-2 text-center text-sm transition-colors',
                       locale === l.code
                         ? 'font-bold text-brand-ink bg-neutral-50'
                         : 'text-brand-ink/70 hover:bg-neutral-50 hover:text-brand-ink',

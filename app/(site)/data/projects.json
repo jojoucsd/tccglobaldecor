@@ -296,5 +296,19 @@
     "tags": [
       "restaurant"
     ]
+  },
+  {
+    "slug": "hotel-lisboa-macau",
+    "title": "Hotel Lisboa Macau",
+    "address": "2-4 Avenida de Lisboa, Macau SAR",
+    "tags": [
+      "hotel",
+      "gaming"
+    ]
+  },
+  {
+    "slug": "macau-tower",
+    "title": "Macau Tower",
+    "address": "Largo da Torre de Macau, Macau SAR"
   }
 ]
