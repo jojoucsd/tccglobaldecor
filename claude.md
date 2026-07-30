@@ -40,9 +40,7 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 │   │       │       ├── page.tsx                # Server component — fetches project data
 │   │       │       └── ProjectLayoutClient.tsx # Client carousel + image layout
 │   │       ├── gallery/
-│   │       │   └── [slug]/page.tsx  # Gallery matrix + related projects strip
-│   │       ├── awards/
-│   │       │   └── [slug]/page.tsx  # Individual award detail
+│   │       │   └── [slug]/page.tsx  # Gallery matrix + related projects strip — shared by Specialization AND Awards detail pages
 │   │       ├── collaborations/
 │   │       │   └── page.tsx         # ⚠️ PLACEHOLDER — needs real copy
 │   │       ├── connect/page.tsx     # Contact page (no form — links to mail client)
@@ -71,7 +69,7 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 │   ├── HeroCarousel.tsx             # 3-slide auto-rotating hero (photo slides; 'reveal' type wired but unused)
 │   ├── TriptychRevealSlide.tsx      # 3-image staggered reveal (desktop) / crossfade (mobile)
 │   ├── VideoModalProvider.tsx       # Context + global iframe modal for videos
-│   ├── AlternatingCard.tsx          # Image/text card used across sections
+│   ├── AlternatingCard.tsx          # Image/text card used across sections — always use @/i18n/navigation's Link inside it, not next/link
 │   ├── TradeShowBadge.tsx           # Hardcoded BDNY '26 event badge
 │   ├── WorldMapStatic.tsx           # SVG world map with 18 city pins
 │   ├── about/About.tsx              # About section: image, 3 pillars, highlights
@@ -82,7 +80,7 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 │   │   └── Specialization.tsx       # 6 carpet-type cards
 │   ├── clients/ClientsBelt.tsx      # Seeded-random marquee of client logos
 │   ├── gallery/PhotoGrid.tsx        # 6-item asymmetric matrix grid
-│   ├── awards/AwardsTeaser.tsx      # 4 award cards with optional video
+│   ├── awards/AwardsTeaser.tsx      # Maps over data/awards.ts; grid layout, systematic stagger, optional video per award
 │   ├── collab/CollabTeaser.tsx      # 4 partner cards (imports from data/collaborations.ts)
 │   ├── connect/ConnectSection.tsx   # CTA block linking to /connect
 │   ├── sectors/SectorsSection.tsx   # Currently unused (removed from homepage)
@@ -181,7 +179,9 @@ router.replace(pathname, { locale: 'zh-TW' });
 | `craftsmanship` | capability/Craftsmanship.tsx |
 | `specialization` | capability/Specialization.tsx |
 | `markets` | capability/Markets.tsx |
-| `awards` | AwardsTeaser.tsx |
+| `awards` | AwardsTeaser.tsx (section title/subtitle/play button — not award titles, see `awardTitles`) |
+| `awardTitles` | AwardsTeaser.tsx + gallery/[slug]/page.tsx — maps award slug → localized title, same pattern as `projectTitles` |
+| `galleryDetail` | gallery/[slug]/page.tsx — shared template for both Specialization and Award detail pages |
 | `collaborations` | CollabTeaser.tsx |
 | `clients` | ClientsBelt.tsx |
 | `connect` | ConnectSection.tsx |
@@ -246,8 +246,14 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 
 ### Gallery
 - Source: `/app/(site)/data/gallery.ts`
-- Entries: 6 specialization types + 3 award entries
+- Entries: 6 specialization types only. Awards live separately in `data/awards.ts` (see below) — don't add award entries back here, that duplication is what caused a stale/mismatched entry before (fixed 2026-07-30)
 - Images: `/public/images/gallery/`
+
+### Awards
+- **`/app/(site)/data/awards.ts`** is the canonical source — one entry per award: `slug`, `imageSrc` (filename under `/public/images/awards/`), optional `video` (Vidyard embed URL)
+- Localized titles live in `messages/*.json` under `awardTitles`, keyed by slug — same pattern as `projectTitles`
+- `AwardsTeaser.tsx` (homepage teaser row) and `gallery/[slug]/page.tsx` (detail page, shared with Specialization) both read from this one source — no other files should define award titles or slugs
+- Homepage card grid is a real CSS grid (2/3/4 cols by breakpoint) with a repeating vertical stagger cycled by index — adding an award never requires hand-tuning position values
 
 ---
 
@@ -260,8 +266,7 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 | `/zh-CN/` | same page | Simplified Chinese |
 | `/projects` | `app/[locale]/(site)/projects/page.tsx` | Grid, sorted by priority, tag-filterable with Load More |
 | `/projects/[slug]` | `ProjectLayoutClient.tsx` | Carousel + layout adapts to image count |
-| `/gallery/[slug]` | `app/[locale]/(site)/gallery/[slug]/page.tsx` | Matrix grid |
-| `/awards/[slug]` | `app/[locale]/(site)/awards/[slug]/page.tsx` | Award detail |
+| `/gallery/[slug]` | `app/[locale]/(site)/gallery/[slug]/page.tsx` | Matrix grid — serves BOTH Specialization and Award detail pages (routes by which slug list contains the slug) |
 | `/collaborations` | `app/[locale]/(site)/collaborations/page.tsx` | ⚠️ Placeholder |
 | `/connect` | `app/[locale]/(site)/connect/page.tsx` | Links to email/phone (no form) |
 | `/process` | `app/[locale]/(site)/process/page.tsx` | Timeline |
@@ -439,6 +444,12 @@ Edit `components/TradeShowBadge.tsx` — all event details are hardcoded there.
 ### Changing a Collaboration Partner
 1. Update `app/(site)/data/collaborations.ts` — this is the only place now (no duplicate)
 2. Add/replace image in `/public/images/collaborations/`
+
+### Adding an Award
+1. Add the image to `/public/images/awards/`
+2. Add one entry to `app/(site)/data/awards.ts` — `slug`, `imageSrc`, optional `video`
+3. Add the localized title under `awardTitles` (keyed by the same slug) in `messages/en.json`, `zh-TW.json`, `zh-CN.json`
+4. That's it — the homepage grid and the `/gallery/[slug]` detail page both pick it up automatically, no position tuning needed
 
 ### Updating Navigation Links
 Edit the `NAV` array in `components/Header.tsx`.
