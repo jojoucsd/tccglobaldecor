@@ -27,16 +27,28 @@ export default function About() {
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-gold" />
           {t('eyebrow')}
         </p>
-        <h1 className="mt-1 text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
+        <h2 className="mt-1 text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
           <a
             href="https://www.marinabaysands.com/stories/room-craft-tcc-carpets.html"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:underline hover:text-brand-gold transition-colors"
+            className="inline-flex items-baseline gap-1"
+            aria-label={`${t('title')} — source citation, opens Marina Bay Sands' feature on TCC`}
           >
             {t('title')}
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              aria-hidden="true"
+              className="h-[0.55em] w-[0.55em] shrink-0 self-start text-neutral-400"
+            >
+              <circle cx="12" cy="12" r="9" strokeWidth="1.8" />
+              <path strokeWidth="1.8" strokeLinecap="round" d="M12 11v5.5" />
+              <circle cx="12" cy="7.75" r="1" fill="currentColor" stroke="none" />
+            </svg>
           </a>
-        </h1>
+        </h2>
         <div className="mx-auto mt-2 h-[3px] w-20 rounded-full bg-brand-gold" />
       </header>
 
@@ -86,7 +98,7 @@ export default function About() {
             ))}
           </div>
 
-          <ul className="hidden md:block mt-8 ml-5 list-disc space-y-2 marker:text-brand-gold text-neutral-900">
+          <ul className="mt-6 md:mt-8 ml-5 list-disc space-y-2 marker:text-brand-gold text-neutral-900 text-sm sm:text-base">
             {highlights.map((line) => (
               <li key={line}>{line}</li>
             ))}
