@@ -1,15 +1,28 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import Section from "@/components/Section";
 import Image from "next/image";
 import { ALL_CLIENT_LOGOS } from "@/app/(site)/data/clients";
+import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 
-// --- Random picker utility ---
-function getRandomSubset<T>(arr: T[], count: number): T[] {
+// Seeded shuffle — deterministic per `seed`, without touching the global
+// Math.random (the previous version monkey-patched and restored it, which
+// would have permanently corrupted Math.random site-wide if the shuffle
+// ever threw mid-computation).
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    const x = Math.sin(s++) * 10000;
+    return x - Math.floor(x);
+  };
+}
+
+function getRandomSubset<T>(arr: T[], count: number, seed: number): T[] {
+  const rand = seededRandom(seed);
   const copy = arr.slice();
   for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rand() * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy.slice(0, count);
@@ -31,26 +44,12 @@ export default function ClientsBelt({
   const t = useTranslations('clients');
   const displayTitle = title ?? t('defaultTitle');
   // random but stable per seed
-  const logos = useMemo(() => {
-    const r = Math.random;
-    Math.random = () => {
-      const x = Math.sin(seed++) * 10000;
-      return x - Math.floor(x);
-    };
-    const subset = getRandomSubset(ALL_CLIENT_LOGOS, count);
-    Math.random = r;
-    return subset;
-  }, [seed, count]);
+  const logos = useMemo(
+    () => getRandomSubset(ALL_CLIENT_LOGOS, count, seed),
+    [seed, count]
+  );
 
-  // Respect prefers-reduced-motion
-  const [reduceMotion, setReduceMotion] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
+  const reduceMotion = usePrefersReducedMotion();
 
   // Duplicate logos for seamless loop
   const loop = [...logos, ...logos];
@@ -63,7 +62,7 @@ export default function ClientsBelt({
 
       <div
         className="relative overflow-hidden"
-        aria-label="Client logos carousel"
+        aria-label="Client logos"
         role="region"
       >
         {/* gradient fades on edges */}
@@ -103,24 +102,6 @@ export default function ClientsBelt({
 
         </div>
       </div>
-
-      {/* keyframes + pause */}
-      <style jsx global>{`
-        @keyframes clients-marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .animate-clients-marquee {
-          animation: clients-marquee 30s linear infinite;
-        }
-        .pause-animation {
-          animation-play-state: paused !important;
-        }
-      `}</style>
     </Section>
   );
 }
