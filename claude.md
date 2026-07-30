@@ -242,6 +242,7 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 ### Collaborations
 - **`/app/(site)/data/collaborations.ts`** is the canonical data source
 - `CollabTeaser.tsx` imports directly from this file (no longer duplicated)
+- Each entry is either image-based (`img`, filename under `/public/images/collaborations/`) or text-based (`wordmark`, for partners with no icon/logo — e.g. Alexander's Collection, whose own site is typography-only). `CollabTeaser.tsx` renders whichever is present, same card treatment either way.
 - `app/[locale]/(site)/collaborations/page.tsx` is **placeholder content** — needs real copy
 
 ### Gallery
@@ -389,9 +390,6 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 
 **1. Collaborations page is all placeholder content**
 `app/[locale]/(site)/collaborations/page.tsx` has placeholder copy. Needs real content from Marco/HK team.
-
-**1b. Alexander's Design collaboration logo is the wrong asset**
-`public/images/collaborations/alexanders-collection.avif` is a product spec slide (mostly empty gray background, small artwork thumbnail, "TCC-004, Fine New Zealand Wool..." spec text) — not a logo. Card layout was fixed 2026-07-30, but this needs the real logo file from Ling before it'll display correctly on the homepage Collaborations teaser.
 
 **2. Contact page has no backend**
 `connect/page.tsx` shows office contact info but has no form submission. Intentional for now — user decided to rely on device mail clients rather than a web form.
