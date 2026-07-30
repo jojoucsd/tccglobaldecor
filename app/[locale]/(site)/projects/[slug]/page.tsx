@@ -21,6 +21,11 @@ export default async function ProjectDetail({
   const projectTitleMap = (messages.projectTitles as Record<string, string>) ?? {};
   const localizedTitle = projectTitleMap[slug] ?? project.title;
 
+  type ProjectDetailTranslation = { summary?: string; description?: string; notes?: string };
+  const projectDetailsMap =
+    (messages.projectDetails as Record<string, ProjectDetailTranslation>) ?? {};
+  const localizedDetails = projectDetailsMap[slug];
+
   const images =
     (project.images ?? []).map((file: string) => ({
       src: `${bp}/images/projects/${project.slug}/${file}`,
@@ -33,9 +38,9 @@ export default async function ProjectDetail({
     (project as any).subtitle ??
     undefined;
 
-  const overview = (project as any).summary ?? '';
-  const details = (project as any).description ?? '';
-  const details2 = (project as any).notes ?? '';
+  const overview = localizedDetails?.summary ?? (project as any).summary ?? '';
+  const details = localizedDetails?.description ?? (project as any).description ?? '';
+  const details2 = localizedDetails?.notes ?? (project as any).notes ?? '';
 
   return (
     <ProjectLayoutClient
