@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
@@ -45,14 +44,11 @@ const slides: Slide[] = [
     alt: 'Hotel suite rug design',
     focus: 'object-center',
   },
-  {
-    type: 'reveal',
-    images: [
-      { src: `${bp}/images/hero/hero-04-install.avif`, alt: 'Installation in progress', focus: 'object-[center_80%]' },
-      { src: `${bp}/images/hero/hero-04-plan.avif`, alt: 'Concept drawing / plan' },
-      { src: `${bp}/images/hero/hero-04-final.avif`, alt: 'Finished bespoke interior', focus: 'object-[center_65%]' },
-    ],
-  },
+  // Slide 4 (tree/reveal) removed 2026-07-30 — story didn't land and the
+  // flip animation read as distracting. Ling is picking a replacement from
+  // his library; the 'reveal' slide type + TriptychRevealSlide below stay
+  // wired up so a new one drops back in easily, either as a plain photo
+  // slide or the same reveal treatment.
 ];
 
 const AUTOPLAY_MS = 5000;
@@ -83,6 +79,19 @@ export default function HeroCarousel() {
   const intervalRef = useRef<number | null>(null);
   const isMobile = useIsMobile();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.4 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -136,18 +145,23 @@ export default function HeroCarousel() {
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
+      if (!inView) return;
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target?.isContentEditable) return;
       if (e.key === 'ArrowLeft') prev();
       else if (e.key === 'ArrowRight') next();
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [next, prev]);
+  }, [next, prev, inView]);
 
   const activeSlide = slides[index];
   const isLightScheme = activeSlide.type === 'reveal' && !isMobile;
 
   return (
     <section
+      ref={sectionRef}
       className="hero relative pt-[env(safe-area-inset-top)] transition-colors duration-500"
       style={{ paddingTop: 'calc(var(--header-h, 72px) + env(safe-area-inset-top))' }}
       data-scheme={isLightScheme ? 'light' : undefined}
@@ -165,10 +179,18 @@ export default function HeroCarousel() {
               </div>
             );
           }
-          const imgSrc = isMobile && s.mobileSrc ? s.mobileSrc : s.src;
           return (
             <div key={i} className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${active ? 'opacity-100' : 'opacity-0'}`}>
-              <Image src={imgSrc} alt={s.alt} fill sizes="100vw" className={`object-cover ${s.focus ?? 'object-center'}`} priority={active} unoptimized />
+              <picture className="contents">
+                {s.mobileSrc && <source media="(max-width: 639px)" srcSet={s.mobileSrc} />}
+                <img
+                  src={s.src}
+                  alt={s.alt}
+                  loading={active ? 'eager' : 'lazy'}
+                  fetchPriority={active ? 'high' : 'auto'}
+                  className={`absolute inset-0 h-full w-full object-cover ${s.focus ?? 'object-center'}`}
+                />
+              </picture>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
             </div>
           );
