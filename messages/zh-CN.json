@@ -66,11 +66,7 @@
   "awards": {
     "title": "荣誉与奖项",
     "subtitle": "含蓄而有力的佐证——深受行业领导者信赖。",
-    "playButton": "播放",
-    "sands": "金沙供应商卓越服务奖",
-    "mbs": "滨海湾金沙认可奖",
-    "goldKey": "金钥匙奖得主及入选者",
-    "designAwards": "设计大奖得主"
+    "playButton": "播放"
   },
   "collaborations": {
     "title": "合作伙伴"
@@ -257,5 +253,18 @@
       "description": "TCC Carpets打造定制地毯，衬托大楼的电影主题及当代奢华定位。",
       "notes": "动感图案与顶级材质，支撑酒店以娱乐为核心的品牌个性。"
     }
+  },
+  "awardTitles": {
+    "sands-supplier-excellence-award": "金沙供应商卓越服务奖",
+    "marina-bay-singapore-award": "滨海湾金沙认可奖",
+    "gold-key-award": "金钥匙奖得主及入选者",
+    "thedesignawards": "设计大奖得主"
+  },
+  "galleryDetail": {
+    "eyebrow": "图库",
+    "subtitle": "项目展示与视觉工艺图库",
+    "relatedTitle": "采用相似工艺的项目",
+    "prev": "上一个",
+    "next": "下一个"
   }
 }

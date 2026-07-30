@@ -1,37 +1,28 @@
 'use client';
 
-import { useMemo } from 'react';
-import { useTranslations } from 'next-intl';
+import { useMessages, useTranslations } from 'next-intl';
 import Section from '@/components/Section';
 import AlternatingCard from '@/components/AlternatingCard';
 import { useRouter } from 'next/navigation';
 import { useVideoModal } from '@/components/VideoModalProvider';
+import { AWARDS } from '@/app/(site)/data/awards';
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
+// Repeating vertical stagger for the "trophy case" look — cycles by index so
+// any number of awards gets varied placement without hand-tuning each one.
+const STAGGER = ['md:top-3', 'md:-top-4', 'md:top-5', 'md:-top-1'];
+
 export default function AwardsTeasersRow() {
   const t = useTranslations('awards');
+  const messages = useMessages();
+  const awardTitleMap = (messages?.awardTitles as Record<string, string>) ?? {};
   const router = useRouter();
   const video = useVideoModal();
 
-  const AWARDS = [
-    { title: t('sands'), href: '/gallery/sands-supplier-excellence-award', imageSrc: `${bp}/images/awards/china_sands.avif` },
-    { title: t('mbs'), href: '/gallery/marina-bay-singapore-award', imageSrc: `${bp}/images/awards/mbs.avif` },
-    { title: t('goldKey'), href: '/gallery/gold-key-award', imageSrc: `${bp}/images/awards/gold-key.avif` },
-    { title: t('designAwards'), href: '/gallery/thedesignawards', imageSrc: `${bp}/images/awards/designetal.avif` },
-  ];
-
-  const [A1, A2orig, A3, A4] = AWARDS;
-
-  const A2 = useMemo(() => ({ ...A2orig }), [A2orig]);
-
-  const VIDYARD_EMBED =
-    'https://play.vidyard.com/JNxZaBziQScXCg16EhGpvU.html?autoplay=1&muted=1&controls=1&v=4.1';
-  const galleryHref = '/gallery/marina-bay-singapore-award';
-
-  const handlePlay = () => {
-    video.open(VIDYARD_EMBED);
-    router.push(galleryHref, { scroll: true });
+  const handlePlay = (videoUrl: string, href: string) => {
+    video.open(videoUrl);
+    router.push(href, { scroll: true });
   };
 
   return (
@@ -44,31 +35,36 @@ export default function AwardsTeasersRow() {
         <p className="mt-2 text-sm text-neutral-600">{t('subtitle')}</p>
       </div>
 
-      <ul className="mt-6 flex flex-wrap items-start justify-center gap-6 sm:gap-10 md:gap-[50px] [&_h3]:text-center [&_h3]:line-clamp-2">
-        <li className="basis-[45%] max-w-[240px] sm:basis-auto w-[210px] sm:w-[230px] md:w-[250px] relative md:top-3">
-          <AlternatingCard {...A1} variant="imageTop" className="w-full" />
-        </li>
+      <ul className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8 md:gap-[50px] justify-items-center [&_h3]:text-center [&_h3]:line-clamp-2">
+        {AWARDS.map((award, i) => {
+          const title = awardTitleMap[award.slug] ?? award.slug;
+          const href = `/gallery/${award.slug}`;
+          const imageSrc = `${bp}/images/awards/${award.imageSrc}`;
+          const offset = STAGGER[i % STAGGER.length];
 
-        <li className="basis-[45%] max-w-[240px] sm:basis-auto w-[210px] sm:w-[230px] md:w-[250px] relative md:-top-3 md:-top-4">
-          <button onClick={handlePlay} className="group block w-full text-left" aria-label="Play MBS film">
-            <div className="relative">
-              <AlternatingCard {...A2} variant="imageTop" href={undefined} className="w-full" />
-              <span className="absolute inset-0 pointer-events-none flex items-center justify-center">
-                <span className="inline-flex items-center gap-2 rounded-full bg-black/55 group-hover:bg-black/70 px-3 py-1.5 text-xs font-semibold text-white transition">
-                  ▶ {t('playButton')}
-                </span>
-              </span>
-            </div>
-          </button>
-        </li>
-
-        <li className="basis-[45%] max-w-[240px] sm:basis-auto w-[210px] sm:w-[230px] md:w-[250px] relative md:top-5">
-          <AlternatingCard {...A3} variant="imageTop" className="w-full" />
-        </li>
-
-        <li className="basis-[45%] max-w-[240px] sm:basis-auto w-[210px] sm:w-[230px] md:w-[250px] relative md:-top-1">
-          <AlternatingCard {...A4} variant="imageTop" className="w-full" />
-        </li>
+          return (
+            <li key={award.slug} className={`relative w-full max-w-[240px] sm:max-w-[230px] md:max-w-[250px] ${offset}`}>
+              {award.video ? (
+                <button
+                  onClick={() => handlePlay(award.video!, href)}
+                  className="group block w-full text-left"
+                  aria-label={`${t('playButton')} — ${title}`}
+                >
+                  <div className="relative">
+                    <AlternatingCard title={title} imageSrc={imageSrc} variant="imageTop" className="w-full" />
+                    <span className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-black/55 group-hover:bg-black/70 px-3 py-1.5 text-xs font-semibold text-white transition">
+                        ▶ {t('playButton')}
+                      </span>
+                    </span>
+                  </div>
+                </button>
+              ) : (
+                <AlternatingCard title={title} imageSrc={imageSrc} href={href} variant="imageTop" className="w-full" />
+              )}
+            </li>
+          );
+        })}
       </ul>
     </Section>
   );

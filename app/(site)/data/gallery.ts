@@ -6,6 +6,7 @@ export type GalleryEntry = {
   tags?: string[];
 };
 
+// Awards live in ./awards.ts (single source of truth) — not duplicated here.
 export const GALLERY: GalleryEntry[] = [
   // --- Core Specialization categories ---
   { slug: "hand-tufted", title: "Hand Tufted" },
@@ -14,18 +15,4 @@ export const GALLERY: GalleryEntry[] = [
   { slug: "hand-ax", title: "Hand-Ax" },
   { slug: "printed-carpet", title: "Printed Carpets" },
   { slug: "machine-tufted", title: "Machine Tufted" },
-
-  // --- Awards & Recognition (used by AwardsTeasersRow) ---
-  {
-    slug: "marina-bay-singapore-award",
-    title: "Marina Bay Sands — Recognition",
-  },
-  {
-    slug: "sands-supplier-excellence-award",
-    title: "Sands Supplier Excellence Award",
-  },
-  {
-    slug: "industry-excellence-placeholder",
-    title: "Industry Design Excellence (Placeholder)",
-  },
 ];

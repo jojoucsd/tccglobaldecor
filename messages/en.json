@@ -66,11 +66,7 @@
   "awards": {
     "title": "Recognitions & Awards",
     "subtitle": "Quiet, editorial proof — trusted by category leaders.",
-    "playButton": "Play",
-    "sands": "Sands Supplier Excellence Service Award",
-    "mbs": "Marina Bay Sands Recognition",
-    "goldKey": "Grand Imperial Court Winner & Honoree",
-    "designAwards": "The Design Awards Winner"
+    "playButton": "Play"
   },
   "collaborations": {
     "title": "Collaborations"
@@ -148,5 +144,18 @@
     "step3Title": "Pattern Development with Options",
     "step4Title": "Strike-offs",
     "step5Title": "Flooded in Floor Plan"
+  },
+  "awardTitles": {
+    "sands-supplier-excellence-award": "Sands Supplier Excellence Service Award",
+    "marina-bay-singapore-award": "Marina Bay Sands Recognition",
+    "gold-key-award": "Grand Imperial Court Winner & Honoree",
+    "thedesignawards": "The Design Awards Winner"
+  },
+  "galleryDetail": {
+    "eyebrow": "Gallery",
+    "subtitle": "Project showcase & visual craftsmanship gallery",
+    "relatedTitle": "Projects that feature similar work",
+    "prev": "Prev",
+    "next": "Next"
   }
 }
