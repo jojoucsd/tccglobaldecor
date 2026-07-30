@@ -95,7 +95,8 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 │   └── getProjects.ts               # Server-only: scans /public/images/projects/ + merges JSON meta
 │
 ├── hooks/
-│   └── useScrollSpy.ts              # IntersectionObserver-based active section tracking
+│   ├── useScrollSpy.ts              # IntersectionObserver-based active section tracking
+│   └── useMediaQuery.ts             # useMediaQuery(query) + usePrefersReducedMotion() — shared by Hero/Craftsmanship carousels
 │
 └── public/images/                   # All static assets (organized by feature)
     ├── projects/[slug]/             # Each project in its own folder (slug must be all-lowercase)
@@ -398,13 +399,13 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 ### Low Priority
 
 **6. Carousel keyboard navigation missing**
-Craftsmanship carousel and Project carousel have no arrow-key support. Impacts keyboard accessibility. (HeroCarousel has arrow-key support, scoped to when it's in viewport and focus isn't in a form control — fixed 2026-07-30.)
+Project carousel (`ProjectLayoutClient.tsx`) has no arrow-key support. Impacts keyboard accessibility. (HeroCarousel and Craftsmanship's UN HQ carousel both have scoped arrow-key support — Hero fixed 2026-07-30, Craftsmanship already had it via `tabIndex`+`onKeyDown` on the carousel region.)
 
 **7. WorldMapStatic pin positions are approximate**
-Pin coordinates are percentage-based estimates. Labels may overlap at small sizes.
+Pin coordinates are percentage-based estimates. Confirmed 2026-07-30: several labels visibly overlap (LHR/FRA, ALA/DEL, CJU/IND, SIN/MNL) even at full desktop width, not just small sizes as previously noted — several pins (Macau/Jeju/Japan; Singapore/Philippines/Thailand) are genuinely close together on a real proportional map. Needs either larger per-pin offsets to fan crowded labels out, or switching to hover/focus-reveal labels instead of always-on.
 
 **8. No shared carousel abstraction**
-Three separate carousel implementations (HeroCarousel, Craftsmanship.tsx, ProjectLayoutClient.tsx) each do slightly different things. Could be consolidated.
+Three separate carousel implementations (HeroCarousel, Craftsmanship.tsx, ProjectLayoutClient.tsx) each do slightly different things. Could be consolidated. (Partial progress 2026-07-30: the `matchMedia`/`prefers-reduced-motion` boilerplate that both Hero and Craftsmanship needed was extracted into `hooks/useMediaQuery.ts` — the autoplay/slide-index logic itself is still duplicated.)
 
 **9. Image loading strategy is inconsistent**
 Some images use `priority`, some `loading="lazy"`, some neither. Review and standardize.
