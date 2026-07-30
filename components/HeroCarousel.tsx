@@ -4,6 +4,7 @@ import { Link } from '@/i18n/navigation';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import TriptychRevealSlide from '@/components/TriptychRevealSlide';
+import { useMediaQuery, usePrefersReducedMotion } from '@/hooks/useMediaQuery';
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
@@ -53,32 +54,12 @@ const slides: Slide[] = [
 
 const AUTOPLAY_MS = 5000;
 
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(max-width: 639px)');
-    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => { setIsMobile(event.matches); };
-    handleChange(mq);
-    if (typeof mq.addEventListener === 'function') {
-      mq.addEventListener('change', handleChange as (e: MediaQueryListEvent) => void);
-      return () => mq.removeEventListener('change', handleChange as (e: MediaQueryListEvent) => void);
-    } else {
-      // @ts-ignore
-      mq.addListener(handleChange);
-      // @ts-ignore
-      return () => mq.removeListener(handleChange);
-    }
-  }, []);
-  return isMobile;
-}
-
 export default function HeroCarousel() {
   const t = useTranslations('hero');
   const [index, setIndex] = useState(0);
   const intervalRef = useRef<number | null>(null);
-  const isMobile = useIsMobile();
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 639px)');
+  const prefersReducedMotion = usePrefersReducedMotion();
   const sectionRef = useRef<HTMLElement | null>(null);
   const [inView, setInView] = useState(true);
 
@@ -91,22 +72,6 @@ export default function HeroCarousel() {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => { setPrefersReducedMotion(mq.matches); };
-    update();
-    if (typeof mq.addEventListener === 'function') {
-      mq.addEventListener('change', update);
-      return () => mq.removeEventListener('change', update);
-    } else {
-      // @ts-ignore
-      mq.addListener(update);
-      // @ts-ignore
-      return () => mq.removeListener(update);
-    }
   }, []);
 
   const stopAutoplay = () => {

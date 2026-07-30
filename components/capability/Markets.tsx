@@ -76,7 +76,7 @@ export default function Markets() {
             {t('marketsTitle')}
           </h4>
 
-          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2" role="tablist" aria-label="Markets">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2" role="group" aria-label="Markets">
             {MARKET_KEYS.map((k) => (
               <Pill key={k} active={active === k} onClick={() => setActive(k)}>
                 {t(k).split(' & ')[0]}
@@ -84,7 +84,7 @@ export default function Markets() {
             ))}
           </div>
 
-          <div className="mt-5 sm:mt-6 rounded-xl transition-all duration-300" role="tabpanel" aria-label={`${active} panel`}>
+          <div className="mt-5 sm:mt-6 rounded-xl transition-all duration-300" aria-live="polite">
             <div className="rounded-lg overflow-hidden ring-1 ring-neutral-200">
               <Image
                 src={activeImg}

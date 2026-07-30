@@ -2,7 +2,8 @@
 import Image from 'next/image';
 import Section from '@/components/Section';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { usePrefersReducedMotion } from '@/hooks/useMediaQuery';
 
 const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
@@ -14,16 +15,42 @@ const UN_IMAGES = [
   { src: `${bp}/images/capability/un3.avif`, alt: 'United Nations Headquarters NYC Oman Heritage Walk - Detail 3' },
 ];
 
+const AUTOPLAY_MS = 5000;
+
 export default function Craftsmanship() {
   const t = useTranslations('craftsmanship');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const intervalRef = useRef<number | null>(null);
+
+  const stopAutoplay = () => {
+    if (intervalRef.current != null) {
+      window.clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+
+  const startAutoplay = () => {
+    if (prefersReducedMotion) return;
+    if (intervalRef.current != null) return;
+    intervalRef.current = window.setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % UN_IMAGES.length);
+    }, AUTOPLAY_MS);
+  };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % UN_IMAGES.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+    startAutoplay();
+    return () => stopAutoplay();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefersReducedMotion]);
+
+  // manual navigation resets the autoplay timer so it doesn't silently
+  // undo the user's choice a few seconds later
+  const goTo = (next: number | ((prev: number) => number)) => {
+    stopAutoplay();
+    setCurrentSlide(next);
+    startAutoplay();
+  };
 
   return (
     <Section className="bg-white !px-0" pad="sm" id="craftsmanship">
@@ -61,9 +88,11 @@ export default function Craftsmanship() {
             tabIndex={0}
             role="region"
             aria-label="Craftsmanship carousel"
+            onMouseEnter={stopAutoplay}
+            onMouseLeave={startAutoplay}
             onKeyDown={(e) => {
-              if (e.key === 'ArrowLeft') setCurrentSlide((p) => (p - 1 + UN_IMAGES.length) % UN_IMAGES.length);
-              else if (e.key === 'ArrowRight') setCurrentSlide((p) => (p + 1) % UN_IMAGES.length);
+              if (e.key === 'ArrowLeft') goTo((p) => (p - 1 + UN_IMAGES.length) % UN_IMAGES.length);
+              else if (e.key === 'ArrowRight') goTo((p) => (p + 1) % UN_IMAGES.length);
             }}
           >
             {UN_IMAGES.map((image, index) => (
@@ -73,7 +102,7 @@ export default function Craftsmanship() {
             ))}
 
             <button
-              onClick={() => setCurrentSlide((prev) => (prev - 1 + UN_IMAGES.length) % UN_IMAGES.length)}
+              onClick={() => goTo((prev) => (prev - 1 + UN_IMAGES.length) % UN_IMAGES.length)}
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               aria-label="Previous slide"
             >
@@ -82,7 +111,7 @@ export default function Craftsmanship() {
               </svg>
             </button>
             <button
-              onClick={() => setCurrentSlide((prev) => (prev + 1) % UN_IMAGES.length)}
+              onClick={() => goTo((prev) => (prev + 1) % UN_IMAGES.length)}
               className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               aria-label="Next slide"
             >
@@ -100,7 +129,7 @@ export default function Craftsmanship() {
                   {UN_IMAGES.map((_, index) => (
                     <button
                       key={index}
-                      onClick={() => setCurrentSlide(index)}
+                      onClick={() => goTo(index)}
                       className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/75'}`}
                       aria-label={`Go to slide ${index + 1}`}
                     />
