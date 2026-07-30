@@ -34,18 +34,26 @@ export default function CollabTeaser() {
             {/* Fixed height, natural width — every logo reads at the same
                 visual scale regardless of its source image's native size */}
             <div className="relative h-14 sm:h-16 w-full flex items-center justify-center">
-              <Image
-                src={`${bp}/images/collaborations/${c.img}`}
-                alt={c.title}
-                width={300}
-                height={150}
-                sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 80vw"
-                className="h-full w-auto max-w-full object-contain grayscale group-hover:grayscale-0 transition"
-                unoptimized
-                placeholder="blur"
-                blurDataURL={BLUR}
-                fetchPriority={i === 0 ? 'high' : 'auto'}
-              />
+              {c.img ? (
+                <Image
+                  src={`${bp}/images/collaborations/${c.img}`}
+                  alt={c.title}
+                  width={300}
+                  height={150}
+                  sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 80vw"
+                  className="h-full w-auto max-w-full object-contain grayscale group-hover:grayscale-0 transition"
+                  unoptimized
+                  placeholder="blur"
+                  blurDataURL={BLUR}
+                  fetchPriority={i === 0 ? 'high' : 'auto'}
+                />
+              ) : (
+                // No icon/logo image exists for this partner — text
+                // wordmark in the same spirit as their own site branding.
+                <p className="font-serif italic text-lg sm:text-xl tracking-wide text-brand-ink text-center leading-tight px-2">
+                  {c.wordmark ?? c.title}
+                </p>
+              )}
             </div>
             <div className="text-center">
               <h3 className="text-[13px] sm:text-base font-semibold">{c.title}</h3>

@@ -2,11 +2,23 @@
 // Single source of truth for collaboration partners — CollabTeaser.tsx
 // imports this directly, no duplicate copy to keep in sync.
 
-export const COLLABORATIONS = [
+export type Collaboration = {
+  title: string;
+  role: string;
+  url: string;
+  img?: string; // filename under /public/images/collaborations/
+  wordmark?: string; // text logo, used when the partner has no icon/image mark
+};
+
+export const COLLABORATIONS: Collaboration[] = [
   {
-    title: "Alexander's Design",
+    // Real company name is "Alexander's Collection" (per their own site
+    // header) — "Alexander's Design" was a naming slip in this data.
+    // They have no icon/logo mark either, just a text wordmark, so we
+    // show one here too instead of an image (see CollabTeaser.tsx).
+    title: "Alexander's Collection",
     role: "Design Partner",
-    img: "alexanders-collection.avif",
+    wordmark: "Alexander's Collection",
     url: "https://www.alexanders-collection.com/rugs",
   },
   {
