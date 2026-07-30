@@ -242,7 +242,7 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 ### Collaborations
 - **`/app/(site)/data/collaborations.ts`** is the canonical data source
 - `CollabTeaser.tsx` imports directly from this file (no longer duplicated)
-- Each entry is either image-based (`img`, filename under `/public/images/collaborations/`) or text-based (`wordmark`, for partners with no icon/logo — e.g. Alexander's Collection, whose own site is typography-only). `CollabTeaser.tsx` renders whichever is present, same card treatment either way.
+- Each entry is either image-based (`img`, filename under `/public/images/collaborations/`) or text-based (`wordmark`, for a partner with no icon/logo at all). `CollabTeaser.tsx` renders whichever is present, same card treatment either way. In practice Marco wants an actual image for every partner where one exists (even a product/room photo, not just a flat logo) — `wordmark` is the fallback for the rare case there's truly nothing to show.
 - `app/[locale]/(site)/collaborations/page.tsx` is **placeholder content** — needs real copy
 
 ### Gallery
