@@ -32,9 +32,11 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [headerHeight, setHeaderHeight] = useState<number>(76);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
 
   const rootRef = useRef<HTMLElement | null>(null);
   const lastScrollY = useRef(0);
+  const langMenuRef = useRef<HTMLDivElement | null>(null);
   const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   const watchIds = NAV.map((n) => n.sectionId).filter(Boolean) as string[];
@@ -91,6 +93,17 @@ export default function Header() {
       return () => { body.style.overflow = prev; };
     }
   }, [menuOpen]);
+
+  useEffect(() => {
+    if (!langMenuOpen) return;
+    const onClickOutside = (e: MouseEvent) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
+        setLangMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, [langMenuOpen]);
 
   const isHome = pathname === '/';
 
@@ -170,25 +183,57 @@ export default function Header() {
             );
           })}
 
-          {/* Language switcher */}
-          <div className="flex items-center gap-1 text-sm font-medium">
-            {LOCALES.map((l, i) => (
-              <span key={l.code} className="flex items-center">
-                {i > 0 && <span className="text-neutral-300 mx-1">|</span>}
-                <button
-                  onClick={() => switchLocale(l.code)}
-                  className={[
-                    'transition-colors px-0.5',
-                    locale === l.code
-                      ? 'text-brand-ink font-bold'
-                      : 'text-brand-ink/50 hover:text-brand-ink',
-                  ].join(' ')}
-                  aria-label={`Switch to ${l.code}`}
-                >
-                  {l.label}
-                </button>
-              </span>
-            ))}
+          {/* Language switcher (dropdown) */}
+          <div className="relative" ref={langMenuRef}>
+            <button
+              type="button"
+              onClick={() => setLangMenuOpen((o) => !o)}
+              className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold text-brand-ink ring-1 ring-neutral-200 hover:ring-brand-gold-deep transition"
+              aria-haspopup="listbox"
+              aria-expanded={langMenuOpen}
+              aria-label="Change language"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="h-4 w-4">
+                <circle cx="12" cy="12" r="9" strokeWidth="1.6" />
+                <path strokeWidth="1.6" d="M3 12h18M12 3c2.5 2.5 4 5.7 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.7-4-9s1.5-6.5 4-9Z" />
+              </svg>
+              <span>{LOCALES.find((l) => l.code === locale)?.label ?? locale}</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                className={`h-3.5 w-3.5 transition-transform ${langMenuOpen ? 'rotate-180' : ''}`}
+              >
+                <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+
+            {langMenuOpen && (
+              <div
+                role="listbox"
+                className="absolute right-0 top-full mt-2 w-28 overflow-hidden rounded-lg bg-white py-1 shadow-lg ring-1 ring-neutral-200 animate-slideDown"
+              >
+                {LOCALES.map((l) => (
+                  <button
+                    key={l.code}
+                    role="option"
+                    aria-selected={locale === l.code}
+                    onClick={() => {
+                      switchLocale(l.code);
+                      setLangMenuOpen(false);
+                    }}
+                    className={[
+                      'block w-full px-3 py-2 text-left text-sm transition-colors',
+                      locale === l.code
+                        ? 'font-bold text-brand-ink bg-neutral-50'
+                        : 'text-brand-ink/70 hover:bg-neutral-50 hover:text-brand-ink',
+                    ].join(' ')}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </nav>
 
