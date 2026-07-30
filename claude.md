@@ -1,6 +1,6 @@
 # TCC-Site Codebase Reference
 
-**Last Updated:** 2026-07-26
+**Last Updated:** 2026-07-30
 **Project:** TCC Carpets Marketing Website
 **Framework:** Next.js 15 with React 19, TypeScript, Tailwind CSS 4
 
@@ -68,7 +68,7 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 │   ├── HeaderWrapper.tsx            # Measures header height → sets --header-h CSS var
 │   ├── Footer.tsx                   # Simple footer with copyright
 │   ├── Section.tsx                  # Layout primitive (padding, max-width, bleed)
-│   ├── HeroCarousel.tsx             # 4-slide auto-rotating hero (3 photo + 1 reveal)
+│   ├── HeroCarousel.tsx             # 3-slide auto-rotating hero (photo slides; 'reveal' type wired but unused)
 │   ├── TriptychRevealSlide.tsx      # 3-image staggered reveal (desktop) / crossfade (mobile)
 │   ├── VideoModalProvider.tsx       # Context + global iframe modal for videos
 │   ├── AlternatingCard.tsx          # Image/text card used across sections
@@ -126,7 +126,7 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 | `middleware.ts` | Handles locale detection and redirects |
 | `messages/en.json` | Master string file — add new keys here first, then mirror in zh-TW/zh-CN |
 | `components/Header.tsx` | Responsive nav with language switcher (EN/繁/简) |
-| `components/HeroCarousel.tsx` | Auto-rotating 4-slide hero with reduced-motion support |
+| `components/HeroCarousel.tsx` | Auto-rotating hero (currently 3 photo slides) with reduced-motion support. Uses native `<picture>`/`<source media>` for mobile vs. desktop images (no JS/hydration involved). Arrow keys scoped to in-viewport + not-in-form-control |
 | `lib/getProjects.ts` | **Server-only.** Reads `/public/images/projects/`, merges metadata from `projects.json` |
 | `app/[locale]/(site)/projects/ProjectsGrid.tsx` | **Client.** Tag filter chips (hotel/restaurant/gaming/living), Load More pagination, renders the card grid |
 | `app/(site)/data/projects.json` | Project metadata: title, address, summary, description, notes, priority, tags |
@@ -389,9 +389,6 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 
 ### Medium Priority
 
-**3. Hydration mismatch risk in HeroCarousel**
-`useIsMobile()` calls `matchMedia` during render — value differs between SSR and client. Add an `isMounted` guard before reading `isMobile`.
-
 **4. Project image count assumptions**
 `ProjectLayoutClient.tsx` accesses images by hardcoded index (hero=`[1]`, etc.). If a project has fewer images than expected, `.at(-1)` silently reuses the last image, causing duplicates. Validate image count in `getProjectBySlug`.
 
@@ -401,7 +398,7 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 ### Low Priority
 
 **6. Carousel keyboard navigation missing**
-HeroCarousel, Craftsmanship carousel, and Project carousel have no arrow-key support. Impacts keyboard accessibility.
+Craftsmanship carousel and Project carousel have no arrow-key support. Impacts keyboard accessibility. (HeroCarousel has arrow-key support, scoped to when it's in viewport and focus isn't in a form control — fixed 2026-07-30.)
 
 **7. WorldMapStatic pin positions are approximate**
 Pin coordinates are percentage-based estimates. Labels may overlap at small sizes.
@@ -480,6 +477,9 @@ Update `@theme` block in `app/globals.css`:
 ---
 
 ## Future TODOs
+
+### Hero Slide 4 Replacement
+Removed 2026-07-30 — the original 4th slide (a "reveal" triptych: install photo → concept plan → finished tree-motif carpet matching a French artist's ceiling design) wasn't landing the intended story and the flip animation read as distracting. Ling is picking a replacement from his photo library. The `'reveal'` slide type and `TriptychRevealSlide` component are still wired up in `HeroCarousel.tsx` (just no slide data using them), so the replacement can go back in either as a plain photo slide or the same reveal treatment — whichever fits the new image.
 
 ### Superadmin Panel (Planned — Phase 3)
 A password-protected admin UI for the HK team to:
