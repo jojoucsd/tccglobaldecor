@@ -86,7 +86,10 @@
     "subtitle": "我們在香港、拉斯維加斯及澳門的團隊，隨時準備與您探討項目需求。歡迎直接聯絡，我們將迅速回覆。",
     "asiaPacific": "亞太區",
     "northAmerica": "北美地區",
-    "greaterChina": "大中華區"
+    "greaterChina": "大中華區",
+    "tel": "電話",
+    "fax": "傳真",
+    "email": "電郵"
   },
   "projects": {
     "title": "項目",

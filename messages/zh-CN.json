@@ -86,7 +86,10 @@
     "subtitle": "我们在香港、拉斯维加斯及澳门的团队，随时准备与您探讨项目需求。欢迎直接联络，我们将迅速回复。",
     "asiaPacific": "亚太区",
     "northAmerica": "北美地区",
-    "greaterChina": "大中华区"
+    "greaterChina": "大中华区",
+    "tel": "电话",
+    "fax": "传真",
+    "email": "电邮"
   },
   "projects": {
     "title": "项目",

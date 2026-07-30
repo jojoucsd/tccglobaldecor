@@ -86,7 +86,10 @@
     "subtitle": "Our teams across Hong Kong, Las Vegas, and Macau are ready to discuss your project. Reach out directly — we respond promptly.",
     "asiaPacific": "Asia Pacific",
     "northAmerica": "North America",
-    "greaterChina": "Greater China"
+    "greaterChina": "Greater China",
+    "tel": "Tel",
+    "fax": "Fax",
+    "email": "Email"
   },
   "projects": {
     "title": "Projects",

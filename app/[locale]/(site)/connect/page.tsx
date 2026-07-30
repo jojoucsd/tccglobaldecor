@@ -84,7 +84,7 @@ export default async function ConnectPage({
               <ul className="space-y-2 text-sm mt-1">
                 {o.tel && (
                   <li className="flex items-center gap-2">
-                    <span className="w-8 text-neutral-400 text-xs uppercase tracking-wide">Tel</span>
+                    <span className="w-8 text-neutral-400 text-xs uppercase tracking-wide">{t('tel')}</span>
                     <a
                       href={`tel:${o.tel.replace(/\s+/g, '')}`}
                       className="text-brand-ink hover:text-brand-gold-deep transition-colors underline underline-offset-2"
@@ -95,13 +95,13 @@ export default async function ConnectPage({
                 )}
                 {o.fax && (
                   <li className="flex items-center gap-2">
-                    <span className="w-8 text-neutral-400 text-xs uppercase tracking-wide">Fax</span>
+                    <span className="w-8 text-neutral-400 text-xs uppercase tracking-wide">{t('fax')}</span>
                     <span className="text-neutral-600">{o.fax}</span>
                   </li>
                 )}
                 {o.email && (
                   <li className="flex items-center gap-2">
-                    <span className="w-8 text-neutral-400 text-xs uppercase tracking-wide">Email</span>
+                    <span className="w-8 text-neutral-400 text-xs uppercase tracking-wide">{t('email')}</span>
                     <a
                       href={`mailto:${o.email}`}
                       className="text-brand-ink hover:text-brand-gold-deep transition-colors underline underline-offset-2 break-all"

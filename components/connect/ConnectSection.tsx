@@ -11,7 +11,6 @@ export default async function ConnectCTA() {
       className="bg-gradient-to-b from-white to-neutral-50 text-center text-brand-ink py-12 sm:py-16 md:py-20 px-4"
     >
       <header className="mb-6 sm:mb-8">
-        <div className="flex justify-center mb-3" />
         <h2
           id="connect-cta"
           className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight"
