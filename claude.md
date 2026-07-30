@@ -390,6 +390,9 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 **1. Collaborations page is all placeholder content**
 `app/[locale]/(site)/collaborations/page.tsx` has placeholder copy. Needs real content from Marco/HK team.
 
+**1b. Alexander's Design collaboration logo is the wrong asset**
+`public/images/collaborations/alexanders-collection.avif` is a product spec slide (mostly empty gray background, small artwork thumbnail, "TCC-004, Fine New Zealand Wool..." spec text) — not a logo. Card layout was fixed 2026-07-30, but this needs the real logo file from Ling before it'll display correctly on the homepage Collaborations teaser.
+
 **2. Contact page has no backend**
 `connect/page.tsx` shows office contact info but has no form submission. Intentional for now — user decided to rely on device mail clients rather than a web form.
 
@@ -432,7 +435,7 @@ All zh-TW and zh-CN translations were machine-generated. HK staff should review 
 7. If the project needs location context in its display name (e.g. a restaurant that could be confused with others of the same brand), put it in `title` — not the slug
 
 ### Converting a Source Photo to AVIF
-Use `node scripts/to-avif.mjs <source-path> <dest-path> [quality]` (wraps the project's existing `sharp` dependency; `sips` on macOS can read AVIF but not write it, so it's not an option here). Convention: save as `cover.avif` rather than overwriting `0.avif`, so the original numbered image stays in the gallery instead of being lost. Move the raw pre-conversion source file to `/originals/` at the repo root (gitignored, outside `public/`) rather than leaving it in the project folder — `getProjects.ts` picks up any `.jpg`/`.png`/`.webp` left in `public/images/projects/[slug]/` as a gallery image too.
+Use `node scripts/to-avif.mjs <source-path> <dest-path> [quality] [maxWidth]` (wraps the project's existing `sharp` dependency; `sips` on macOS can read AVIF but not write it, so it's not an option here). The optional `maxWidth` resizes (never enlarges) before encoding — use it when a source file's pixel dimensions are absurdly oversized for what it displays as (e.g. a text logo exported at 9000px+ wide). Convention: save as `cover.avif` rather than overwriting `0.avif`, so the original numbered image stays in the gallery instead of being lost. Move the raw pre-conversion source file to `/originals/` at the repo root (gitignored, outside `public/`) rather than leaving it in the project folder — `getProjects.ts` picks up any `.jpg`/`.png`/`.webp` left in `public/images/projects/[slug]/` as a gallery image too.
 
 ### Updating Trade Show Badge
 Edit `components/TradeShowBadge.tsx` — all event details are hardcoded there.
