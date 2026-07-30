@@ -28,12 +28,14 @@ export default function CollabTeaser() {
             href={c.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex-shrink-0 w-[62%] sm:w-auto flex flex-col items-center gap-4 rounded-xl bg-neutral-50/60 ring-1 ring-neutral-200 hover:ring-brand-gold hover:bg-white hover:shadow-sm transition p-6 sm:p-7 snap-start"
+            className="group flex-shrink-0 w-[62%] sm:w-auto flex flex-col items-center gap-3 rounded-xl bg-neutral-50/60 ring-1 ring-neutral-200 hover:ring-brand-gold hover:bg-white hover:shadow-sm transition p-4 sm:p-5 snap-start"
             aria-label={`${c.title} — ${c.role ?? 'Collaboration'}`}
           >
             {/* Fixed height, natural width — every logo reads at the same
-                visual scale regardless of its source image's native size */}
-            <div className="relative h-14 sm:h-16 w-full flex items-center justify-center">
+                visual scale regardless of its source image's native size.
+                object-contain (never cover) — TredMor/Malta are precise
+                logo lockups with text to the edges; cropping would clip them. */}
+            <div className="relative h-24 sm:h-28 md:h-32 w-full flex items-center justify-center">
               {c.img ? (
                 <Image
                   src={`${bp}/images/collaborations/${c.img}`}
