@@ -21,30 +21,33 @@ export default function CollabTeaser() {
         </h2>
       </div>
 
-      <div className="flex gap-3 sm:gap-5 overflow-x-auto pb-2 snap-x snap-mandatory sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible [-webkit-overflow-scrolling:touch]">
+      <div className="flex gap-4 sm:gap-5 overflow-x-auto pb-2 snap-x snap-mandatory sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible [-webkit-overflow-scrolling:touch]">
         {COLLABORATIONS.map((c, i) => (
           <Link
             key={c.title}
             href={c.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex-shrink-0 w-[62%] sm:w-auto border border-neutral-200 bg-white hover:ring-2 hover:ring-brand-gold transition rounded-lg sm:rounded-none snap-start"
+            className="group flex-shrink-0 w-[62%] sm:w-auto flex flex-col items-center gap-4 rounded-xl bg-neutral-50/60 ring-1 ring-neutral-200 hover:ring-brand-gold hover:bg-white hover:shadow-sm transition p-6 sm:p-7 snap-start"
             aria-label={`${c.title} — ${c.role ?? 'Collaboration'}`}
           >
-            <div className="relative w-full aspect-[3/1.6] bg-white">
+            {/* Fixed height, natural width — every logo reads at the same
+                visual scale regardless of its source image's native size */}
+            <div className="relative h-14 sm:h-16 w-full flex items-center justify-center">
               <Image
                 src={`${bp}/images/collaborations/${c.img}`}
                 alt={c.title}
-                fill
+                width={300}
+                height={150}
                 sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 80vw"
-                className="object-contain p-4 sm:p-6"
+                className="h-full w-auto max-w-full object-contain grayscale group-hover:grayscale-0 transition"
                 unoptimized
                 placeholder="blur"
                 blurDataURL={BLUR}
                 fetchPriority={i === 0 ? 'high' : 'auto'}
               />
             </div>
-            <div className="px-3 py-2 text-center sm:text-left">
+            <div className="text-center">
               <h3 className="text-[13px] sm:text-base font-semibold">{c.title}</h3>
               {c.role && <p className="text-[11px] sm:text-sm text-neutral-600 mt-0.5">{c.role}</p>}
             </div>

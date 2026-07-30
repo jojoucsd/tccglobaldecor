@@ -1,6 +1,6 @@
 // app/(site)/data/collaborations.ts
-// Single source of truth for collaboration partners.
-// CollabTeaser.tsx reads from its own inline copy — keep them in sync.
+// Single source of truth for collaboration partners — CollabTeaser.tsx
+// imports this directly, no duplicate copy to keep in sync.
 
 export const COLLABORATIONS = [
   {
