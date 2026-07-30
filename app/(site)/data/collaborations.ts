@@ -14,11 +14,9 @@ export const COLLABORATIONS: Collaboration[] = [
   {
     // Real company name is "Alexander's Collection" (per their own site
     // header) — "Alexander's Design" was a naming slip in this data.
-    // They have no icon/logo mark either, just a text wordmark, so we
-    // show one here too instead of an image (see CollabTeaser.tsx).
     title: "Alexander's Collection",
     role: "Design Partner",
-    wordmark: "Alexander's Collection",
+    img: "alexanders-collection.avif",
     url: "https://www.alexanders-collection.com/rugs",
   },
   {
