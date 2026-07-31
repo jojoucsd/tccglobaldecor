@@ -41,12 +41,12 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
 │   │       │       └── ProjectLayoutClient.tsx # Client carousel + image layout
 │   │       ├── gallery/
 │   │       │   └── [slug]/page.tsx  # Gallery matrix + related projects strip — shared by Specialization AND Awards detail pages
-│   │       ├── collaborations/
-│   │       │   └── page.tsx         # ⚠️ PLACEHOLDER — needs real copy
 │   │       ├── connect/page.tsx     # Contact page (no form — links to mail client)
-│   │       └── process/page.tsx     # Production process timeline
+│   │       ├── process/page.tsx     # Production process timeline
+│   │       └── not-found.tsx        # Branded 404 (site chrome) — fires on explicit notFound() calls in this tree
 │   │   └── (site)/data/             # JSON/TS data files — paths unchanged
 │   ├── layout.tsx                   # Minimal passthrough (children only)
+│   ├── not-found.tsx                # Root safety-net 404 (own html/body) — fires for URLs that don't match any route
 │   └── globals.css                  # Global styles + Tailwind v4 theme tokens
 │
 ├── i18n/
@@ -243,7 +243,7 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 - **`/app/(site)/data/collaborations.ts`** is the canonical data source
 - `CollabTeaser.tsx` imports directly from this file (no longer duplicated)
 - Each entry is either image-based (`img`, filename under `/public/images/collaborations/`) or text-based (`wordmark`, for a partner with no icon/logo at all). `CollabTeaser.tsx` renders whichever is present, same card treatment either way. In practice Marco wants an actual image for every partner where one exists (even a product/room photo, not just a flat logo) — `wordmark` is the fallback for the rare case there's truly nothing to show.
-- `app/[locale]/(site)/collaborations/page.tsx` is **placeholder content** — needs real copy
+- There is no standalone `/collaborations` page — it was 100% fictional placeholder copy that nothing linked to, so it was deleted. The only collaborations UI is the homepage teaser (`CollabTeaser.tsx`, anchor `#collaborations`). If a real detail page is ever wanted, it needs actual partnership copy from Marco/HK first.
 
 ### Gallery
 - Source: `/app/(site)/data/gallery.ts`
@@ -268,9 +268,10 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 | `/projects` | `app/[locale]/(site)/projects/page.tsx` | Grid, sorted by priority, tag-filterable with Load More |
 | `/projects/[slug]` | `ProjectLayoutClient.tsx` | Carousel + layout adapts to image count |
 | `/gallery/[slug]` | `app/[locale]/(site)/gallery/[slug]/page.tsx` | Matrix grid — serves BOTH Specialization and Award detail pages (routes by which slug list contains the slug) |
-| `/collaborations` | `app/[locale]/(site)/collaborations/page.tsx` | ⚠️ Placeholder |
 | `/connect` | `app/[locale]/(site)/connect/page.tsx` | Links to email/phone (no form) |
 | `/process` | `app/[locale]/(site)/process/page.tsx` | Timeline |
+
+**404 handling:** two `not-found.tsx` files, different roles. `app/not-found.tsx` is the root safety-net — Next.js renders automatic 404s (URLs matching no route at all) using the ROOT layout, which can't resolve a `[locale]` param, so this file must ship its own inline `<html>`/`<body>`. `app/[locale]/(site)/not-found.tsx` is the branded version (full site chrome, translated via the `notFound` message namespace) and only fires on an explicit `notFound()` call inside that route subtree — e.g. `projects/[slug]/page.tsx` for an unknown slug. Without the root one, every unmatched URL crashed with "Missing `<html>` and `<body>` tags in the root layout" because `app/layout.tsx` is a bare passthrough.
 
 ---
 
@@ -387,9 +388,6 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 ## Known Issues & Tech Debt
 
 ### Must Fix Before Launch
-
-**1. Collaborations page is all placeholder content**
-`app/[locale]/(site)/collaborations/page.tsx` has placeholder copy. Needs real content from Marco/HK team.
 
 **2. Contact page has no backend**
 `connect/page.tsx` shows office contact info but has no form submission. Intentional for now — user decided to rely on device mail clients rather than a web form.
