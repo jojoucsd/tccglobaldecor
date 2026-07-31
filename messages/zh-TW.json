@@ -269,5 +269,10 @@
     "relatedTitle": "採用相似工藝的項目",
     "prev": "上一個",
     "next": "下一個"
+  },
+  "notFound": {
+    "title": "找不到頁面",
+    "message": "您要尋找的頁面不存在，或已經移動。",
+    "backHome": "返回首頁"
   }
 }

@@ -160,5 +160,10 @@
     "relatedTitle": "Projects that feature similar work",
     "prev": "Prev",
     "next": "Next"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "The page you're looking for doesn't exist or may have moved.",
+    "backHome": "Back to Home"
   }
 }
