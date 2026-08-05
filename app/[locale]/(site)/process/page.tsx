@@ -10,7 +10,6 @@ type Step = {
   id: number;
   label: string;
   title: string;
-  body: string;
   image: string;
 };
 
@@ -28,9 +27,6 @@ function TimelineStep({ step, index }: { step: Step; index: number }) {
       <h3 className={`text-sm sm:text-base md:text-lg font-semibold text-brand-ink ${step.label ? 'mt-1' : ''}`}>
         {step.title}
       </h3>
-      {step.body && (
-        <p className="mt-2 text-xs sm:text-sm md:text-base text-neutral-800">{step.body}</p>
-      )}
     </div>
   );
 
@@ -99,14 +95,14 @@ export default async function ProcessPage({
   const t = await getTranslations('process');
 
   const STEPS: Step[] = [
-    { id: 1, label: t('stepLabel', { n: 1 }), title: t('step1Title'), body: '', image: `${bp}/images/process/1.avif` },
-    { id: 2, label: t('stepLabel', { n: 2 }), title: t('step2Title'), body: '', image: `${bp}/images/process/2.avif` },
-    { id: 3, label: t('stepLabel', { n: 3 }), title: t('step3Title'), body: '', image: `${bp}/images/process/3.avif` },
-    { id: 4, label: t('stepLabel', { n: 4 }), title: t('step4Title'), body: '', image: `${bp}/images/process/4.avif` },
-    { id: 5, label: t('stepLabel', { n: 5 }), title: t('step5Title'), body: '', image: `${bp}/images/process/6.avif` },
-    { id: 6, label: '', title: 'Autograph Suite', body: '', image: `${bp}/images/process/7.avif` },
-    { id: 7, label: '', title: 'Kameo Suite', body: '', image: `${bp}/images/process/8.avif` },
-    { id: 8, label: '', title: 'Ikonik Suite', body: '', image: `${bp}/images/process/9.avif` },
+    { id: 1, label: t('stepLabel', { n: 1 }), title: t('step1Title'), image: `${bp}/images/process/1.avif` },
+    { id: 2, label: t('stepLabel', { n: 2 }), title: t('step2Title'), image: `${bp}/images/process/2.avif` },
+    { id: 3, label: t('stepLabel', { n: 3 }), title: t('step3Title'), image: `${bp}/images/process/3.avif` },
+    { id: 4, label: t('stepLabel', { n: 4 }), title: t('step4Title'), image: `${bp}/images/process/4.avif` },
+    { id: 5, label: t('stepLabel', { n: 5 }), title: t('step5Title'), image: `${bp}/images/process/6.avif` },
+    { id: 6, label: '', title: 'Autograph Suite', image: `${bp}/images/process/7.avif` },
+    { id: 7, label: '', title: 'Kameo Suite', image: `${bp}/images/process/8.avif` },
+    { id: 8, label: '', title: 'Ikonik Suite', image: `${bp}/images/process/9.avif` },
   ];
 
   return (

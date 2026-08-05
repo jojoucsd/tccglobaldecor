@@ -103,7 +103,8 @@
     "filterRestaurant": "Restaurants",
     "filterGaming": "Gaming",
     "filterLiving": "Living",
-    "loadMore": "Load More"
+    "loadMore": "Load More",
+    "noResults": "No projects match the selected filters."
   },
   "projectTitles": {
     "venetian-hotel-macau": "Venetian Hotel Macau",

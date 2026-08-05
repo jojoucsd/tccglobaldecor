@@ -74,23 +74,40 @@ function loadMeta(): ProjectMeta[] {
 
   const raw = fs.readFileSync(metaPath, "utf8");
 
+  let parsed: unknown;
   try {
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      return parsed.filter(
-        (m) => m && typeof m.slug === "string"
-      ) as ProjectMeta[];
-    }
-    return [];
+    parsed = JSON.parse(raw);
   } catch (err) {
-    console.error("[getProjects] Failed to parse projects.json:", err);
-    // fail soft – projects still render from images only
-    return [];
+    // Throw instead of failing soft — a silently swallowed typo here used to
+    // drop titles/summaries/tags for every project site-wide with only a
+    // server-side console.error to notice it by. Better to fail the build.
+    throw new Error(`[getProjects] Failed to parse ${metaPath}: ${(err as Error).message}`);
   }
+
+  if (!Array.isArray(parsed)) {
+    throw new Error(`[getProjects] ${metaPath} must contain a JSON array of project entries`);
+  }
+
+  return parsed.filter((m) => m && typeof m.slug === "string") as ProjectMeta[];
 }
 
 /** --------- API --------- */
+// Cached in production only: generateStaticParams + one render per
+// slug/locale used to trigger a full filesystem rescan + JSON parse on every
+// single call (~90 times for 30 projects x 3 locales). Caching is skipped in
+// dev so newly added project folders still show up on refresh without a
+// server restart.
+let cachedProjects: ProjectRecord[] | null = null;
+
 export function getAllProjects(): ProjectRecord[] {
+  if (cachedProjects) return cachedProjects;
+
+  const projects = computeAllProjects();
+  if (process.env.NODE_ENV === "production") cachedProjects = projects;
+  return projects;
+}
+
+function computeAllProjects(): ProjectRecord[] {
   if (!fs.existsSync(PROJECTS_DIR)) return [];
 
   const metaList = loadMeta();

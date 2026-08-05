@@ -103,7 +103,8 @@
     "filterRestaurant": "餐廳",
     "filterGaming": "博彩",
     "filterLiving": "非博彩",
-    "loadMore": "載入更多"
+    "loadMore": "載入更多",
+    "noResults": "沒有符合所選篩選條件的項目。"
   },
   "projectTitles": {
     "venetian-hotel-macau": "澳門威尼斯人度假村",

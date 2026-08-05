@@ -1,6 +1,6 @@
 # TCC-Site Codebase Reference
 
-**Last Updated:** 2026-07-30
+**Last Updated:** 2026-08-05
 **Project:** TCC Carpets Marketing Website
 **Framework:** Next.js 15 with React 19, TypeScript, Tailwind CSS 4
 
@@ -103,7 +103,7 @@ A Next.js-based marketing/portfolio website for **TCC Carpets**, a bespoke carpe
     ├── collaborations/              # 4 partner logos
     ├── capability/                  # Craftsmanship, markets, specialization images
     ├── hero/                        # 4 hero slides + mobile variants
-    ├── process/                     # 9 step images
+    ├── process/                     # 8 step images (1-4, 6-9 — no 5.avif, code intentionally skips the gap)
     ├── awards/                      # 4 award card images
     ├── about/                       # artineveryfootstep.avif
     └── TCC_Logo.svg
@@ -222,7 +222,7 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 }
 ```
 
-**Cover image selection:** prefers `project_list*.avif`, then `cover.avif`, then any `.avif`, then first image alphabetically.
+**Cover image selection:** prefers an explicit `cover.*` file (any extension) — this wins even over `0.avif` — then a legacy `project_list*.avif` file, then the first `.avif` alphabetically, then the first image file of any supported type alphabetically. (Corrected 2026-08-05 — this list previously had `project_list*.avif` ranked above `cover.avif`, which didn't match `preferCover()` in `lib/getProjects.ts`; `cover.avif` is meant to win, per the "Converting a Source Photo to AVIF" workflow below.)
 
 **Image naming convention:** `0.avif` = cover/hero. Remaining images sort numerically.
 
@@ -395,7 +395,7 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 ### Medium Priority
 
 **4. Project image count assumptions**
-`ProjectLayoutClient.tsx` accesses images by hardcoded index (hero=`[1]`, etc.). If a project has fewer images than expected, `.at(-1)` silently reuses the last image, causing duplicates. Validate image count in `getProjectBySlug`.
+`ProjectLayoutClient.tsx` accesses images by hardcoded index (hero=`images[1]`, etc.), skipping `images[0]` (the cover/hero file) entirely — confirmed intentional (2026-08-05): the grid thumbnail shows the building exterior, then the detail page's own hero/gallery deliberately starts from a different photo (interior/detail shot) rather than repeating the cover. `comingSoon` projects (≤4 images) used to be reachable by direct/guessed URL and would show duplicated images since the hardcoded indices have nothing to fall back on below 5 images — fixed 2026-08-05: `[slug]/page.tsx` now calls `notFound()` for `comingSoon` projects and excludes them from `generateStaticParams`, so a direct hit on an under-stocked project 404s instead of rendering a broken gallery.
 
 **5. TradeShowBadge is hardcoded**
 `TradeShowBadge.tsx` has event details baked in. Update manually when the event changes or move to a data file.
@@ -492,11 +492,30 @@ Update `@theme` block in `app/globals.css`:
 ### Hero Slide 4 Replacement
 Removed 2026-07-30 — the original 4th slide (a "reveal" triptych: install photo → concept plan → finished tree-motif carpet matching a French artist's ceiling design) wasn't landing the intended story and the flip animation read as distracting. Ling is picking a replacement from his photo library. The `'reveal'` slide type and `TriptychRevealSlide` component are still wired up in `HeroCarousel.tsx` (just no slide data using them), so the replacement can go back in either as a plain photo slide or the same reveal treatment — whichever fits the new image.
 
-### Superadmin Panel (Planned — Phase 3)
+### Superadmin Panel + Visitor Tracking (Planned — Phase 3, scoping started 2026-08-05)
 A password-protected admin UI for the HK team to:
 - Upload and manage project images (auto-convert to AVIF)
 - Edit project metadata without touching code
 - User: Matthew Su (Global Sales Director) and HK office staff
+
+**Data backend decision (2026-08-05): Supabase (Postgres + Storage + Auth), not Firebase or AWS-native.**
+Ling has deep Firebase experience and specifically likes Firestore/RTDB's flat, non-technical-friendly editing model — but Supabase's Table Editor gives the same spreadsheet-like non-dev editability, while Postgres scales better than Firestore toward a growing, more relational catalog (multiple images/videos per project, collections, cross-references) as the project count grows over the next 1-2 years — reference points for "going big" were established manufacturer catalog sites (Taiping, Royal Thai, Brintons, Couristan). SQL also fits the analytics/reporting side of this work (top-viewed projects, traffic over time) much better than Firestore queries. Supabase bundles DB + file storage + auth in one account, avoiding stitching multiple vendors together. Amplify stays as-is for hosting/deploy — only the data layer changes.
+
+**Auth (interim):** a simple passcode-gated `/admin` route (shared secret, sets a cookie, no user accounts) — intentionally deferred full auth (Cognito/Firebase Auth/SSO) until there's a real need for per-person logins. Ling has built full auth systems before, so this is a "do it properly later" deferral, not a skill gap.
+
+**Visitor tracking — realistic scope, decided 2026-08-05:** Pendo/Clearbit-style "detect the anonymous visitor's company/email" isn't realistically replicable for free — that's the paid data-broker layer those tools license. What's actually being built:
+1. Passive analytics (pageviews, referrer, path, rough geo, session id) — self-hosted, free, straightforward.
+2. Personalized tracking links (e.g. `?lead=charlie-wynn` appended to links Matthew sends prospects directly) — captured into the same session, so a visit can be tied to a real name/lead when the identity comes from an outbound link rather than guessed from anonymous traffic. This is the actual practical answer to "know who's visiting."
+
+**Week-of-2026-08-05 scope:**
+1. `projects` + `analytics_events` tables in Supabase; one-time migration script to import the existing 30 entries from `app/(site)/data/projects.json`
+2. `lib/getProjects.ts` reads from Supabase instead of the JSON file (images stay in `/public/images/` for now — moving those to Supabase Storage is a separate, later phase)
+3. Passcode-gated `/admin` route
+4. Basic edit form: list projects, edit title/summary/description/tags/address/priority/coverPosition, save
+5. Pageview + lead-link logging on every page hit
+6. Bare-bones `/admin/analytics` view — recent visits, top-viewed projects, lead-tagged sessions (table only, no charts yet)
+
+Explicitly deferred past this week: image/video upload to Supabase Storage, real user accounts/SSO, polished admin UI, IP geo/ASN enrichment.
 
 ### RAG Knowledge Base (Planned — Phase 5)
 A retrieval-augmented chatbot for Marco (HK-based sales contact) to:
@@ -521,10 +540,11 @@ Several project folders have low-res WeChat-compressed images or placeholder cov
 - Several projects with AI-generated placeholder covers
 
 ### Gallery Specialization Icons
-21 loose `project_icon_img_*.avif` files exist in `/public/images/projects/` (moved to `/public/images/old-icons/` and removed). Originally intended for gallery specialization carousels — not yet built. The `tags` field now exists (added 2026-07-26 for the Projects grid filter — see "Projects Grid — Tags & Filtering" above) and could be extended with specialization values (e.g. `"axminster"`) to power this. When time allows:
+21 loose `project_icon_img_*.avif` files still sit directly in `/public/images/projects/` (corrected 2026-08-05 — a previous note here claimed they'd been "moved to `/public/images/old-icons/` and removed"; that folder doesn't exist and the files are still loose). Harmless today — `getProjects.ts` only scans directories, so loose files are ignored — but it's clutter. Originally intended for gallery specialization carousels — not yet built. The `tags` field now exists (added 2026-07-26 for the Projects grid filter — see "Projects Grid — Tags & Filtering" above) and could be extended with specialization values (e.g. `"axminster"`) to power this. When time allows:
 1. Extend `tags` vocabulary in `projects.json` with specialization values
 2. Update gallery pages to dynamically filter projects by tag
 3. Move icons into respective project folders
+4. **TODO:** automate icon handling when a project is added, instead of manual cleanup each time — e.g. a script step (alongside `scripts/to-avif.mjs`) that auto-detects/moves a project's icon into its own folder rather than leaving it loose at the top level
 
 ### Projects Grid Tag Taxonomy — Needs Marco's Review
 All 28 projects were given a best-guess `hotel`/`restaurant` + `gaming`/`living` tag on 2026-07-26 based on public knowledge of which properties are casino resorts. Two need explicit confirmation:

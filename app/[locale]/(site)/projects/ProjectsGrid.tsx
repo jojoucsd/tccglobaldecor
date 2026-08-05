@@ -104,6 +104,12 @@ export default function ProjectsGrid({
         })}
       </div>
 
+      {filteredProjects.length === 0 && (
+        <p className="mt-12 text-center text-sm sm:text-base text-neutral-500">
+          {t('noResults')}
+        </p>
+      )}
+
       <ul className="mt-8 sm:mt-10 grid grid-cols-3 gap-[6px] sm:grid-cols-4 sm:gap-3 md:grid-cols-4 md:gap-4 lg:grid-cols-4 lg:gap-5 xl:grid-cols-4 xl:gap-6">
         {visibleProjects.map((p, i) => (
           <li key={p.slug} className={`relative group ${cardVisibilityClass(i)}`}>

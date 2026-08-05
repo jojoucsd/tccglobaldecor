@@ -15,7 +15,10 @@ export default async function ProjectDetail({
   setRequestLocale(locale);
 
   const project = getProjectBySlug(slug);
-  if (!project) return notFound();
+  // comingSoon projects (<=4 images) don't have enough images for a detail
+  // layout and aren't linked from the grid (it renders a non-clickable
+  // placeholder instead) — treat a direct/guessed URL the same as unknown.
+  if (!project || project.comingSoon) return notFound();
 
   const messages = await getMessages();
   const projectTitleMap = (messages.projectTitles as Record<string, string>) ?? {};
@@ -26,21 +29,16 @@ export default async function ProjectDetail({
     (messages.projectDetails as Record<string, ProjectDetailTranslation>) ?? {};
   const localizedDetails = projectDetailsMap[slug];
 
-  const images =
-    (project.images ?? []).map((file: string) => ({
-      src: `${bp}/images/projects/${project.slug}/${file}`,
-      alt: localizedTitle,
-    })) ?? [];
+  const images = project.images.map((file) => ({
+    src: `${bp}/images/projects/${project.slug}/${file}`,
+    alt: localizedTitle,
+  }));
 
-  const address =
-    (project as any).address ??
-    (project as any).location ??
-    (project as any).subtitle ??
-    undefined;
+  const address = project.address ?? project.subtitle;
 
-  const overview = localizedDetails?.summary ?? (project as any).summary ?? '';
-  const details = localizedDetails?.description ?? (project as any).description ?? '';
-  const details2 = localizedDetails?.notes ?? (project as any).notes ?? '';
+  const overview = localizedDetails?.summary ?? project.summary ?? '';
+  const details = localizedDetails?.description ?? project.description ?? '';
+  const details2 = localizedDetails?.notes ?? project.notes ?? '';
 
   return (
     <ProjectLayoutClient
@@ -55,5 +53,7 @@ export default async function ProjectDetail({
 }
 
 export async function generateStaticParams() {
-  return getAllProjects().map((p) => ({ slug: p.slug }));
+  return getAllProjects()
+    .filter((p) => !p.comingSoon)
+    .map((p) => ({ slug: p.slug }));
 }
