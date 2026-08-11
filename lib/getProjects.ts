@@ -2,6 +2,7 @@
 import "server-only";
 import fs from "node:fs";
 import path from "node:path";
+import { supabaseAdmin } from "./supabase";
 
 /** --------- Types --------- */
 export type ProjectRecord = {
@@ -28,13 +29,21 @@ type ProjectMeta = Partial<ProjectRecord> & { slug: string };
 const ROOT = process.cwd();
 const PROJECTS_DIR = path.join(ROOT, "public", "images", "projects");
 
-// JSON lives here (your actual file) and an optional fallback
-const META_PATHS = [
-  path.join(ROOT, "app", "(site)", "data", "projects.json"),
-  path.join(ROOT, "data", "projects.json"),
-];
-
 const IMAGE_EXTS = new Set([".avif", ".jpg", ".jpeg", ".png", ".webp"]);
+
+// Row shape of the `projects` table (supabase/schema.sql) — snake_case
+// columns, mapped to ProjectMeta's camelCase fields below.
+type ProjectRow = {
+  slug: string;
+  title: string;
+  address: string | null;
+  summary: string | null;
+  description: string | null;
+  notes: string | null;
+  priority: number | null;
+  tags: string[] | null;
+  cover_position: string | null;
+};
 
 /** --------- Helpers --------- */
 function titleFromSlug(slug: string) {
@@ -61,45 +70,42 @@ function preferCover(files: string[]) {
   return files[0] ?? "";
 }
 
-function resolveMetaPath(): string | null {
-  for (const p of META_PATHS) {
-    if (fs.existsSync(p)) return p;
-  }
-  return null;
-}
+async function loadMeta(): Promise<ProjectMeta[]> {
+  const { data, error } = await supabaseAdmin()
+    .from("projects")
+    .select("slug, title, address, summary, description, notes, priority, tags, cover_position");
 
-function loadMeta(): ProjectMeta[] {
-  const metaPath = resolveMetaPath();
-  if (!metaPath) return [];
-
-  const raw = fs.readFileSync(metaPath, "utf8");
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(raw);
-  } catch (err) {
-    // Throw instead of failing soft — a silently swallowed typo here used to
+  if (error) {
+    // Throw instead of failing soft — a silently swallowed error here used to
     // drop titles/summaries/tags for every project site-wide with only a
     // server-side console.error to notice it by. Better to fail the build.
-    throw new Error(`[getProjects] Failed to parse ${metaPath}: ${(err as Error).message}`);
+    throw new Error(`[getProjects] Failed to load projects from Supabase: ${error.message}`);
   }
 
-  if (!Array.isArray(parsed)) {
-    throw new Error(`[getProjects] ${metaPath} must contain a JSON array of project entries`);
-  }
-
-  return parsed.filter((m) => m && typeof m.slug === "string") as ProjectMeta[];
+  return ((data ?? []) as ProjectRow[]).map((row) => ({
+    slug: row.slug,
+    title: row.title,
+    address: row.address ?? undefined,
+    summary: row.summary ?? undefined,
+    description: row.description ?? undefined,
+    notes: row.notes ?? undefined,
+    priority: row.priority ?? undefined,
+    tags: row.tags ?? undefined,
+    coverPosition: row.cover_position ?? undefined,
+  }));
 }
 
 /** --------- API --------- */
 // Cached in production only: generateStaticParams + one render per
-// slug/locale used to trigger a full filesystem rescan + JSON parse on every
-// single call (~90 times for 30 projects x 3 locales). Caching is skipped in
-// dev so newly added project folders still show up on refresh without a
-// server restart.
-let cachedProjects: ProjectRecord[] | null = null;
+// slug/locale used to trigger a full filesystem rescan + Supabase fetch on
+// every single call (~90 times for 30 projects x 3 locales). Caching is
+// skipped in dev so newly added projects / admin edits show up on refresh
+// without a server restart. Cached as a Promise (not the resolved value) so
+// concurrent callers during the same build share one in-flight fetch instead
+// of firing duplicate Supabase requests.
+let cachedProjects: Promise<ProjectRecord[]> | null = null;
 
-export function getAllProjects(): ProjectRecord[] {
+export function getAllProjects(): Promise<ProjectRecord[]> {
   if (cachedProjects) return cachedProjects;
 
   const projects = computeAllProjects();
@@ -107,10 +113,18 @@ export function getAllProjects(): ProjectRecord[] {
   return projects;
 }
 
-function computeAllProjects(): ProjectRecord[] {
+// The Amplify SSR server is a long-lived Node process, so the module-scope
+// cache above survives across requests — an /admin save must clear it (in
+// addition to Next's own revalidatePath) or edits won't appear until the
+// server restarts.
+export function invalidateProjectsCache() {
+  cachedProjects = null;
+}
+
+async function computeAllProjects(): Promise<ProjectRecord[]> {
   if (!fs.existsSync(PROJECTS_DIR)) return [];
 
-  const metaList = loadMeta();
+  const metaList = await loadMeta();
   const metaBySlug = new Map<string, ProjectMeta>(
     metaList.map((m) => [m.slug, m])
   );
@@ -172,7 +186,7 @@ function computeAllProjects(): ProjectRecord[] {
   });
 }
 
-export function getProjectBySlug(slug: string): ProjectRecord | undefined {
-  const all = getAllProjects();
+export async function getProjectBySlug(slug: string): Promise<ProjectRecord | undefined> {
+  const all = await getAllProjects();
   return all.find((p) => p.slug === slug);
 }

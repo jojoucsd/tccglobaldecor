@@ -15,7 +15,7 @@ export default async function ProjectsIndex({
   const t = await getTranslations('projects');
   const messages = await getMessages();
   const projectTitleMap = (messages.projectTitles as Record<string, string>) ?? {};
-  const projects = getAllProjects();
+  const projects = await getAllProjects();
 
   return (
     <main

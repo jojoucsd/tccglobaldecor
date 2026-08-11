@@ -1,8 +1,10 @@
+import { Suspense } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import HeaderWrapper from '@/components/HeaderWrapper';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import VideoModalProvider from '@/components/VideoModalProvider';
+import PageviewTracker from '@/components/analytics/PageviewTracker';
 
 export default async function SiteLayout({
   children,
@@ -16,6 +18,9 @@ export default async function SiteLayout({
 
   return (
     <VideoModalProvider>
+      <Suspense fallback={null}>
+        <PageviewTracker />
+      </Suspense>
       <div className="flex min-h-screen flex-col bg-white text-gray-900">
         <HeaderWrapper>
           <Header />

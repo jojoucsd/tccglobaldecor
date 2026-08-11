@@ -14,7 +14,7 @@ export default async function ProjectDetail({
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
   // comingSoon projects (<=4 images) don't have enough images for a detail
   // layout and aren't linked from the grid (it renders a non-clickable
   // placeholder instead) — treat a direct/guessed URL the same as unknown.
@@ -53,7 +53,6 @@ export default async function ProjectDetail({
 }
 
 export async function generateStaticParams() {
-  return getAllProjects()
-    .filter((p) => !p.comingSoon)
-    .map((p) => ({ slug: p.slug }));
+  const projects = await getAllProjects();
+  return projects.filter((p) => !p.comingSoon).map((p) => ({ slug: p.slug }));
 }
