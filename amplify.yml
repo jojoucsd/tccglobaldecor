@@ -1,0 +1,25 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci --cache .npm --prefer-offline
+    build:
+      commands:
+        # Amplify only injects console-configured env vars at build time by
+        # default — a Next.js server component/action/route handler doesn't
+        # see them at runtime unless they're written into .env.production
+        # here first. Without this, /admin, /admin/analytics, and /api/track
+        # throw "Missing ... env var" in production even though the same
+        # vars work fine during the build (e.g. generateStaticParams).
+        # https://docs.aws.amazon.com/amplify/latest/userguide/ssr-environment-variables.html
+        - env | grep -e ADMIN_PASSCODE -e SUPABASE_SERVICE_ROLE_KEY -e NEXT_PUBLIC_SUPABASE_URL -e NEXT_PUBLIC_SUPABASE_ANON_KEY >> .env.production
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - .next/cache/**/*
+      - .npm/**/*

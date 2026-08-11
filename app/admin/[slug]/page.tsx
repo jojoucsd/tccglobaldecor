@@ -7,8 +7,20 @@ import { saveProjectAction } from '../actions';
 
 export const dynamic = 'force-dynamic';
 
-const fieldStyle: React.CSSProperties = { padding: 8, fontSize: 14, border: '1px solid #ccc', borderRadius: 4, font: 'inherit' };
+// fontSize 16 avoids iOS Safari auto-zooming the page when a field is focused
+const fieldStyle: React.CSSProperties = { padding: 10, fontSize: 16, border: '1px solid #ccc', borderRadius: 6, font: 'inherit' };
 const labelStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13, color: '#333' };
+const saveButtonStyle: React.CSSProperties = {
+  padding: '12px 24px',
+  fontSize: 15,
+  fontWeight: 500,
+  cursor: 'pointer',
+  backgroundColor: '#0b0b0b',
+  color: '#fff',
+  border: 'none',
+  borderRadius: 6,
+  alignSelf: 'flex-start',
+};
 
 export default async function AdminEditProject({
   params,
@@ -81,7 +93,7 @@ export default async function AdminEditProject({
           <input style={fieldStyle} name="coverPosition" defaultValue={project.coverPosition ?? ''} />
         </label>
 
-        <button type="submit" style={{ padding: '10px 16px', fontSize: 14, cursor: 'pointer', alignSelf: 'flex-start' }}>
+        <button type="submit" style={saveButtonStyle}>
           Save
         </button>
       </form>

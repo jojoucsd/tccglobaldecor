@@ -6,6 +6,29 @@ import { loginAction, logoutAction } from './actions';
 
 export const dynamic = 'force-dynamic';
 
+// Tailwind's Preflight (loaded via globals.css for the analytics page) strips
+// native button chrome, so these need explicit styling to still look tappable.
+const primaryButtonStyle: React.CSSProperties = {
+  padding: '12px 20px',
+  fontSize: 15,
+  fontWeight: 500,
+  cursor: 'pointer',
+  backgroundColor: '#0b0b0b',
+  color: '#fff',
+  border: 'none',
+  borderRadius: 6,
+};
+
+const secondaryButtonStyle: React.CSSProperties = {
+  padding: '8px 14px',
+  fontSize: 13,
+  cursor: 'pointer',
+  backgroundColor: '#fff',
+  color: '#0b0b0b',
+  border: '1px solid #ccc',
+  borderRadius: 6,
+};
+
 export default async function AdminPage({
   searchParams,
 }: {
@@ -17,7 +40,7 @@ export default async function AdminPage({
 
   if (!authed) {
     return (
-      <main style={{ maxWidth: 360, margin: '96px auto', fontFamily: 'system-ui, sans-serif' }}>
+      <main style={{ maxWidth: 360, margin: '96px auto', padding: '0 16px', fontFamily: 'system-ui, sans-serif' }}>
         <h1 style={{ fontSize: 20, marginBottom: 16 }}>TCC Admin</h1>
         <form action={loginAction} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <input
@@ -26,12 +49,15 @@ export default async function AdminPage({
             placeholder="Passcode"
             autoFocus
             required
-            style={{ padding: 8, fontSize: 14, border: '1px solid #ccc', borderRadius: 4 }}
+            style={{
+              padding: 12,
+              fontSize: 16,
+              border: '1px solid #ccc',
+              borderRadius: 6,
+              WebkitAppearance: 'none',
+            }}
           />
-          <button
-            type="submit"
-            style={{ padding: '8px 16px', fontSize: 14, cursor: 'pointer' }}
-          >
+          <button type="submit" style={primaryButtonStyle}>
             Enter
           </button>
         </form>
@@ -49,14 +75,15 @@ export default async function AdminPage({
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <Link href="/admin/analytics">Analytics &rarr;</Link>
           <form action={logoutAction}>
-            <button type="submit" style={{ padding: '6px 12px', fontSize: 13, cursor: 'pointer' }}>
+            <button type="submit" style={secondaryButtonStyle}>
               Log out
             </button>
           </form>
         </div>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+      <div style={{ overflowX: 'auto' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14, minWidth: 480 }}>
         <thead>
           <tr style={{ textAlign: 'left', borderBottom: '1px solid #ddd' }}>
             <th style={{ padding: '8px 8px 8px 0' }}>Priority</th>
@@ -80,6 +107,7 @@ export default async function AdminPage({
           ))}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }
