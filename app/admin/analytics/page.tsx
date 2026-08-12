@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ADMIN_COOKIE_NAME, isValidSessionCookie } from '@/lib/adminAuth';
+import { navPillClass } from '../adminStyles';
 import {
   getRecentEvents,
   getTopViewedProjects,
@@ -240,8 +241,8 @@ export default async function AdminAnalytics() {
     <main className="max-w-3xl mx-auto px-4 py-8 pb-20" style={{ fontFamily: 'system-ui, sans-serif', color: INK }}>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-lg font-semibold">TCC Analytics</h1>
-        <Link href="/admin" className="text-sm text-[#2a78d6]">
-          Projects &rarr;
+        <Link href="/admin" className={navPillClass}>
+          All projects
         </Link>
       </div>
 

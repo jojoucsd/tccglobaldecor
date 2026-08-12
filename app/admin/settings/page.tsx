@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ADMIN_COOKIE_NAME, isValidSessionCookie } from '@/lib/adminAuth';
 import { getAllSiteSettingsForAdmin } from '@/lib/siteSettings';
 import { saveSiteSettingAction } from '../actions';
-import { fieldStyle, labelStyle, buttonStyle, sectionHeadingStyle, lastEditedStyle, formatLastEdited } from '../adminStyles';
+import { fieldStyle, labelStyle, buttonStyle, sectionHeadingStyle, lastEditedStyle, formatLastEdited, navPillClass } from '../adminStyles';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,7 +31,7 @@ export default async function AdminSettings({
   return (
     <main style={{ maxWidth: 640, margin: '40px auto', fontFamily: 'system-ui, sans-serif', padding: '0 16px' }}>
       <p style={{ marginBottom: 16 }}>
-        <Link href="/admin">&larr; All projects</Link>
+        <Link href="/admin" className={navPillClass}>All projects</Link>
       </p>
       <h1 style={{ fontSize: 20, marginBottom: 16 }}>Site Settings</h1>
 

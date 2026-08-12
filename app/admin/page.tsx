@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ADMIN_COOKIE_NAME, parseSessionCookie } from '@/lib/adminAuth';
 import { getAllProjects } from '@/lib/getProjects';
 import { loginAction, logoutAction } from './actions';
+import { navPillClass } from './adminStyles';
 
 export const dynamic = 'force-dynamic';
 
@@ -87,8 +88,9 @@ export default async function AdminPage({
         <h1 style={{ fontSize: 22 }}>TCC Admin — Projects</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <span style={{ fontSize: 13, color: '#666' }}>{session.email}</span>
-          <Link href="/admin/settings">Settings &rarr;</Link>
-          <Link href="/admin/analytics">Analytics &rarr;</Link>
+          <Link href="/admin/settings" className={navPillClass}>Settings</Link>
+          <Link href="/admin/rag" className={navPillClass}>RAG Corpus</Link>
+          <Link href="/admin/analytics" className={navPillClass}>Analytics</Link>
           <form action={logoutAction}>
             <button type="submit" style={secondaryButtonStyle}>
               Log out

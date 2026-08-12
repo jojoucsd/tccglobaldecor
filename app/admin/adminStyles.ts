@@ -31,6 +31,12 @@ export const buttonStyle: React.CSSProperties = {
 export const sectionHeadingStyle: React.CSSProperties = { fontSize: 15, fontWeight: 600, marginTop: 8 };
 export const lastEditedStyle: React.CSSProperties = { fontSize: 12, color: '#888', marginTop: -6 };
 
+// Tailwind classes for the "navigate to another admin section" links
+// (Settings, Analytics, RAG Corpus, back-to-list) — styled as a real button
+// so it reads as clickable, not plain arrow-suffixed text.
+export const navPillClass =
+  'inline-flex items-center rounded-full border border-neutral-300 px-3.5 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-100 hover:border-neutral-400 transition-colors';
+
 export function formatLastEdited(updatedBy?: string | null, updatedAt?: string | null) {
   if (!updatedBy && !updatedAt) return null;
   const when = updatedAt ? new Date(updatedAt).toLocaleString() : null;

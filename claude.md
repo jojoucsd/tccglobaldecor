@@ -403,6 +403,9 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 **5. ~~TradeShowBadge is hardcoded~~ — resolved 2026-08-12**
 `TradeShowBadge.tsx` now takes its label as a prop instead of a hardcoded string. HK office staff edit it directly via `/admin/settings` — no engineer/code change needed anymore. See "Site Settings (admin-editable key/value)" below.
 
+**11. `/admin` login error message doesn't show on live (2026-08-12, not yet fixed)**
+`loginAction` redirects to `/admin?error=1` on a wrong passcode/domain, and `app/admin/page.tsx` renders "Incorrect email or passcode." when `error` is present — confirmed working in local dev testing (browser + curl), but Ling reports it silently fails with no message on the deployed Amplify site: the form just returns to a blank login page. Not yet diagnosed against production — candidates worth checking next time: whether Amplify's SSR hosting strips/rewrites the query string on the redirect target, or some other prod-only caching behavior on `/admin` despite `dynamic = 'force-dynamic'` already being set. Low severity (login still correctly rejects bad credentials, just without user feedback) — logged for next session, not fixed yet.
+
 ### Low Priority
 
 **6. Carousel keyboard navigation missing**
