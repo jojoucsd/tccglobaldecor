@@ -14,7 +14,7 @@ const LOCALES = [
   { code: 'zh-CN', label: '简' },
 ] as const;
 
-export default function Header() {
+export default function Header({ tradeShowLabel }: { tradeShowLabel: string | null }) {
   const t = useTranslations('nav');
   const locale = useLocale();
   const pathname = usePathname();
@@ -161,7 +161,7 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-7 text-[1.05rem] font-semibold tracking-wide">
-          <TradeShowBadge />
+          <TradeShowBadge label={tradeShowLabel} />
           {NAV.map((n) => {
             const isActive = n.sectionId && activeId === n.sectionId;
             return (
@@ -255,12 +255,15 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile announcement bar */}
-      <div className="md:hidden border-t border-neutral-200 bg-neutral-50">
-        <div className="flex items-center justify-center py-2">
-          <TradeShowBadge small />
+      {/* Mobile announcement bar — omitted entirely when there's no badge to
+          show, so an empty/failed fetch doesn't leave a blank gray strip */}
+      {tradeShowLabel && (
+        <div className="md:hidden border-t border-neutral-200 bg-neutral-50">
+          <div className="flex items-center justify-center py-2">
+            <TradeShowBadge label={tradeShowLabel} small />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Mobile drawer */}
       {menuOpen && (

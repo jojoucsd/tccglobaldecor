@@ -20,10 +20,8 @@ const FILTERS = [
 
 export default function ProjectsGrid({
   projects,
-  titleMap,
 }: {
   projects: ProjectRecord[];
-  titleMap: Record<string, string>;
 }) {
   const t = useTranslations('projects');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -116,7 +114,7 @@ export default function ProjectsGrid({
             {p.comingSoon ? (
               <div
                 className="block overflow-hidden rounded-[6px] sm:rounded-[8px] ring-1 ring-neutral-200 cursor-default select-none"
-                aria-label={`${titleMap[p.slug] ?? p.title} — ${t('galleryPending')}`}
+                aria-label={`${p.title} — ${t('galleryPending')}`}
               >
                 <div className="relative aspect-[1/1.2] sm:aspect-[3/4] bg-neutral-200">
                   {p.cover ? <CoverImage p={p} /> : null}
@@ -128,7 +126,7 @@ export default function ProjectsGrid({
                   <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-gradient-to-t from-black/75 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-4 md:p-5 text-center sm:text-left text-white">
                     <h2 className="text-sm sm:text-lg md:text-xl font-bold drop-shadow-lg line-clamp-2 leading-tight">
-                      {titleMap[p.slug] ?? p.title}
+                      {p.title}
                     </h2>
                   </div>
                 </div>
@@ -143,7 +141,7 @@ export default function ProjectsGrid({
                   <div className="absolute inset-x-0 bottom-0 h-20 sm:h-24 bg-gradient-to-t from-black/85 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-4 md:p-5 text-center sm:text-left text-white">
                     <h2 className="text-sm sm:text-lg md:text-xl font-bold drop-shadow-lg line-clamp-2 leading-tight">
-                      {titleMap[p.slug] ?? p.title}
+                      {p.title}
                     </h2>
                   </div>
                 </div>

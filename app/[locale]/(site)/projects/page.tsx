@@ -1,4 +1,4 @@
-import { setRequestLocale, getTranslations, getMessages } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { getAllProjects } from '@/lib/getProjects';
 import ProjectsGrid from './ProjectsGrid';
 
@@ -13,9 +13,7 @@ export default async function ProjectsIndex({
   setRequestLocale(locale);
 
   const t = await getTranslations('projects');
-  const messages = await getMessages();
-  const projectTitleMap = (messages.projectTitles as Record<string, string>) ?? {};
-  const projects = await getAllProjects();
+  const projects = await getAllProjects(locale);
 
   return (
     <main
@@ -38,7 +36,7 @@ export default async function ProjectsIndex({
         </p>
       </header>
 
-      <ProjectsGrid projects={projects} titleMap={projectTitleMap} />
+      <ProjectsGrid projects={projects} />
     </main>
   );
 }

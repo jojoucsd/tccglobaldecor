@@ -1,8 +1,8 @@
 // app/(site)/data/awards.ts
 // Single source of truth for Recognitions & Awards.
-// Localized titles live in messages/*.json under `awardTitles`, keyed by slug
-// (same pattern as `projectTitles`). Add a new award by adding one entry here
-// plus one key per locale file — no other files need to change.
+// Localized titles live in messages/*.json under `awardTitles`, keyed by slug.
+// Add a new award by adding one entry here plus one key per locale file — no
+// other files need to change.
 
 export type AwardEntry = {
   slug: string;

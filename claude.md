@@ -180,7 +180,7 @@ router.replace(pathname, { locale: 'zh-TW' });
 | `specialization` | capability/Specialization.tsx |
 | `markets` | capability/Markets.tsx |
 | `awards` | AwardsTeaser.tsx (section title/subtitle/play button — not award titles, see `awardTitles`) |
-| `awardTitles` | AwardsTeaser.tsx + gallery/[slug]/page.tsx — maps award slug → localized title, same pattern as `projectTitles` |
+| `awardTitles` | AwardsTeaser.tsx + gallery/[slug]/page.tsx — maps award slug → localized title |
 | `galleryDetail` | gallery/[slug]/page.tsx — shared template for both Specialization and Award detail pages |
 | `collaborations` | CollabTeaser.tsx |
 | `clients` | ClientsBelt.tsx |
@@ -188,15 +188,18 @@ router.replace(pathname, { locale: 'zh-TW' });
 | `connectPage` | app/[locale]/(site)/connect/page.tsx |
 | `projects` | projects/page.tsx, ProjectLayoutClient.tsx |
 | `process` | process/page.tsx |
-| `projectTitles` | projects/page.tsx + projects/[slug]/page.tsx — maps slug → localized hotel name |
 
-### Project Titles in Chinese
-All 27 project titles are translated in `messages/zh-TW.json` and `messages/zh-CN.json` under `projectTitles`. The key is the project slug (e.g. `"venetian-hotel-macau": "澳門威尼斯人度假村"`). Pages look them up with:
-```ts
-const messages = await getMessages();
-const projectTitleMap = (messages.projectTitles as Record<string, string>) ?? {};
-const localizedTitle = projectTitleMap[slug] ?? project.title;
-```
+### Project Translations (Chinese) — DB-backed, not JSON (2026-08-12)
+`projectTitles`/`projectDetails` used to live as static keys in `messages/*.json` — **removed**. zh-TW/zh-CN project `title`/`summary`/`description`/`notes` now live in the Supabase `project_translations` table (`slug`, `locale`, one row per translated locale), editable directly by HK office staff via `/admin/[slug]` — see "Superadmin Panel" below. `address` is intentionally never translated, same as before.
+
+`lib/getProjects.ts`'s `getAllProjects(locale)` / `getProjectBySlug(slug, locale)` overlay the translation row onto the English base **per field** — an untranslated field (or an entirely untranslated project) falls back to the English value, so partial translation work never leaves a field blank on the live site. Pages just call these with the current `locale` and use `project.title`/`.summary`/etc. directly — no `getMessages()`/lookup-map dance needed anymore.
+
+### Site Settings (admin-editable key/value) — added 2026-08-12
+`site_settings` (`supabase/schema_settings.sql`) is a generic `key`/`value` table for small site-wide strings that HK office staff should be able to edit without a code change — the first (and so far only) use is the trade show badge in the header. `lib/siteSettings.ts` exports `getSiteSetting(key)` (cached, **fails soft** — returns `null` on error instead of throwing) and `getAllSiteSettingsForAdmin()` (uncached, throws — admin-only).
+
+The fails-soft distinction matters: `getAllProjects()` throws on a Supabase error because a broken project page is contained to that page, but `getSiteSetting` is read once per request in `app/[locale]/(site)/layout.tsx`, which wraps *every* page — throwing there would take the whole site down over one missing setting, so it just omits whatever depends on it instead. `TradeShowBadge.tsx` and its wrapping mobile announcement bar both render nothing when the label is `null`, rather than showing an empty pill/bar.
+
+Editable via `/admin/settings` (new sibling page to `/admin` and `/admin/analytics`) — lists every row in the table with a text field per row, no per-key UI needed to add a future setting (just insert a row in Supabase and optionally add a friendly label to `SETTING_LABELS` in that page). Saving stamps `updated_by`/`updated_at` same as projects, and calls `revalidatePath('/[locale]', 'layout')` to bust the shared layout across all 3 locales in one call (rather than listing every route like `saveProjectAction` does — the badge is global chrome, not a per-project page).
 
 ---
 
@@ -205,8 +208,8 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 ### Projects (canonical flow)
 1. **Images:** Drop images into `/public/images/projects/[slug]/` — **slug folder name must be all lowercase**
 2. **Metadata:** Add entry to `/app/(site)/data/projects.json`
-3. **Chinese title:** Add entry to `projectTitles` in both `messages/zh-TW.json` and `messages/zh-CN.json`
-4. **Discovery:** `getProjects.ts` scans the folder, merges JSON, sorts by `priority` (lower = first), then alpha
+3. **Chinese translation (optional, can come later):** add via `/admin/[slug]` — see "Project Translations (Chinese)" above
+4. **Discovery:** `getProjects.ts` scans the folder, merges metadata, sorts by `priority` (lower = first), then alpha
 
 ```json
 {
@@ -252,7 +255,7 @@ const localizedTitle = projectTitleMap[slug] ?? project.title;
 
 ### Awards
 - **`/app/(site)/data/awards.ts`** is the canonical source — one entry per award: `slug`, `imageSrc` (filename under `/public/images/awards/`), optional `video` (Vidyard embed URL)
-- Localized titles live in `messages/*.json` under `awardTitles`, keyed by slug — same pattern as `projectTitles`
+- Localized titles live in `messages/*.json` under `awardTitles`, keyed by slug
 - `AwardsTeaser.tsx` (homepage teaser row) and `gallery/[slug]/page.tsx` (detail page, shared with Specialization) both read from this one source — no other files should define award titles or slugs
 - Homepage card grid is a real CSS grid (2/3/4 cols by breakpoint) with a repeating vertical stagger cycled by index — adding an award never requires hand-tuning position values
 
@@ -397,8 +400,8 @@ npm run lint             # ESLint (errors ignored in build per next.config.ts)
 **4. Project image count assumptions**
 `ProjectLayoutClient.tsx` accesses images by hardcoded index (hero=`images[1]`, etc.), skipping `images[0]` (the cover/hero file) entirely — confirmed intentional (2026-08-05): the grid thumbnail shows the building exterior, then the detail page's own hero/gallery deliberately starts from a different photo (interior/detail shot) rather than repeating the cover. `comingSoon` projects (≤4 images) used to be reachable by direct/guessed URL and would show duplicated images since the hardcoded indices have nothing to fall back on below 5 images — fixed 2026-08-05: `[slug]/page.tsx` now calls `notFound()` for `comingSoon` projects and excludes them from `generateStaticParams`, so a direct hit on an under-stocked project 404s instead of rendering a broken gallery.
 
-**5. TradeShowBadge is hardcoded**
-`TradeShowBadge.tsx` has event details baked in. Update manually when the event changes or move to a data file.
+**5. ~~TradeShowBadge is hardcoded~~ — resolved 2026-08-12**
+`TradeShowBadge.tsx` now takes its label as a prop instead of a hardcoded string. HK office staff edit it directly via `/admin/settings` — no engineer/code change needed anymore. See "Site Settings (admin-editable key/value)" below.
 
 ### Low Priority
 
@@ -426,7 +429,7 @@ All zh-TW and zh-CN translations were machine-generated. HK staff should review 
 2. Add cover image named `0.avif` (or `cover.avif` — first `.avif` alphabetically wins)
 3. Add remaining images named `1.avif`, `2.avif`, etc.
 4. Add entry to `app/(site)/data/projects.json` with `slug`, `title`, `address`, `summary`, `description`, `tags` (`["hotel","gaming"]`, `["hotel","living"]`, or `["restaurant"]`)
-5. Add Chinese title to `messages/zh-TW.json` and `messages/zh-CN.json` under `projectTitles`
+5. Chinese translation (optional, can come later): HK office adds it via `/admin/[slug]`
 6. Set `"priority": 1` to feature it at the top of the grid
 7. If the project needs location context in its display name (e.g. a restaurant that could be confused with others of the same brand), put it in `title` — not the slug
 
@@ -501,7 +504,7 @@ A password-protected admin UI for the HK team to:
 **Data backend decision (2026-08-05): Supabase (Postgres + Storage + Auth), not Firebase or AWS-native.**
 Ling has deep Firebase experience and specifically likes Firestore/RTDB's flat, non-technical-friendly editing model — but Supabase's Table Editor gives the same spreadsheet-like non-dev editability, while Postgres scales better than Firestore toward a growing, more relational catalog (multiple images/videos per project, collections, cross-references) as the project count grows over the next 1-2 years — reference points for "going big" were established manufacturer catalog sites (Taiping, Royal Thai, Brintons, Couristan). SQL also fits the analytics/reporting side of this work (top-viewed projects, traffic over time) much better than Firestore queries. Supabase bundles DB + file storage + auth in one account, avoiding stitching multiple vendors together. Amplify stays as-is for hosting/deploy — only the data layer changes.
 
-**Auth (interim):** a simple passcode-gated `/admin` route (shared secret, sets a cookie, no user accounts) — intentionally deferred full auth (Cognito/Firebase Auth/SSO) until there's a real need for per-person logins. Ling has built full auth systems before, so this is a "do it properly later" deferral, not a skill gap.
+**Auth (interim, updated 2026-08-12):** `/admin` login is now email + the shared passcode — email must end in `@tcc-carpets.com` (hardcoded single-domain check, `lib/adminAuth.ts`), passcode is still one shared secret. The session cookie binds the email to the session via HMAC (signed with the same passcode), and every project/translation save stamps `updated_by` with it. This is explicitly a detective control, not real access control — the email is self-declared, not verified, so anyone with the passcode could type any `@tcc-carpets.com` address. The point is a breadcrumb ("who to ask about a change"), not prevention; a deliberate tradeoff given the small trusted HK/Ling team and the low-value asset (marketing copy, no PII). Real per-person auth (Cognito/Firebase Auth/SSO) is still a deliberate later phase, not a skill gap. No row-history/rollback table exists yet (`projects`/`project_translations` just overwrite in place) — explicitly deferred until there's a real need, not urgent for a small trusted team.
 
 **Visitor tracking — realistic scope, decided 2026-08-05:** Pendo/Clearbit-style "detect the anonymous visitor's company/email" isn't realistically replicable for free — that's the paid data-broker layer those tools license. What's actually being built:
 1. Passive analytics (pageviews, referrer, path, rough geo, session id) — self-hosted, free, straightforward.
@@ -517,11 +520,15 @@ Ling has deep Firebase experience and specifically likes Firestore/RTDB's flat, 
 
 Explicitly deferred past this week: image/video upload to Supabase Storage, real user accounts/SSO, polished admin UI, IP geo/ASN enrichment.
 
+**Follow-up shipped 2026-08-12: Chinese project translation editing.** HK office staff (3-4 people) needed a way to correct the AI-translated `zh-TW`/`zh-CN` project copy directly instead of emailing Ling — see "Project Translations (Chinese)" earlier in this doc for the full mechanics. Built alongside the email+passcode audit login above (same tables, same edit form). New: `supabase/schema_translations.sql` (`projects.updated_by` column + `project_translations` table), `scripts/migrate-translations-to-supabase.mjs` (one-time seed from the old JSON, already run), zh-TW/zh-CN sections added to `/admin/[slug]`. Scope was deliberately narrow — only project title/summary/description/notes, not homepage section copy (English copy there is considered stable, not worth building edit UI for).
+
 ### RAG Knowledge Base (Planned — Phase 5)
 A retrieval-augmented chatbot for Marco (HK-based sales contact) to:
 - Query TCC's project history, capabilities, and specifications
 - Source material: Marco's emails + internal .md files
 - Platform: AWS (Amplify already in use)
+
+**Baseline corpus generated 2026-08-12:** `scripts/export-rag-corpus.mjs` exports the site's own English content (30 projects from Supabase + 9 company/capability topic files from `messages/en.json` and a few small static data files) into `/rag/projects/*.md` + `/rag/company/*.md`. This is the "company facts" layer — real, reviewed, on-brand, low-drift (per Ling: the factual parts don't change often, re-run the script when they do). It's explicitly *not* the technical/sales depth Marco's material will eventually add (pile heights, fiber specs, client context from his emails) — see `rag/README.md` for the full policy, especially: **never hand-edit files under `/rag`** — they're a generated build artifact; any future curated/hand-written material goes in a separate directory so the two layers never blur.
 
 ### Project Cover Images — Needs Research & Upload
 Several project folders have low-res WeChat-compressed images or placeholder covers. Real high-res images need to be sourced.

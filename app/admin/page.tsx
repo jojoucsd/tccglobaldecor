@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { ADMIN_COOKIE_NAME, isValidSessionCookie } from '@/lib/adminAuth';
+import { ADMIN_COOKIE_NAME, parseSessionCookie } from '@/lib/adminAuth';
 import { getAllProjects } from '@/lib/getProjects';
 import { loginAction, logoutAction } from './actions';
 
@@ -36,18 +36,31 @@ export default async function AdminPage({
 }) {
   const { error } = await searchParams;
   const cookieStore = await cookies();
-  const authed = isValidSessionCookie(cookieStore.get(ADMIN_COOKIE_NAME)?.value);
+  const session = parseSessionCookie(cookieStore.get(ADMIN_COOKIE_NAME)?.value);
 
-  if (!authed) {
+  if (!session) {
     return (
       <main style={{ maxWidth: 360, margin: '96px auto', padding: '0 16px', fontFamily: 'system-ui, sans-serif' }}>
         <h1 style={{ fontSize: 20, marginBottom: 16 }}>TCC Admin</h1>
         <form action={loginAction} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <input
+            type="email"
+            name="email"
+            placeholder="you@tcc-carpets.com"
+            autoFocus
+            required
+            style={{
+              padding: 12,
+              fontSize: 16,
+              border: '1px solid #ccc',
+              borderRadius: 6,
+              WebkitAppearance: 'none',
+            }}
+          />
+          <input
             type="password"
             name="passcode"
             placeholder="Passcode"
-            autoFocus
             required
             style={{
               padding: 12,
@@ -61,7 +74,7 @@ export default async function AdminPage({
             Enter
           </button>
         </form>
-        {error && <p style={{ color: 'crimson', marginTop: 12, fontSize: 13 }}>Incorrect passcode.</p>}
+        {error && <p style={{ color: 'crimson', marginTop: 12, fontSize: 13 }}>Incorrect email or passcode.</p>}
       </main>
     );
   }
@@ -73,6 +86,8 @@ export default async function AdminPage({
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <h1 style={{ fontSize: 22 }}>TCC Admin — Projects</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{ fontSize: 13, color: '#666' }}>{session.email}</span>
+          <Link href="/admin/settings">Settings &rarr;</Link>
           <Link href="/admin/analytics">Analytics &rarr;</Link>
           <form action={logoutAction}>
             <button type="submit" style={secondaryButtonStyle}>

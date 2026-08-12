@@ -1,13 +1,14 @@
-import Link from "next/link";
-
-// Update this when the event changes
-const EVENT_LABEL = "BDNY '26 — NYC • Booth #1264 • Nov 8–9";
-
+// Label is admin-editable via /admin/settings (site_settings.trade_show_badge)
+// — see app/[locale]/(site)/layout.tsx for where it's fetched.
 export default function TradeShowBadge({
+  label,
   small = false,
 }: {
+  label: string | null;
   small?: boolean;
 }) {
+  if (!label) return null;
+
   const base =
     "inline-flex items-center gap-2 rounded-full font-semibold shadow transition-colors";
 
@@ -20,7 +21,7 @@ export default function TradeShowBadge({
       }
     >
       <span className="inline-block h-2 w-2 rounded-full bg-white/70" />
-      {EVENT_LABEL}
+      {label}
     </div>
   );
 }

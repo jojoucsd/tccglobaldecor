@@ -2,25 +2,13 @@ import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ADMIN_COOKIE_NAME, isValidSessionCookie } from '@/lib/adminAuth';
-import { getProjectBySlug } from '@/lib/getProjects';
+import { getProjectBySlug, getProjectTranslationsForSlug } from '@/lib/getProjects';
 import { saveProjectAction } from '../actions';
+import { fieldStyle, labelStyle, buttonStyle as saveButtonStyle, sectionHeadingStyle, lastEditedStyle, formatLastEdited } from '../adminStyles';
 
 export const dynamic = 'force-dynamic';
 
-// fontSize 16 avoids iOS Safari auto-zooming the page when a field is focused
-const fieldStyle: React.CSSProperties = { padding: 10, fontSize: 16, border: '1px solid #ccc', borderRadius: 6, font: 'inherit' };
-const labelStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13, color: '#333' };
-const saveButtonStyle: React.CSSProperties = {
-  padding: '12px 24px',
-  fontSize: 15,
-  fontWeight: 500,
-  cursor: 'pointer',
-  backgroundColor: '#0b0b0b',
-  color: '#fff',
-  border: 'none',
-  borderRadius: 6,
-  alignSelf: 'flex-start',
-};
+const LOCALE_LABELS: Record<string, string> = { 'zh-TW': 'Chinese (Traditional)', 'zh-CN': 'Chinese (Simplified)' };
 
 export default async function AdminEditProject({
   params,
@@ -40,6 +28,9 @@ export default async function AdminEditProject({
   const project = await getProjectBySlug(slug);
   if (!project) notFound();
 
+  const translations = await getProjectTranslationsForSlug(slug);
+  const enLastEdited = formatLastEdited(project.updatedBy, project.updatedAt);
+
   return (
     <main style={{ maxWidth: 640, margin: '40px auto', fontFamily: 'system-ui, sans-serif', padding: '0 16px' }}>
       <p style={{ marginBottom: 16 }}>
@@ -52,6 +43,9 @@ export default async function AdminEditProject({
 
       <form action={saveProjectAction} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         <input type="hidden" name="slug" value={project.slug} />
+
+        <h2 style={sectionHeadingStyle}>English</h2>
+        {enLastEdited && <p style={lastEditedStyle}>{enLastEdited}</p>}
 
         <label style={labelStyle}>
           Title
@@ -92,6 +86,37 @@ export default async function AdminEditProject({
           Cover position (CSS object-position, e.g. &quot;top&quot; or &quot;20% 50%&quot;)
           <input style={fieldStyle} name="coverPosition" defaultValue={project.coverPosition ?? ''} />
         </label>
+
+        {Object.entries(LOCALE_LABELS).map(([locale, label]) => {
+          const t = translations[locale];
+          const lastEdited = formatLastEdited(t?.updated_by, t?.updated_at);
+          return (
+            <div key={locale} style={{ display: 'flex', flexDirection: 'column', gap: 14, borderTop: '1px solid #eee', paddingTop: 14 }}>
+              <h2 style={sectionHeadingStyle}>{label}</h2>
+              {lastEdited && <p style={lastEditedStyle}>{lastEdited}</p>}
+
+              <label style={labelStyle}>
+                Title
+                <input style={fieldStyle} name={`title-${locale}`} defaultValue={t?.title ?? ''} placeholder={project.title} />
+              </label>
+
+              <label style={labelStyle}>
+                Summary
+                <textarea style={fieldStyle} name={`summary-${locale}`} defaultValue={t?.summary ?? ''} rows={2} placeholder={project.summary ?? ''} />
+              </label>
+
+              <label style={labelStyle}>
+                Description
+                <textarea style={fieldStyle} name={`description-${locale}`} defaultValue={t?.description ?? ''} rows={4} placeholder={project.description ?? ''} />
+              </label>
+
+              <label style={labelStyle}>
+                Notes
+                <textarea style={fieldStyle} name={`notes-${locale}`} defaultValue={t?.notes ?? ''} rows={2} placeholder={project.notes ?? ''} />
+              </label>
+            </div>
+          );
+        })}
 
         <button type="submit" style={saveButtonStyle}>
           Save
