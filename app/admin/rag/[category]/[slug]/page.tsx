@@ -24,8 +24,8 @@ export default async function AdminRagFile({
 
   return (
     <main style={{ maxWidth: 720, margin: '40px auto', fontFamily: 'system-ui, sans-serif', padding: '0 16px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h1 style={{ fontSize: 18, fontFamily: 'monospace' }}>{category}/{slug}.md</h1>
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <h1 style={{ fontSize: 16, fontFamily: 'monospace', wordBreak: 'break-all' }}>{category}/{slug}.md</h1>
         <Link href="/admin/rag" className={navPillClass}>All files</Link>
       </div>
       <pre

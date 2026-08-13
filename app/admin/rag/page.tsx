@@ -19,7 +19,7 @@ export default async function AdminRag() {
 
   return (
     <main style={{ maxWidth: 640, margin: '40px auto', fontFamily: 'system-ui, sans-serif', padding: '0 16px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
         <h1 style={{ fontSize: 20 }}>RAG Corpus</h1>
         <Link href="/admin" className={navPillClass}>All projects</Link>
       </div>

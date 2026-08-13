@@ -84,10 +84,10 @@ export default async function AdminPage({
 
   return (
     <main style={{ maxWidth: 960, margin: '40px auto', fontFamily: 'system-ui, sans-serif', padding: '0 16px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+      <div className="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
         <h1 style={{ fontSize: 22 }}>TCC Admin — Projects</h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span style={{ fontSize: 13, color: '#666' }}>{session.email}</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs text-neutral-500 sm:text-sm">{session.email}</span>
           <Link href="/admin/settings" className={navPillClass}>Settings</Link>
           <Link href="/admin/rag" className={navPillClass}>RAG Corpus</Link>
           <Link href="/admin/analytics" className={navPillClass}>Analytics</Link>
@@ -99,7 +99,26 @@ export default async function AdminPage({
         </div>
       </div>
 
-      <div style={{ overflowX: 'auto' }}>
+      {/* Mobile: stacked cards, no horizontal scroll needed to reach Edit */}
+      <ul className="flex flex-col gap-2 sm:hidden">
+        {projects.map((p) => (
+          <li key={p.slug} className="rounded-lg border border-neutral-200 p-3">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <p className="text-sm font-medium">{p.title}</p>
+                <p className="text-xs text-neutral-500">{p.slug}</p>
+              </div>
+              <Link href={`/admin/${p.slug}`} className={navPillClass}>Edit</Link>
+            </div>
+            <p className="mt-2 text-xs text-neutral-500">
+              Priority: {p.priority ?? '—'} · Tags: {p.tags?.join(', ') || '—'}
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      {/* Desktop/tablet: table */}
+      <div className="hidden sm:block" style={{ overflowX: 'auto' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14, minWidth: 480 }}>
         <thead>
           <tr style={{ textAlign: 'left', borderBottom: '1px solid #ddd' }}>

@@ -239,7 +239,7 @@ export default async function AdminAnalytics() {
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-8 pb-20" style={{ fontFamily: 'system-ui, sans-serif', color: INK }}>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
         <h1 className="text-lg font-semibold">TCC Analytics</h1>
         <Link href="/admin" className={navPillClass}>
           All projects
