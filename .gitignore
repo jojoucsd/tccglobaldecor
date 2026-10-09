@@ -42,3 +42,6 @@ next-env.d.ts
 
 # raw source images kept locally before AVIF conversion — never deployed
 /originals/
+
+# Personal Obsidian vault (second brain) — private notes, never commit (repo is public)
+TCC_Jojo/
