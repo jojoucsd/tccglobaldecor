@@ -53,12 +53,112 @@ function StatusBadge({ status, locale }: { status: Hotel['status']; locale: stri
 
 // Sub-components ----------------------------------------------------------
 
+/** Horizontal progress bar: LA → Las Vegas → New York */
+function TripRouteBar({ locale }: { locale: string }) {
+  const isEn = locale === 'en';
+  const stops = [
+    { city: isEn ? 'Los Angeles' : '洛杉矶', dates: 'Oct 23–26', transport: '🚗', transportLabel: isEn ? 'Drive' : '自驾' },
+    { city: isEn ? 'Las Vegas' : '拉斯维加斯', dates: 'Oct 26–Nov 4', transport: '✈️', transportLabel: isEn ? 'Fly' : '飞行' },
+    { city: isEn ? 'New York' : '纽约', dates: 'Nov 4–12' },
+  ];
+
+  return (
+    <div className="mx-auto mb-10 max-w-2xl px-4">
+      <div className="flex items-center">
+        {stops.map((stop, i) => (
+          <div key={i} className="flex items-center flex-1 last:flex-none">
+            {/* Stop dot + label */}
+            <div className="flex flex-col items-center text-center min-w-[70px] sm:min-w-[90px]">
+              <div className="relative">
+                <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-amber-600 ring-4 ring-amber-100" />
+                <span className="absolute -top-0.5 -left-0.5 h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-amber-600/20 animate-ping" style={{ animationDuration: '3s' }} />
+              </div>
+              <span className="mt-2 text-xs sm:text-sm font-semibold text-neutral-900">{stop.city}</span>
+              <span className="text-[10px] sm:text-xs text-neutral-500">{stop.dates}</span>
+            </div>
+
+            {/* Connector line + transport */}
+            {stop.transport && (
+              <div className="flex-1 flex flex-col items-center mx-1 sm:mx-2">
+                <span className="text-[10px] sm:text-xs text-neutral-400 mb-1">{stop.transport} {stop.transportLabel}</span>
+                <div className="w-full h-0.5 bg-amber-300 relative">
+                  <div className="absolute inset-0 bg-amber-500" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 6px, #fef3c7 6px, #fef3c7 10px)' }} />
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** Group hotels by name and render as one card with sub-rows per booking */
+function groupHotelsByName(hotels: Hotel[]) {
+  const groups: { name: string; nameZh?: string; location: string; locationZh?: string; bookings: Hotel[] }[] = [];
+  for (const h of hotels) {
+    const existing = groups.find((g) => g.name === h.name);
+    if (existing) {
+      existing.bookings.push(h);
+    } else {
+      groups.push({ name: h.name, nameZh: h.nameZh, location: h.location, locationZh: h.locationZh, bookings: [h] });
+    }
+  }
+  return groups;
+}
+
+function HotelBookingRow({ hotel, locale }: { hotel: Hotel; locale: string }) {
+  const isEn = locale === 'en';
+  return (
+    <div className="py-3 border-b border-neutral-100 last:border-0">
+      <div className="flex items-start justify-between gap-2">
+        {hotel.guest && (
+          <p className="text-sm font-medium text-neutral-800">
+            {t(hotel.guest, hotel.guestZh, locale)}
+          </p>
+        )}
+        <StatusBadge status={hotel.status} locale={locale} />
+      </div>
+
+      {hotel.roomType && (
+        <p className="mt-1 text-xs text-neutral-500">{hotel.roomType}</p>
+      )}
+
+      <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-0.5 text-sm text-neutral-700">
+        <span>{fmtRange(hotel.checkIn, hotel.checkOut, locale)}</span>
+        <span>
+          {hotel.rooms} {isEn ? (hotel.rooms === 1 ? 'room' : 'rooms') : '间房'}
+        </span>
+      </div>
+
+      {hotel.confNo && (
+        <p className="mt-1 text-xs text-neutral-400">
+          {isEn ? 'Conf #' : '确认号 #'}{hotel.confNo}
+        </p>
+      )}
+
+      {(hotel.cancelBy || hotel.cancelByZh) && (
+        <p className="mt-0.5 text-xs text-orange-600">
+          {t(hotel.cancelBy ?? '', hotel.cancelByZh, locale)}
+        </p>
+      )}
+
+      {(hotel.notes || hotel.notesZh) && (
+        <p className="mt-1 text-xs text-neutral-500 leading-relaxed">
+          {t(hotel.notes ?? '', hotel.notesZh, locale)}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function HotelCard({ hotel, locale }: { hotel: Hotel; locale: string }) {
+  const isEn = locale === 'en';
   return (
     <div className="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h4 className="text-sm sm:text-base font-semibold text-neutral-900 leading-snug">
+          <h4 className="text-sm sm:text-base font-semibold leading-snug text-neutral-900">
             {t(hotel.name, hotel.nameZh, locale)}
           </h4>
           <p className="mt-0.5 text-xs text-neutral-500">
@@ -68,19 +168,58 @@ function HotelCard({ hotel, locale }: { hotel: Hotel; locale: string }) {
         <StatusBadge status={hotel.status} locale={locale} />
       </div>
 
+      {hotel.guest && (
+        <p className="mt-2 text-sm font-medium text-neutral-800">
+          {t(hotel.guest, hotel.guestZh, locale)}
+        </p>
+      )}
+
+      {hotel.roomType && (
+        <p className="mt-1 text-xs text-neutral-500">{hotel.roomType}</p>
+      )}
+
       <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-neutral-700">
         <span>{fmtRange(hotel.checkIn, hotel.checkOut, locale)}</span>
         <span>
-          {hotel.rooms} {locale === 'en' ? (hotel.rooms === 1 ? 'room' : 'rooms') : '间房'}
+          {hotel.rooms} {isEn ? (hotel.rooms === 1 ? 'room' : 'rooms') : '间房'}
         </span>
-        {hotel.cost && <span className="font-medium">{hotel.cost}</span>}
       </div>
+
+      {hotel.confNo && (
+        <p className="mt-2 text-xs text-neutral-400">
+          {isEn ? 'Conf #' : '确认号 #'}{hotel.confNo}
+        </p>
+      )}
+
+      {(hotel.cancelBy || hotel.cancelByZh) && (
+        <p className="mt-1 text-xs text-orange-600">
+          {t(hotel.cancelBy ?? '', hotel.cancelByZh, locale)}
+        </p>
+      )}
 
       {(hotel.notes || hotel.notesZh) && (
         <p className="mt-2 text-xs text-neutral-500 leading-relaxed">
           {t(hotel.notes ?? '', hotel.notesZh, locale)}
         </p>
       )}
+    </div>
+  );
+}
+
+function GroupedHotelCard({ group, locale }: { group: ReturnType<typeof groupHotelsByName>[number]; locale: string }) {
+  return (
+    <div className="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5 shadow-sm">
+      <h4 className="text-sm sm:text-base font-semibold leading-snug text-neutral-900">
+        {t(group.name, group.nameZh, locale)}
+      </h4>
+      <p className="mt-0.5 text-xs text-neutral-500">
+        {t(group.location, group.locationZh, locale)}
+      </p>
+      <div className="mt-2">
+        {group.bookings.map((h, i) => (
+          <HotelBookingRow key={i} hotel={h} locale={locale} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -151,19 +290,26 @@ function LegCard({ leg, index, locale }: { leg: TripLeg; index: number; locale: 
         </p>
       </div>
 
-      {/* Hotels */}
-      {leg.hotels.length > 0 && (
-        <div className="mb-4">
-          <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-400">
-            {isEn ? 'Hotels' : '酒店'}
-          </h4>
-          <div className="space-y-3">
-            {leg.hotels.map((h, i) => (
-              <HotelCard key={i} hotel={h} locale={locale} />
-            ))}
+      {/* Hotels — group by name to condense repeated hotels */}
+      {leg.hotels.length > 0 && (() => {
+        const groups = groupHotelsByName(leg.hotels);
+        return (
+          <div className="mb-4">
+            <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-400">
+              {isEn ? 'Hotels' : '酒店'}
+            </h4>
+            <div className="space-y-3">
+              {groups.map((g, i) =>
+                g.bookings.length === 1 ? (
+                  <HotelCard key={i} hotel={g.bookings[0]} locale={locale} />
+                ) : (
+                  <GroupedHotelCard key={i} group={g} locale={locale} />
+                )
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Flights */}
       {leg.flights.length > 0 && (
@@ -203,6 +349,8 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
         </p>
       </div>
 
+      <TripRouteBar locale={locale} />
+
       <div className="mx-auto max-w-2xl">
         {trip.legs.map((leg, i) => (
           <LegCard key={i} leg={leg} index={i} locale={locale} />
@@ -239,12 +387,6 @@ export default async function TravelPage({
             : '即将到来的出差详情 — 酒店、航班和后勤信息汇总。'}
         </p>
 
-        {/* Language toggle */}
-        <div className="mt-4 inline-flex rounded-full border border-neutral-200 bg-white text-sm overflow-hidden">
-          <LangLink locale="en" current={locale} label="EN" />
-          <LangLink locale="zh-TW" current={locale} label="繁" />
-          <LangLink locale="zh-CN" current={locale} label="简" />
-        </div>
       </Section>
 
       <Section className="pb-24">
@@ -256,20 +398,3 @@ export default async function TravelPage({
   );
 }
 
-// Language toggle links — simple <a> tags since we're switching locale
-function LangLink({ locale, current, label }: { locale: string; current: string; label: string }) {
-  const isActive = locale === current;
-  const prefix = locale === 'en' ? '' : `/${locale}`;
-  return (
-    <a
-      href={`${prefix}/henderson/travel`}
-      className={`px-4 py-1.5 transition-colors ${
-        isActive
-          ? 'bg-neutral-900 text-white font-medium'
-          : 'text-neutral-600 hover:bg-neutral-100'
-      }`}
-    >
-      {label}
-    </a>
-  );
-}
