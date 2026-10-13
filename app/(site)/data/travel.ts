@@ -126,7 +126,6 @@ export const TRIPS: Trip[] = [
       { city: 'New York', cityZh: '纽约', startDate: '2026-11-04', endDate: '2026-11-12' },
     ],
 
-    // ── Hotels ────────────────────────────────────────────────────────
     // ── Work (page sorts by date) ──────────────────────────────────────
     meetings: [
       {
@@ -161,6 +160,7 @@ export const TRIPS: Trip[] = [
     ],
     meetingsNote: { en: 'Being finalized — details may change.', zh: '日程确认中 — 细节可能有变。' },
 
+    // ── Hotels ────────────────────────────────────────────────────────
     hotels: [
       {
         name: 'Holiday Inn & Suites Monterey Park – Los Angeles by IHG',
