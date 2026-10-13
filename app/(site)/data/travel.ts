@@ -59,6 +59,20 @@ export type Stop = {
 
 export type Note = { en: string; zh: string };
 
+export type Meeting = {
+  date: string; // ISO date
+  endDate?: string; // for a multi-day block, e.g. a week of Vegas meetings
+  time?: string; // e.g. "Morning", "10:00"
+  timeZh?: string;
+  title: string;
+  titleZh?: string;
+  city: string;
+  cityZh: string;
+  status: 'confirmed' | 'tentative' | 'pending';
+  notes?: string;
+  notesZh?: string;
+};
+
 export type Trip = {
   id: string;
   name: string;
@@ -66,6 +80,7 @@ export type Trip = {
   season: string;
   seasonZh: string;
   stops: Stop[];
+  meetings: Meeting[];
   hotels: Hotel[];
   hotelNotes: Note[];
   flights: Flight[];
@@ -104,6 +119,39 @@ export const TRIPS: Trip[] = [
     ],
 
     // ── Hotels ────────────────────────────────────────────────────────
+    // ── Work (page sorts by date) ──────────────────────────────────────
+    meetings: [
+      {
+        date: '2026-10-26',
+        title: 'WATG meeting',
+        titleZh: 'WATG 会议',
+        city: 'Los Angeles',
+        cityZh: '洛杉矶',
+        status: 'tentative',
+      },
+      {
+        date: '2026-10-27',
+        time: 'Morning',
+        timeZh: '上午',
+        title: 'HBA breakfast',
+        titleZh: 'HBA 早餐会',
+        city: 'Los Angeles',
+        cityZh: '洛杉矶',
+        status: 'confirmed',
+      },
+      {
+        date: '2026-10-28',
+        endDate: '2026-11-03',
+        title: 'Las Vegas client meetings',
+        titleZh: '拉斯维加斯客户会议',
+        city: 'Las Vegas',
+        cityZh: '拉斯维加斯',
+        status: 'pending',
+        notes: 'Schedule TBD.',
+        notesZh: '日程待定。',
+      },
+    ],
+
     hotels: [
       {
         name: 'Holiday Inn & Suites Monterey Park – Los Angeles by IHG',

@@ -2,7 +2,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import Section from '@/components/Section';
 import { TRIPS } from '@/app/(site)/data/travel';
-import type { Trip, Stop, Hotel, HotelBooking, Flight, Note } from '@/app/(site)/data/travel';
+import type { Trip, Stop, Hotel, HotelBooking, Meeting, Flight, Note } from '@/app/(site)/data/travel';
 
 export const dynamic = 'force-static';
 
@@ -38,12 +38,13 @@ function fmtShort(iso: string, locale: string) {
 
 // Sub-components ----------------------------------------------------------
 
-function StatusBadge({ status, locale }: { status: HotelBooking['status']; locale: string }) {
+function StatusBadge({ status, locale }: { status: HotelBooking['status'] | Meeting['status']; locale: string }) {
   // Confirmed is the norm — only flag the exceptions
   if (status === 'confirmed') return null;
   const isEn = locale === 'en';
   const styles = {
     pending: ['Pending', '待确认', 'bg-yellow-100 text-yellow-800'],
+    tentative: ['Tentative', '暂定', 'bg-neutral-100 text-neutral-600'],
     cancelled: ['Cancelled', '已取消', 'bg-red-100 text-red-800'],
   } as const;
   const [en, zh, color] = styles[status];
@@ -147,6 +148,30 @@ function HotelCard({ hotel, locale }: { hotel: Hotel; locale: string }) {
   );
 }
 
+function MeetingCard({ meeting, locale }: { meeting: Meeting; locale: string }) {
+  const when = meeting.endDate
+    ? `${fmtShort(meeting.date, locale)} – ${fmtShort(meeting.endDate, locale)}`
+    : fmtDay(meeting.date, locale);
+  return (
+    <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-amber-700">
+        {when} · {t(meeting.city, meeting.cityZh, locale)}
+      </p>
+      <div className="mt-0.5 flex items-baseline justify-between gap-3">
+        <h4 className="text-base font-semibold leading-snug text-neutral-900">
+          {t(meeting.title, meeting.titleZh, locale)} <StatusBadge status={meeting.status} locale={locale} />
+        </h4>
+        {meeting.time && (
+          <p className="shrink-0 text-sm text-neutral-600">{t(meeting.time, meeting.timeZh, locale)}</p>
+        )}
+      </div>
+      {meeting.notes && (
+        <p className="mt-1 text-xs text-neutral-500">{t(meeting.notes, meeting.notesZh, locale)}</p>
+      )}
+    </div>
+  );
+}
+
 /** "Hong Kong (HKG)" → "HKG" — keeps each flight to two short lines on a phone */
 function airportCode(place: string) {
   return place.match(/\(([A-Z]{3})\)/)?.[1] ?? place;
@@ -199,6 +224,9 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
 
       {/* Jump links — the page is long on mobile */}
       <nav className="mb-8 flex justify-center gap-2">
+        <a href={`#${trip.id}-work`} className="rounded-full border border-neutral-300 bg-white px-4 py-1.5 text-sm font-medium text-neutral-700">
+          {isEn ? 'Work' : '工作'}
+        </a>
         <a href={`#${trip.id}-hotels`} className="rounded-full border border-neutral-300 bg-white px-4 py-1.5 text-sm font-medium text-neutral-700">
           {isEn ? 'Hotels' : '酒店'}
         </a>
@@ -206,6 +234,17 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
           {isEn ? 'Flights' : '航班'}
         </a>
       </nav>
+
+      <section className="mb-10">
+        <SectionHeading id={`${trip.id}-work`} en="Work Schedule" zh="工作安排" locale={locale} />
+        <div className="space-y-3">
+          {[...trip.meetings]
+            .sort((a, b) => a.date.localeCompare(b.date))
+            .map((m, i) => (
+              <MeetingCard key={i} meeting={m} locale={locale} />
+            ))}
+        </div>
+      </section>
 
       <section className="mb-10">
         <SectionHeading id={`${trip.id}-hotels`} en="Hotels" zh="酒店" locale={locale} />
