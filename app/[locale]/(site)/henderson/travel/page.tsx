@@ -243,7 +243,8 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
         </a>
       )}
 
-      <TripRouteBar stops={trip.stops} locale={locale} />
+      {/* The map already shows the route — skip the bar to save vertical space on phones */}
+      {!trip.map && <TripRouteBar stops={trip.stops} locale={locale} />}
 
       {/* Jump links — the page is long on mobile */}
       <nav className="mb-8 flex justify-center gap-2">
