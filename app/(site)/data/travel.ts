@@ -81,6 +81,7 @@ export type Trip = {
   seasonZh: string;
   stops: Stop[];
   meetings: Meeting[];
+  meetingsNote?: Note; // shown under the Work Schedule heading — remove once the schedule is final
   hotels: Hotel[];
   hotelNotes: Note[];
   flights: Flight[];
@@ -151,6 +152,7 @@ export const TRIPS: Trip[] = [
         notesZh: '日程待定。',
       },
     ],
+    meetingsNote: { en: 'Being finalized — details may change.', zh: '日程确认中 — 细节可能有变。' },
 
     hotels: [
       {

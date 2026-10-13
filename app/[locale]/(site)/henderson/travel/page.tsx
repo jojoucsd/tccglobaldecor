@@ -266,6 +266,11 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
 
       <section>
         <SectionHeading id={`${trip.id}-work`} en="Work Schedule" zh="工作安排" locale={locale} />
+        {trip.meetingsNote && (
+          <p className="-mt-2 mb-3 text-xs italic text-neutral-500">
+            {isEn ? trip.meetingsNote.en : trip.meetingsNote.zh}
+          </p>
+        )}
         <div className="space-y-3">
           {[...trip.meetings]
             .sort((a, b) => a.date.localeCompare(b.date))
