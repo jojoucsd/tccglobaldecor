@@ -224,27 +224,16 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
 
       {/* Jump links — the page is long on mobile */}
       <nav className="mb-8 flex justify-center gap-2">
-        <a href={`#${trip.id}-work`} className="rounded-full border border-neutral-300 bg-white px-4 py-1.5 text-sm font-medium text-neutral-700">
-          {isEn ? 'Work' : '工作'}
-        </a>
         <a href={`#${trip.id}-hotels`} className="rounded-full border border-neutral-300 bg-white px-4 py-1.5 text-sm font-medium text-neutral-700">
           {isEn ? 'Hotels' : '酒店'}
         </a>
         <a href={`#${trip.id}-flights`} className="rounded-full border border-neutral-300 bg-white px-4 py-1.5 text-sm font-medium text-neutral-700">
           {isEn ? 'Flights' : '航班'}
         </a>
+        <a href={`#${trip.id}-work`} className="rounded-full border border-neutral-300 bg-white px-4 py-1.5 text-sm font-medium text-neutral-700">
+          {isEn ? 'Work' : '工作'}
+        </a>
       </nav>
-
-      <section className="mb-10">
-        <SectionHeading id={`${trip.id}-work`} en="Work Schedule" zh="工作安排" locale={locale} />
-        <div className="space-y-3">
-          {[...trip.meetings]
-            .sort((a, b) => a.date.localeCompare(b.date))
-            .map((m, i) => (
-              <MeetingCard key={i} meeting={m} locale={locale} />
-            ))}
-        </div>
-      </section>
 
       <section className="mb-10">
         <SectionHeading id={`${trip.id}-hotels`} en="Hotels" zh="酒店" locale={locale} />
@@ -256,7 +245,7 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
         <Notes notes={trip.hotelNotes} locale={locale} />
       </section>
 
-      <section>
+      <section className="mb-10">
         <SectionHeading id={`${trip.id}-flights`} en="Flights" zh="航班" locale={locale} />
         <div className="space-y-3">
           {groupFlightsByDate(trip.flights).map((g) => (
@@ -273,6 +262,17 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
           ))}
         </div>
         <Notes notes={trip.flightNotes} locale={locale} />
+      </section>
+
+      <section>
+        <SectionHeading id={`${trip.id}-work`} en="Work Schedule" zh="工作安排" locale={locale} />
+        <div className="space-y-3">
+          {[...trip.meetings]
+            .sort((a, b) => a.date.localeCompare(b.date))
+            .map((m, i) => (
+              <MeetingCard key={i} meeting={m} locale={locale} />
+            ))}
+        </div>
       </section>
     </div>
   );
