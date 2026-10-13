@@ -81,14 +81,13 @@ const KIMPTON_ERA = {
   locationZh: '纽约西48街32号 · 洛克菲勒中心，中城',
 };
 
-const LIC_MANHATTAN_VIEW = {
-  name: 'LIC Manhattan View Hotel',
-  nameZh: 'LIC Manhattan View 酒店',
+const ALOFT_CHELSEA = {
+  name: 'Aloft New York Chelsea',
+  nameZh: 'Aloft 纽约切尔西酒店',
   city: 'New York',
   cityZh: '纽约',
-  location: '39-05 29th St, Long Island City, Queens, NY 11101 · near Queensboro Plaza (7/N/W)',
-  locationZh: '皇后区长岛市29街39-05号 · Queensboro Plaza站附近（7/N/W线）',
-  bookedVia: 'Booking.com',
+  location: '113 West 24th Street, New York, NY 10011 · Chelsea',
+  locationZh: '纽约西24街113号 · 切尔西',
 };
 
 export const TRIPS: Trip[] = [
@@ -99,8 +98,8 @@ export const TRIPS: Trip[] = [
     season: 'Oct – Nov 2026 · BDNY Nov 8–9, Javits Center',
     seasonZh: '2026年10月 – 11月 · BDNY 展会 11月8-9日，Javits中心',
     stops: [
-      { city: 'Los Angeles', cityZh: '洛杉矶', startDate: '2026-10-23', endDate: '2026-10-26', next: 'drive' },
-      { city: 'Las Vegas', cityZh: '拉斯维加斯', startDate: '2026-10-26', endDate: '2026-11-04', next: 'fly' },
+      { city: 'Los Angeles', cityZh: '洛杉矶', startDate: '2026-10-23', endDate: '2026-10-27', next: 'drive' },
+      { city: 'Las Vegas', cityZh: '拉斯维加斯', startDate: '2026-10-27', endDate: '2026-11-04', next: 'fly' },
       { city: 'New York', cityZh: '纽约', startDate: '2026-11-04', endDate: '2026-11-12' },
     ],
 
@@ -117,7 +116,7 @@ export const TRIPS: Trip[] = [
           {
             guest: 'Ling, Matthew, Marco',
             checkIn: '2026-10-23',
-            checkOut: '2026-10-26',
+            checkOut: '2026-10-27',
             rooms: 3,
             cost: 'US$1,238.41',
             status: 'confirmed',
@@ -136,7 +135,7 @@ export const TRIPS: Trip[] = [
         bookings: [
           {
             guest: 'Ling, Matthew, Marco, Mike, Tom',
-            checkIn: '2026-10-26',
+            checkIn: '2026-10-27',
             checkOut: '2026-11-04',
             rooms: 6,
             roomType: 'Entire home · 6 beds · 8 guests · 4 baths',
@@ -203,43 +202,30 @@ export const TRIPS: Trip[] = [
         ],
       },
       {
-        ...LIC_MANHATTAN_VIEW,
+        ...ALOFT_CHELSEA,
         bookings: [
           {
             guest: 'Ling, Matthew, Tom, Mike',
             checkIn: '2026-11-04',
             checkOut: '2026-11-05',
             rooms: 4,
-            roomType: '3 Deluxe King Studio + 1 Family Suite',
-            cost: 'US$863.08',
             status: 'confirmed',
-            cancelBy: 'Free cancel before Nov 1; pay by Oct 30',
-            cancelByZh: '11月1日前可免费取消；10月30日前付款',
-            notes: 'Extra early night for staff arriving Nov 4.',
-            notesZh: '11月4日提前到达的员工额外住一晚。',
+            notes: 'Extra early night for those arriving Nov 4.',
+            notesZh: '11月4日提前到达者额外住一晚。',
           },
           {
             guest: 'Ling, Matthew, Tom, Mike',
             checkIn: '2026-11-05',
             checkOut: '2026-11-10',
             rooms: 4,
-            cost: 'US$4,587.10',
             status: 'confirmed',
-            cancelBy: 'Free cancellation (check deadline)',
-            cancelByZh: '可免费取消（请确认截止日期）',
-            notes: 'Main staff block.',
-            notesZh: '主要员工房间。',
           },
           {
             guest: 'Tommy (ATL)',
             checkIn: '2026-11-06',
             checkOut: '2026-11-10',
             rooms: 1,
-            roomType: '1 Deluxe King Studio',
-            cost: 'US$1,047.80',
             status: 'confirmed',
-            cancelBy: 'Free cancel before Nov 3; pay by Nov 1',
-            cancelByZh: '11月3日前可免费取消；11月1日前付款',
             notes: 'Late arrival ~11 PM–midnight (see flights).',
             notesZh: '预计深夜11点至午夜到达（见航班）。',
           },
@@ -249,8 +235,8 @@ export const TRIPS: Trip[] = [
     hotelNotes: [
       { en: 'All rooms are booked under Ling Lu.', zh: '所有房间均以 Ling Lu 名义预订。' },
       {
-        en: 'To Javits Center: 7 train to 34 St–Hudson Yards.',
-        zh: '前往 Javits 中心：搭7号线到34街-Hudson Yards站。',
+        en: 'To Javits Center: ~20 min walk from Aloft Chelsea; from Kimpton Era, 7 train to 34 St–Hudson Yards.',
+        zh: '前往 Javits 中心：Aloft Chelsea 步行约20分钟；Kimpton Era 搭7号线到34街-Hudson Yards站。',
       },
     ],
 
