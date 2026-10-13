@@ -79,6 +79,7 @@ export type Trip = {
   nameZh: string;
   season: string;
   seasonZh: string;
+  map?: { src: string; width: number; height: number; alt: string }; // under /public, shown at the top
   stops: Stop[];
   meetings: Meeting[];
   meetingsNote?: Note; // shown under the Work Schedule heading — remove once the schedule is final
@@ -113,6 +114,12 @@ export const TRIPS: Trip[] = [
     nameZh: 'BDNY 2026 出差行程',
     season: 'Oct – Nov 2026 · BDNY Nov 8–9, Javits Center',
     seasonZh: '2026年10月 – 11月 · BDNY 展会 11月8-9日，Javits中心',
+    map: {
+      src: '/images/travel/bdny-2026-map.avif',
+      width: 1024,
+      height: 1536,
+      alt: 'Trip route map (LA → Las Vegas → New York) and Manhattan map of both hotels and Javits Center',
+    },
     stops: [
       { city: 'Los Angeles', cityZh: '洛杉矶', startDate: '2026-10-23', endDate: '2026-10-27', next: 'drive' },
       { city: 'Las Vegas', cityZh: '拉斯维加斯', startDate: '2026-10-27', endDate: '2026-11-04', next: 'fly' },
@@ -285,8 +292,8 @@ export const TRIPS: Trip[] = [
     hotelNotes: [
       { en: 'All rooms are booked under Ling Lu.', zh: '所有房间均以 Ling Lu 名义预订。' },
       {
-        en: 'To Javits Center: ~20 min walk from Aloft Chelsea; from Kimpton Era, 7 train to 34 St–Hudson Yards.',
-        zh: '前往 Javits 中心：Aloft Chelsea 步行约20分钟；Kimpton Era 搭7号线到34街-Hudson Yards站。',
+        en: 'Walking to Javits Center (approx.): Aloft Chelsea 25–30 min, Kimpton Era 30–35 min. Subway: 7 train to 34 St–Hudson Yards. Taxi/rideshare: usually 10–15 min depending on traffic.',
+        zh: '步行至 Javits 中心（约）：Aloft Chelsea 25–30分钟，Kimpton Era 30–35分钟。地铁：搭7号线到34街-Hudson Yards站。出租车/网约车：视交通约10–15分钟。',
       },
     ],
 

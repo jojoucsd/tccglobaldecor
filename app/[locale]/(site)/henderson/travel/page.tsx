@@ -1,5 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
+import Image from 'next/image';
 import Section from '@/components/Section';
 import { TRIPS } from '@/app/(site)/data/travel';
 import type { Trip, Stop, Hotel, HotelBooking, Meeting, Flight, Note } from '@/app/(site)/data/travel';
@@ -11,6 +12,8 @@ export function generateStaticParams() {
 }
 
 // Helpers -----------------------------------------------------------------
+
+const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 /** Pick EN or ZH string based on locale */
 function t(en: string, zh: string | undefined, locale: string) {
@@ -219,6 +222,21 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
         <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900">{t(trip.name, trip.nameZh, locale)}</h2>
         <p className="mt-1 text-sm text-neutral-500">{t(trip.season, trip.seasonZh, locale)}</p>
       </div>
+
+      {trip.map && (
+        // Tap to open full size — the street labels are small on a phone
+        <a href={`${bp}${trip.map.src}`} target="_blank" rel="noopener" className="mb-8 block overflow-hidden rounded-xl border border-neutral-200 shadow-sm">
+          <Image
+            src={`${bp}${trip.map.src}`}
+            alt={trip.map.alt}
+            width={trip.map.width}
+            height={trip.map.height}
+            sizes="(min-width: 672px) 672px, 100vw"
+            priority
+            className="h-auto w-full"
+          />
+        </a>
+      )}
 
       <TripRouteBar stops={trip.stops} locale={locale} />
 
