@@ -103,8 +103,8 @@ const ALOFT_CHELSEA = {
   nameZh: 'Aloft 纽约切尔西酒店',
   city: 'New York',
   cityZh: '纽约',
-  location: '113 West 24th Street, New York, NY 10011 · Chelsea',
-  locationZh: '纽约西24街113号 · 切尔西',
+  location: '132 West 28th Street, New York, NY 10001 · Chelsea',
+  locationZh: '纽约西28街132号 · 切尔西',
 };
 
 export const TRIPS: Trip[] = [

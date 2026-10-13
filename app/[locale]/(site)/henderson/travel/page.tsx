@@ -225,7 +225,8 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
 
       {trip.map && (
         // Tap to open full size — the street labels are small on a phone
-        <a href={`${bp}${trip.map.src}`} target="_blank" rel="noopener" className="mb-8 block overflow-hidden rounded-xl border border-neutral-200 shadow-sm">
+        <a href={`${bp}${trip.map.src}`} target="_blank" rel="noopener" className="mb-8 block">
+          <span className="block overflow-hidden rounded-xl border border-neutral-200 shadow-sm">
           <Image
             src={`${bp}${trip.map.src}`}
             alt={trip.map.alt}
@@ -235,6 +236,10 @@ function TripSection({ trip, locale }: { trip: Trip; locale: string }) {
             priority
             className="h-auto w-full"
           />
+          </span>
+          <span className="mt-1.5 block text-center text-xs text-neutral-500">
+            {isEn ? 'Tap map to enlarge' : '点击地图放大'}
+          </span>
         </a>
       )}
 
