@@ -149,6 +149,9 @@ Additional details about patterns, colors, special features.
 |------|-------------|--------|
 | **Deck 1: US Market Pitch** | Pitching deck for Matthew — US market focus | ⏳ Pending |
 | **Deck 2: Vegas Gaming** | Vegas gaming power player & carpet supply chain deck | ⏳ Pending |
+| **Trade show expense/hotel log** | Admin page (secret URL) to keep an internal record of where the team stayed + expenses for BDNY and future shows (e.g. HD Expo). Ideal flow: upload a booking link/screenshot → parsed into data → table view. Internal only, not public | ⏳ Pending |
+| **Second brain update** | Update the TCC_Jojo Obsidian vault | ⏳ Pending |
+| **Vegas measure trip** | Go down to Vegas to measure, then update the RAG | ⏳ Pending |
 
 ---
 
